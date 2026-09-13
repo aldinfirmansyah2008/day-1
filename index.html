@@ -99,4 +99,500 @@
       justify-content: center;
       align-items: center;
       background: linear-gradient(#fff, #ddd);
-      border: 
+      border: 4px solid #69418a;
+      border-radius: 15px;
+      font-size: 55px;
+      box-shadow:
+        inset 0 0 15px #777,
+        0 0 10px rgba(255,255,255,.2);
+      overflow: hidden;
+    }
+
+    .spinning {
+      animation: shake .08s infinite;
+    }
+
+    @keyframes shake {
+      0% {
+        transform: translateY(-3px);
+      }
+
+      50% {
+        transform: translateY(3px);
+      }
+
+      100% {
+        transform: translateY(-3px);
+      }
+    }
+
+    .spin-button {
+      width: 100%;
+      border: none;
+      padding: 17px;
+      border-radius: 50px;
+      background: linear-gradient(45deg, #ff9800, #ffd000);
+      color: #241300;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(255,174,0,.35);
+      transition: .15s;
+    }
+
+    .spin-button:hover {
+      transform: scale(1.03);
+      filter: brightness(1.08);
+    }
+
+    .spin-button:active {
+      transform: scale(.98);
+    }
+
+    .spin-button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .small-button {
+      flex: 1;
+      padding: 11px;
+      border: 1px solid #65437d;
+      border-radius: 12px;
+      background: #241833;
+      color: white;
+      cursor: pointer;
+    }
+
+    .message {
+      min-height: 30px;
+      margin-top: 18px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffd84d;
+    }
+
+    .win {
+      animation: winEffect .5s ease;
+    }
+
+    @keyframes winEffect {
+      50% {
+        transform: scale(1.12);
+        text-shadow: 0 0 20px #ffd84d;
+      }
+    }
+
+    .info {
+      margin-top: 18px;
+      font-size: 12px;
+      color: #888;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 400px) {
+      .game {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .machine {
+        gap: 6px;
+        padding: 10px;
+      }
+
+      .reel {
+        width: 85px;
+        height: 95px;
+        font-size: 45px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="game">
+
+    <h1>🎰 SLOT DEMO</h1>
+
+    <div class="subtitle">
+      DEMO KREDIT VIRTUAL
+    </div>
+
+    <div class="credits">
+      Kredit:
+      <strong id="credits">1000</strong>
+    </div>
+
+    <div class="machine">
+
+      <div class="reel" id="reel1">🍒</div>
+      <div class="reel" id="reel2">🍋</div>
+      <div class="reel" id="reel3">💎</div>
+
+    </div>
+
+    <button
+      class="spin-button"
+      id="spinButton"
+      onclick="spin()">
+      SPIN
+    </button>
+
+    <div class="buttons">
+      <button
+        class="small-button"
+        onclick="resetGame()">
+        ↻ Reset
+      </button>
+
+      <button
+        class="small-button"
+        onclick="addCredits()">
+        +500 Demo
+      </button>
+    </div>
+
+    <div
+      class="message"
+      id="message">
+      Selamat bermain!
+    </div>
+
+    <div class="info">
+      Demo hiburan dengan kredit virtual.
+      Kredit tidak memiliki nilai uang dan tidak dapat ditukar.
+    </div>
+
+  </div>
+
+
+  <script>
+
+    // =========================
+    // DATA SIMBOL
+    // =========================
+
+    const symbols = [
+      "🍒",
+      "🍋",
+      "🍊",
+      "🍉",
+      "⭐",
+      "💎",
+      "7️⃣"
+    ];
+
+
+    // =========================
+    // VARIABEL GAME
+    // =========================
+
+    let credits = 1000;
+
+    const spinCost = 10;
+
+    let spinning = false;
+
+
+    // =========================
+    // ELEMENT HTML
+    // =========================
+
+    const reel1 =
+      document.getElementById("reel1");
+
+    const reel2 =
+      document.getElementById("reel2");
+
+    const reel3 =
+      document.getElementById("reel3");
+
+    const creditText =
+      document.getElementById("credits");
+
+    const message =
+      document.getElementById("message");
+
+    const spinButton =
+      document.getElementById("spinButton");
+
+
+    // =========================
+    // RANDOM SYMBOL
+    // =========================
+
+    function randomSymbol() {
+
+      const index =
+        Math.floor(
+          Math.random() * symbols.length
+        );
+
+      return symbols[index];
+    }
+
+
+    // =========================
+    // UPDATE KREDIT
+    // =========================
+
+    function updateCredits() {
+
+      creditText.textContent = credits;
+
+      if (credits < spinCost) {
+
+        spinButton.disabled = true;
+
+      } else {
+
+        spinButton.disabled = false;
+
+      }
+    }
+
+
+    // =========================
+    // ANIMASI REEL
+    // =========================
+
+    function animateReel(
+      reel,
+      duration
+    ) {
+
+      return new Promise(function(resolve) {
+
+        reel.classList.add("spinning");
+
+        const interval =
+          setInterval(function() {
+
+            reel.textContent =
+              randomSymbol();
+
+          }, 70);
+
+
+        setTimeout(function() {
+
+          clearInterval(interval);
+
+          reel.textContent =
+            randomSymbol();
+
+          reel.classList.remove("spinning");
+
+          resolve();
+
+        }, duration);
+
+      });
+
+    }
+
+
+    // =========================
+    // SPIN
+    // =========================
+
+    async function spin() {
+
+      // Jangan menjalankan dua spin
+      // bersamaan.
+
+      if (spinning) {
+        return;
+      }
+
+
+      // Cek kredit.
+
+      if (credits < spinCost) {
+
+        message.textContent =
+          "Kredit virtual tidak cukup.";
+
+        return;
+      }
+
+
+      spinning = true;
+
+      spinButton.disabled = true;
+
+
+      // Kurangi kredit.
+
+      credits -= spinCost;
+
+      updateCredits();
+
+
+      message.textContent =
+        "🎲 Memutar...";
+
+
+      message.classList.remove("win");
+
+
+      // Jalankan reel satu per satu.
+
+      await animateReel(
+        reel1,
+        700
+      );
+
+      await animateReel(
+        reel2,
+        900
+      );
+
+      await animateReel(
+        reel3,
+        1100
+      );
+
+
+      // Ambil hasil akhir.
+
+      const result1 =
+        reel1.textContent;
+
+      const result2 =
+        reel2.textContent;
+
+      const result3 =
+        reel3.textContent;
+
+
+      let reward = 0;
+
+
+      // =========================
+      // HASIL
+      // =========================
+
+      if (
+        result1 === result2 &&
+        result2 === result3
+      ) {
+
+        reward = 100;
+
+        message.textContent =
+          "🎉 JACKPOT DEMO! +100 KREDIT";
+
+        message.classList.add("win");
+
+      }
+
+      else if (
+        result1 === result2 ||
+        result2 === result3 ||
+        result1 === result3
+      ) {
+
+        reward = 20;
+
+        message.textContent =
+          "✨ Dua simbol cocok! +20 KREDIT";
+
+      }
+
+      else {
+
+        message.textContent =
+          "😄 Belum cocok. Coba lagi!";
+
+      }
+
+
+      // Tambahkan hadiah virtual.
+
+      credits += reward;
+
+
+      updateCredits();
+
+
+      spinning = false;
+
+
+      // Aktifkan tombol lagi.
+
+      if (credits >= spinCost) {
+
+        spinButton.disabled = false;
+
+      }
+
+    }
+
+
+    // =========================
+    // RESET
+    // =========================
+
+    function resetGame() {
+
+      if (spinning) {
+        return;
+      }
+
+      credits = 1000;
+
+      reel1.textContent = "🍒";
+      reel2.textContent = "🍋";
+      reel3.textContent = "💎";
+
+      message.textContent =
+        "Game di-reset ke 1000 kredit.";
+
+      message.classList.remove("win");
+
+      updateCredits();
+    }
+
+
+    // =========================
+    // TAMBAH KREDIT DEMO
+    // =========================
+
+    function addCredits() {
+
+      if (spinning) {
+        return;
+      }
+
+      credits += 500;
+
+      message.textContent =
+        "+500 kredit virtual demo.";
+
+      updateCredits();
+    }
+
+
+    // =========================
+    // INITIAL
+    // =========================
+
+    updateCredits();
+
+  </script>
+
+</body>
+</html>
