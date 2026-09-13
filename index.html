@@ -1,353 +1,214 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Royal Arcade</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-* { box-sizing: border-box; }
+  <title>Lowongan Pekerjaan | Royal Careers</title>
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
-  font-family: Arial, sans-serif;
-  background: #050505;
-  color: white;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.container {
-  width: 100%;
-  max-width: 520px;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f5f7;
+      color: #222;
+    }
 
-.box {
-  width: 100%;
-  padding: 25px;
-  background: #0b0b0b;
-  border: 2px solid #5c4720;
-  border-radius: 25px;
-  box-shadow: 0 0 35px rgba(255,190,40,.12);
-}
+    .header {
+      background: #111;
+      color: white;
+      padding: 22px;
+      text-align: center;
+    }
 
-h1 {
-  margin: 0;
-  text-align: center;
-  color: #ffd84d;
-  font-size: 34px;
-  text-shadow: 0 0 10px #ff9800, 0 0 25px #ff9800;
-}
+    .header h1 {
+      margin: 0;
+      color: #ffd84d;
+    }
 
-.subtitle {
-  margin-top: 6px;
-  text-align: center;
-  color: #999;
-  font-size: 11px;
-  letter-spacing: 1px;
-}
+    .header p {
+      margin: 7px 0 0;
+      color: #bbb;
+    }
 
-.player {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-  padding: 12px;
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 12px;
-}
+    .container {
+      width: 92%;
+      max-width: 800px;
+      margin: 30px auto;
+    }
 
-.score {
-  color: #ffd84d;
-  font-weight: bold;
-}
+    .job-card {
+      background: white;
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.08);
+    }
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin: 15px 0;
-}
+    .job-title {
+      margin: 0;
+      font-size: 28px;
+      color: #222;
+    }
 
-.stat {
-  padding: 12px;
-  text-align: center;
-  background: #111;
-  border: 1px solid #292929;
-  border-radius: 12px;
-}
+    .company {
+      margin-top: 7px;
+      color: #777;
+    }
 
-.stat small {
-  display: block;
-  color: #777;
-}
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 20px 0;
+    }
 
-.stat strong {
-  display: block;
-  margin-top: 4px;
-  color: #ffd84d;
-  font-size: 20px;
-}
+    .tag {
+      background: #fff4c2;
+      color: #765900;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+    }
 
-.machine {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  padding: 18px;
-  margin: 20px 0;
-  background: #000;
-  border: 4px solid #80621f;
-  border-radius: 20px;
-  box-shadow: inset 0 0 25px #000, 0 0 20px rgba(255,200,50,.1);
-}
+    h2 {
+      margin-top: 28px;
+      font-size: 20px;
+    }
 
-.machine::after {
-  content: "";
-  position: absolute;
-  left: 5%;
-  right: 5%;
-  top: 50%;
-  height: 3px;
-  background: #ff3ca6;
-  box-shadow: 0 0 12px #ff3ca6;
-  pointer-events: none;
-}
+    ul {
+      padding-left: 20px;
+      line-height: 1.7;
+    }
 
-.reel {
-  width: 100px;
-  height: 110px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(#fff,#ddd);
-  border: 4px solid #333;
-  border-radius: 15px;
-  font-size: 55px;
-  overflow: hidden;
-}
+    .apply {
+      display: block;
+      margin-top: 28px;
+      padding: 15px;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 12px;
+      background: linear-gradient(45deg, #ff9800, #ffd000);
+      color: #241300;
+      font-size: 17px;
+      font-weight: bold;
+    }
 
-.spinning {
-  animation: shake .08s infinite;
-}
+    .apply:hover {
+      filter: brightness(1.08);
+    }
 
-@keyframes shake {
-  0% { transform: translateY(-4px); }
-  50% { transform: translateY(4px); }
-  100% { transform: translateY(-4px); }
-}
+    .notice {
+      margin-top: 18px;
+      padding: 13px;
+      background: #f7f7f7;
+      border-radius: 10px;
+      color: #666;
+      font-size: 12px;
+      line-height: 1.5;
+    }
 
-.spin-button {
-  width: 100%;
-  padding: 17px;
-  border: none;
-  border-radius: 50px;
-  background: linear-gradient(45deg,#ff9800,#ffd000);
-  color: #241300;
-  font-size: 22px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(255,174,0,.35);
-}
-
-.spin-button:disabled {
-  opacity: .5;
-  cursor: not-allowed;
-}
-
-.message {
-  min-height: 30px;
-  margin-top: 18px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #ffd84d;
-}
-
-.info {
-  margin-top: 15px;
-  text-align: center;
-  color: #666;
-  font-size: 11px;
-  line-height: 1.5;
-}
-
-.win {
-  animation: winEffect .5s ease;
-}
-
-@keyframes winEffect {
-  50% {
-    transform: scale(1.12);
-    text-shadow: 0 0 20px #ffd84d;
-  }
-}
-
-@media(max-width:400px) {
-  .box { padding: 18px; }
-  h1 { font-size: 28px; }
-
-  .machine {
-    gap: 6px;
-    padding: 10px;
-  }
-
-  .reel {
-    width: 85px;
-    height: 95px;
-    font-size: 45px;
-  }
-}
-</style>
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #888;
+      font-size: 12px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
-<div class="box">
+  <header class="header">
+    <h1>♛ ROYAL CAREERS</h1>
+    <p>Temukan kesempatan kerja yang sesuai denganmu</p>
+  </header>
 
-<h1>♛ ROYAL ARCADE</h1>
+  <main class="container">
 
-<div class="subtitle">
-  CASINO-STYLE ARCADE • TANPA TARUHAN
-</div>
+    <section class="job-card">
 
-<div class="player">
-  <span>👤 Player</span>
-  <span class="score">⭐ <span id="score">0</span></span>
-</div>
+      <h1 class="job-title">
+        Staff Administrasi
+      </h1>
 
-<div class="stats">
-  <div class="stat">
-    <small>SKOR TERBAIK</small>
-    <strong id="best">0</strong>
-  </div>
+      <div class="company">
+        Royal Careers • Jakarta
+      </div>
 
-  <div class="stat">
-    <small>PUTARAN</small>
-    <strong id="round">0</strong>
-  </div>
-</div>
+      <div class="tags">
+        <span class="tag">Full Time</span>
+        <span class="tag">Jakarta</span>
+        <span class="tag">Entry Level</span>
+      </div>
 
-<div class="machine">
+      <h2>📋 Deskripsi Pekerjaan</h2>
 
-  <div class="reel" id="reel1">🍒</div>
-  <div class="reel" id="reel2">⭐</div>
-  <div class="reel" id="reel3">💎</div>
+      <p>
+        Kami sedang mencari kandidat untuk posisi Staff Administrasi
+        yang bertanggung jawab membantu kegiatan administrasi harian
+        dan pengelolaan dokumen perusahaan.
+      </p>
 
-</div>
+      <h2>💼 Tanggung Jawab</h2>
 
-<button class="spin-button" id="spin">
-  🎰 PUTAR
-</button>
+      <ul>
+        <li>Mengelola dan mengarsipkan dokumen.</li>
+        <li>Melakukan input data secara teratur.</li>
+        <li>Membantu pekerjaan administrasi harian.</li>
+        <li>Berkomunikasi dengan tim terkait.</li>
+        <li>Menjaga kerapian data dan dokumen.</li>
+      </ul>
 
-<div class="message" id="message">
-  Tekan PUTAR untuk bermain!
-</div>
+      <h2>✅ Persyaratan</h2>
 
-<div class="info">
-  Permainan arcade ini hanya menggunakan skor.
-  Tidak ada uang, taruhan, hadiah uang, atau kredit yang dapat dipertaruhkan.
-</div>
+      <ul>
+        <li>Minimal lulusan SMA/SMK atau sederajat.</li>
+        <li>Mampu menggunakan komputer dasar.</li>
+        <li>Teliti dan bertanggung jawab.</li>
+        <li>Mampu bekerja secara individu maupun tim.</li>
+        <li>Memiliki kemampuan komunikasi yang baik.</li>
+      </ul>
 
-</div>
-</div>
+      <h2>📍 Informasi</h2>
 
-<script>
-const symbols = ["🍒", "🍋", "⭐", "💎", "🔔", "7️⃣"];
+      <ul>
+        <li><strong>Posisi:</strong> Staff Administrasi</li>
+        <li><strong>Lokasi:</strong> Jakarta</li>
+        <li><strong>Tipe:</strong> Full Time</li>
+        <li><strong>Status:</strong> Lowongan tersedia</li>
+      </ul>
 
-const reels = [
-  document.getElementById("reel1"),
-  document.getElementById("reel2"),
-  document.getElementById("reel3")
-];
+      <!--
+        GANTI URL DI BAWAH DENGAN FORM LAMARAN
+        MILIKMU SENDIRI.
+      -->
+      <a
+        class="apply"
+        href="https://example.com/form-lamaran"
+        target="_blank"
+        rel="noopener">
+        🚀 Lamar Sekarang
+      </a>
 
-const spinButton = document.getElementById("spin");
-const message = document.getElementById("message");
-const scoreElement = document.getElementById("score");
-const bestElement = document.getElementById("best");
-const roundElement = document.getElementById("round");
+      <div class="notice">
+        Pastikan informasi lowongan dan identitas perusahaan
+        dapat diverifikasi sebelum mengirimkan data pribadi.
+        Jangan meminta kandidat mengirimkan password, PIN,
+        kode OTP, atau informasi pembayaran.
+      </div>
 
-let score = 0;
-let best = Number(localStorage.getItem("royalArcadeBest") || 0);
-let round = 0;
+    </section>
 
-bestElement.textContent = best;
+  </main>
 
-function randomSymbol() {
-  return symbols[Math.floor(Math.random() * symbols.length)];
-}
-
-function spin() {
-  spinButton.disabled = true;
-  message.textContent = "🎰 Memutar...";
-  message.classList.remove("win");
-
-  reels.forEach(reel => {
-    reel.classList.add("spinning");
-  });
-
-  let ticks = 0;
-
-  const animation = setInterval(() => {
-    reels.forEach(reel => {
-      reel.textContent = randomSymbol();
-    });
-
-    ticks++;
-
-    if (ticks >= 18) {
-      clearInterval(animation);
-
-      reels.forEach(reel => {
-        reel.classList.remove("spinning");
-      });
-
-      finishRound();
-    }
-  }, 80);
-}
-
-function finishRound() {
-  const result = reels.map(reel => reel.textContent);
-
-  round++;
-  roundElement.textContent = round;
-
-  if (result[0] === result[1] && result[1] === result[2]) {
-    score += 100;
-    message.textContent = "🎉 TRIPLE! +100 SKOR";
-    message.classList.add("win");
-  }
-  else if (
-    result[0] === result[1] ||
-    result[1] === result[2] ||
-    result[0] === result[2]
-  ) {
-    score += 25;
-    message.textContent = "✨ MATCH! +25 SKOR";
-  }
-  else {
-    score += 5;
-    message.textContent = "⭐ +5 SKOR";
-  }
-
-  if (score > best) {
-    best = score;
-    localStorage.setItem("royalArcadeBest", best);
-    bestElement.textContent = best;
-  }
-
-  scoreElement.textContent = score;
-  spinButton.disabled = false;
-}
-
-spinButton.addEventListener("click", spin);
-</script>
+  <footer>
+    © 2026 Royal Careers • Halaman Informasi Lowongan
+  </footer>
 
 </body>
 </html>
