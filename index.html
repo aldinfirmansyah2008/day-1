@@ -1,608 +1,353 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Royal Arcade</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      padding: 15px;
-
-      font-family: Arial, sans-serif;
-
-      /* BACKGROUND HITAM */
-      background: #000000;
-
-      color: white;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 520px;
-    }
-
-    .box {
-      width: 100%;
-      padding: 25px;
-
-      background: #0a0a0a;
-
-      border: 2px solid #333;
-      border-radius: 25px;
-
-      box-shadow:
-        0 0 30px rgba(255, 255, 255, 0.08),
-        0 20px 60px rgba(0, 0, 0, 0.9);
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    /* =========================
-       LOGO
-    ========================= */
-
-    h1 {
-      margin: 0;
-
-      text-align: center;
-
-      color: #ffd84d;
-
-      font-size: 34px;
-
-      text-shadow:
-        0 0 10px #ff9800,
-        0 0 25px #ff9800;
-    }
-
-    .subtitle {
-      margin-top: 6px;
-
-      text-align: center;
-
-      color: #999;
-
-      font-size: 11px;
-
-      letter-spacing: 1px;
-    }
-
-    /* =========================
-       FORM
-    ========================= */
-
-    .tabs {
-      display: flex;
-      gap: 8px;
-
-      margin-top: 25px;
-      margin-bottom: 18px;
-    }
-
-    .tab {
-      flex: 1;
-
-      padding: 12px;
-
-      border: 1px solid #333;
-      border-radius: 12px;
-
-      background: #151515;
-
-      color: #999;
-
-      cursor: pointer;
-
-      font-weight: bold;
-    }
-
-    .tab.active {
-      background: #252525;
-
-      color: #ffd84d;
-
-      border-color: #777;
-    }
-
-    .form {
-      display: flex;
-
-      flex-direction: column;
-
-      gap: 12px;
-    }
-
-    input {
-      width: 100%;
-
-      padding: 14px;
-
-      border: 1px solid #333;
-      border-radius: 12px;
-
-      background: #050505;
-
-      color: white;
-
-      outline: none;
-
-      font-size: 15px;
-    }
-
-    input:focus {
-      border-color: #ffd84d;
-
-      box-shadow:
-        0 0 10px rgba(255, 216, 77, 0.2);
-    }
-
-    .main-button {
-      width: 100%;
-
-      padding: 14px;
-
-      border: none;
-      border-radius: 12px;
-
-      background:
-        linear-gradient(45deg, #ff9800, #ffd000);
-
-      color: #241300;
-
-      font-size: 17px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-    }
-
-    .main-button:hover {
-      filter: brightness(1.1);
-    }
-
-    .error {
-      min-height: 22px;
-
-      margin-top: 12px;
-
-      text-align: center;
-
-      color: #ff7777;
-
-      font-size: 13px;
-    }
-
-    .success {
-      color: #71ff9c;
-    }
-
-    .info {
-      margin-top: 18px;
-
-      text-align: center;
-
-      color: #666;
-
-      font-size: 11px;
-
-      line-height: 1.5;
-    }
-
-    /* =========================
-       PLAYER BAR
-    ========================= */
-
-    .player-bar {
-      display: flex;
-
-      justify-content: space-between;
-      align-items: center;
-
-      gap: 10px;
-
-      margin-top: 20px;
-
-      padding: 10px 12px;
-
-      background: #050505;
-
-      border: 1px solid #222;
-
-      border-radius: 12px;
-    }
-
-    .player-name {
-      color: #ffd84d;
-
-      font-weight: bold;
-    }
-
-    .logout-button {
-      padding: 8px 12px;
-
-      border: 1px solid #333;
-      border-radius: 10px;
-
-      background: #151515;
-
-      color: white;
-
-      cursor: pointer;
-    }
-
-    /* =========================
-       CREDITS
-    ========================= */
-
-    .credits {
-      margin: 15px 0;
-
-      padding: 13px;
-
-      text-align: center;
-
-      border-radius: 12px;
-
-      background: #050505;
-
-      border: 1px solid #222;
-
-      font-size: 20px;
-    }
-
-    .credits strong {
-      color: #ffd84d;
-    }
-
-    /* =========================
-       STATS
-    ========================= */
-
-    .stats {
-      display: grid;
-
-      grid-template-columns: repeat(3, 1fr);
-
-      gap: 8px;
-
-      margin-bottom: 15px;
-    }
-
-    .stat {
-      padding: 9px;
-
-      text-align: center;
-
-      background: #050505;
-
-      border: 1px solid #222;
-
-      border-radius: 12px;
-    }
-
-    .stat small {
-      display: block;
-
-      color: #777;
-
-      font-size: 10px;
-    }
-
-    .stat strong {
-      display: block;
-
-      margin-top: 3px;
-
-      color: #ffd84d;
-
-      font-size: 17px;
-    }
-
-    /* =========================
-       MACHINE
-    ========================= */
-
-    .machine {
-      position: relative;
-
-      display: flex;
-
-      gap: 10px;
-
-      justify-content: center;
-
-      padding: 15px;
-
-      margin: 20px 0;
-
-      background: #000;
-
-      border: 3px solid #333;
-
-      border-radius: 20px;
-
-      box-shadow:
-        inset 0 0 25px #000,
-        0 0 20px rgba(255, 255, 255, 0.05);
-    }
-
-    .machine::after {
-      content: "";
-
-      position: absolute;
-
-      left: 5%;
-      right: 5%;
-
-      top: 50%;
-
-      height: 3px;
-
-      background: #ff3ca6;
-
-      box-shadow:
-        0 0 12px #ff3ca6;
-
-      pointer-events: none;
-    }
-
-    .reel {
-      width: 100px;
-
-      height: 110px;
-
-      display: flex;
-
-      justify-content: center;
-      align-items: center;
-
-      background:
-        linear-gradient(#fff, #ddd);
-
-      border: 4px solid #333;
-
-      border-radius: 15px;
-
-      font-size: 55px;
-
-      box-shadow:
-        inset 0 0 15px #777,
-        0 0 10px rgba(255, 255, 255, 0.2);
-
-      overflow: hidden;
-    }
-
-    .spinning {
-      animation: shake 0.08s infinite;
-    }
-
-    @keyframes shake {
-      0% {
-        transform: translateY(-3px);
-      }
-
-      50% {
-        transform: translateY(3px);
-      }
-
-      100% {
-        transform: translateY(-3px);
-      }
-    }
-
-    /* =========================
-       PLAY BUTTON
-    ========================= */
-
-    .spin-button {
-      width: 100%;
-
-      border: none;
-
-      padding: 17px;
-
-      border-radius: 50px;
-
-      background:
-        linear-gradient(45deg, #ff9800, #ffd000);
-
-      color: #241300;
-
-      font-size: 22px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-
-      box-shadow:
-        0 6px 20px rgba(255, 174, 0, 0.35);
-
-      transition: 0.15s;
-    }
-
-    .spin-button:hover {
-      transform: scale(1.03);
-
-      filter: brightness(1.08);
-    }
-
-    .spin-button:active {
-      transform: scale(0.98);
-    }
-
-    .spin-button:disabled {
-      opacity: 0.5;
-
-      cursor: not-allowed;
-
-      transform: none;
-    }
-
-    /* =========================
-       SMALL BUTTONS
-    ========================= */
-
-    .buttons {
-      display: flex;
-
-      gap: 10px;
-
-      margin-top: 10px;
-    }
-
-    .small-button {
-      flex: 1;
-
-      padding: 11px;
-
-      border: 1px solid #333;
-
-      border-radius: 12px;
-
-      background: #151515;
-
-      color: white;
-
-      cursor: pointer;
-    }
-
-    .small-button:hover {
-      background: #222;
-    }
-
-    /* =========================
-       MESSAGE
-    ========================= */
-
-    .message {
-      min-height: 30px;
-
-      margin-top: 18px;
-
-      text-align: center;
-
-      font-size: 18px;
-
-      font-weight: bold;
-
-      color: #ffd84d;
-    }
-
-    .win {
-      animation: winEffect 0.5s ease;
-    }
-
-    @keyframes winEffect {
-      50% {
-        transform: scale(1.12);
-
-        text-shadow:
-          0 0 20px #ffd84d;
-      }
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 400px) {
-
-      body {
-        padding: 8px;
-      }
-
-      .box {
-        padding: 18px;
-      }
-
-      h1 {
-        font-size: 28px;
-      }
-
-      .machine {
-        gap: 6px;
-
-        padding: 10px;
-      }
-
-      .reel {
-        width: 85px;
-
-        height: 95px;
-
-        font-size: 45px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Arcade</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  font-family: Arial, sans-serif;
+  background: #050505;
+  color: white;
+}
+
+.container {
+  width: 100%;
+  max-width: 520px;
+}
+
+.box {
+  width: 100%;
+  padding: 25px;
+  background: #0b0b0b;
+  border: 2px solid #5c4720;
+  border-radius: 25px;
+  box-shadow: 0 0 35px rgba(255,190,40,.12);
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+  color: #ffd84d;
+  font-size: 34px;
+  text-shadow: 0 0 10px #ff9800, 0 0 25px #ff9800;
+}
+
+.subtitle {
+  margin-top: 6px;
+  text-align: center;
+  color: #999;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.player {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding: 12px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 12px;
+}
+
+.score {
+  color: #ffd84d;
+  font-weight: bold;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.stat {
+  padding: 12px;
+  text-align: center;
+  background: #111;
+  border: 1px solid #292929;
+  border-radius: 12px;
+}
+
+.stat small {
+  display: block;
+  color: #777;
+}
+
+.stat strong {
+  display: block;
+  margin-top: 4px;
+  color: #ffd84d;
+  font-size: 20px;
+}
+
+.machine {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px;
+  margin: 20px 0;
+  background: #000;
+  border: 4px solid #80621f;
+  border-radius: 20px;
+  box-shadow: inset 0 0 25px #000, 0 0 20px rgba(255,200,50,.1);
+}
+
+.machine::after {
+  content: "";
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  top: 50%;
+  height: 3px;
+  background: #ff3ca6;
+  box-shadow: 0 0 12px #ff3ca6;
+  pointer-events: none;
+}
+
+.reel {
+  width: 100px;
+  height: 110px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(#fff,#ddd);
+  border: 4px solid #333;
+  border-radius: 15px;
+  font-size: 55px;
+  overflow: hidden;
+}
+
+.spinning {
+  animation: shake .08s infinite;
+}
+
+@keyframes shake {
+  0% { transform: translateY(-4px); }
+  50% { transform: translateY(4px); }
+  100% { transform: translateY(-4px); }
+}
+
+.spin-button {
+  width: 100%;
+  padding: 17px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(45deg,#ff9800,#ffd000);
+  color: #241300;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(255,174,0,.35);
+}
+
+.spin-button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.message {
+  min-height: 30px;
+  margin-top: 18px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffd84d;
+}
+
+.info {
+  margin-top: 15px;
+  text-align: center;
+  color: #666;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.win {
+  animation: winEffect .5s ease;
+}
+
+@keyframes winEffect {
+  50% {
+    transform: scale(1.12);
+    text-shadow: 0 0 20px #ffd84d;
+  }
+}
+
+@media(max-width:400px) {
+  .box { padding: 18px; }
+  h1 { font-size: 28px; }
+
+  .machine {
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .reel {
+    width: 85px;
+    height: 95px;
+    font-size: 45px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
+<div class="box">
 
-    <!-- ISI WEBSITE DI SINI -->
+<h1>♛ ROYAL ARCADE</h1>
 
-    <div class="box">
+<div class="subtitle">
+  CASINO-STYLE ARCADE • TANPA TARUHAN
+</div>
 
-      <h1>♛ ROYAL ARCADE</h1>
+<div class="player">
+  <span>👤 Player</span>
+  <span class="score">⭐ <span id="score">0</span></span>
+</div>
 
-      <div class="subtitle">
-        ARCADE DEMO • KREDIT VIRTUAL
-      </div>
-
-      <div class="tabs">
-
-        <button class="tab active">
-          LOGIN
-        </button>
-
-        <button class="tab">
-          DAFTAR
-        </button>
-
-      </div>
-
-      <form class="form">
-
-        <input
-          type="text"
-          placeholder="Username"
-          required>
-
-        <input
-          type="password"
-          placeholder="Password"
-          required>
-
-        <button
-          class="main-button"
-          type="submit">
-          🔐 MASUK
-        </button>
-
-      </form>
-
-      <div class="info">
-        Akun hanya untuk demo arcade.
-      </div>
-
-    </div>
-
+<div class="stats">
+  <div class="stat">
+    <small>SKOR TERBAIK</small>
+    <strong id="best">0</strong>
   </div>
+
+  <div class="stat">
+    <small>PUTARAN</small>
+    <strong id="round">0</strong>
+  </div>
+</div>
+
+<div class="machine">
+
+  <div class="reel" id="reel1">🍒</div>
+  <div class="reel" id="reel2">⭐</div>
+  <div class="reel" id="reel3">💎</div>
+
+</div>
+
+<button class="spin-button" id="spin">
+  🎰 PUTAR
+</button>
+
+<div class="message" id="message">
+  Tekan PUTAR untuk bermain!
+</div>
+
+<div class="info">
+  Permainan arcade ini hanya menggunakan skor.
+  Tidak ada uang, taruhan, hadiah uang, atau kredit yang dapat dipertaruhkan.
+</div>
+
+</div>
+</div>
+
+<script>
+const symbols = ["🍒", "🍋", "⭐", "💎", "🔔", "7️⃣"];
+
+const reels = [
+  document.getElementById("reel1"),
+  document.getElementById("reel2"),
+  document.getElementById("reel3")
+];
+
+const spinButton = document.getElementById("spin");
+const message = document.getElementById("message");
+const scoreElement = document.getElementById("score");
+const bestElement = document.getElementById("best");
+const roundElement = document.getElementById("round");
+
+let score = 0;
+let best = Number(localStorage.getItem("royalArcadeBest") || 0);
+let round = 0;
+
+bestElement.textContent = best;
+
+function randomSymbol() {
+  return symbols[Math.floor(Math.random() * symbols.length)];
+}
+
+function spin() {
+  spinButton.disabled = true;
+  message.textContent = "🎰 Memutar...";
+  message.classList.remove("win");
+
+  reels.forEach(reel => {
+    reel.classList.add("spinning");
+  });
+
+  let ticks = 0;
+
+  const animation = setInterval(() => {
+    reels.forEach(reel => {
+      reel.textContent = randomSymbol();
+    });
+
+    ticks++;
+
+    if (ticks >= 18) {
+      clearInterval(animation);
+
+      reels.forEach(reel => {
+        reel.classList.remove("spinning");
+      });
+
+      finishRound();
+    }
+  }, 80);
+}
+
+function finishRound() {
+  const result = reels.map(reel => reel.textContent);
+
+  round++;
+  roundElement.textContent = round;
+
+  if (result[0] === result[1] && result[1] === result[2]) {
+    score += 100;
+    message.textContent = "🎉 TRIPLE! +100 SKOR";
+    message.classList.add("win");
+  }
+  else if (
+    result[0] === result[1] ||
+    result[1] === result[2] ||
+    result[0] === result[2]
+  ) {
+    score += 25;
+    message.textContent = "✨ MATCH! +25 SKOR";
+  }
+  else {
+    score += 5;
+    message.textContent = "⭐ +5 SKOR";
+  }
+
+  if (score > best) {
+    best = score;
+    localStorage.setItem("royalArcadeBest", best);
+    bestElement.textContent = best;
+  }
+
+  scoreElement.textContent = score;
+  spinButton.disabled = false;
+}
+
+spinButton.addEventListener("click", spin);
+</script>
 
 </body>
 </html>
