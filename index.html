@@ -9,26 +9,25 @@
     * {
       box-sizing: border-box;
     }
-  body {
+
+    body {
       margin: 0;
       min-height: 100vh;
+
       display: flex;
       justify-content: center;
       align-items: center;
+
       padding: 15px;
+
       font-family: Arial, sans-serif;
 
-      background:
-        radial-gradient(circle at top, #5b167d, transparent 45%),
-        linear-gradient(135deg, #12091e, #32104f, #090610);
+      /* BACKGROUND HITAM */
+      background: #000000;
 
       color: white;
     }
 
-    /* =========================
-       CONTAINER
-    ========================= */
-<div class="container">
     .container {
       width: 100%;
       max-width: 520px;
@@ -38,14 +37,14 @@
       width: 100%;
       padding: 25px;
 
-      background: rgba(18, 12, 30, 0.97);
+      background: #0a0a0a;
 
-      border: 2px solid #8050a5;
+      border: 2px solid #333;
       border-radius: 25px;
 
       box-shadow:
-        0 0 30px rgba(190, 80, 255, .3),
-        0 20px 60px rgba(0, 0, 0, .6);
+        0 0 30px rgba(255, 255, 255, 0.08),
+        0 20px 60px rgba(0, 0, 0, 0.9);
     }
 
     .hidden {
@@ -58,6 +57,7 @@
 
     h1 {
       margin: 0;
+
       text-align: center;
 
       color: #ffd84d;
@@ -74,7 +74,7 @@
 
       text-align: center;
 
-      color: #aaa;
+      color: #999;
 
       font-size: 11px;
 
@@ -98,12 +98,12 @@
 
       padding: 12px;
 
-      border: 1px solid #65437d;
+      border: 1px solid #333;
       border-radius: 12px;
 
-      background: #21152c;
+      background: #151515;
 
-      color: #aaa;
+      color: #999;
 
       cursor: pointer;
 
@@ -111,15 +111,18 @@
     }
 
     .tab.active {
-      background: #5b2c78;
+      background: #252525;
+
       color: #ffd84d;
 
-      border-color: #b66ce0;
+      border-color: #777;
     }
 
     .form {
       display: flex;
+
       flex-direction: column;
+
       gap: 12px;
     }
 
@@ -128,10 +131,10 @@
 
       padding: 14px;
 
-      border: 1px solid #65437d;
+      border: 1px solid #333;
       border-radius: 12px;
 
-      background: #0d0915;
+      background: #050505;
 
       color: white;
 
@@ -144,7 +147,7 @@
       border-color: #ffd84d;
 
       box-shadow:
-        0 0 10px rgba(255, 216, 77, .2);
+        0 0 10px rgba(255, 216, 77, 0.2);
     }
 
     .main-button {
@@ -161,13 +164,14 @@
       color: #241300;
 
       font-size: 17px;
+
       font-weight: bold;
 
       cursor: pointer;
     }
 
     .main-button:hover {
-      filter: brightness(1.08);
+      filter: brightness(1.1);
     }
 
     .error {
@@ -191,7 +195,7 @@
 
       text-align: center;
 
-      color: #777;
+      color: #666;
 
       font-size: 11px;
 
@@ -214,9 +218,9 @@
 
       padding: 10px 12px;
 
-      background: #0d0917;
+      background: #050505;
 
-      border: 1px solid #ffffff15;
+      border: 1px solid #222;
 
       border-radius: 12px;
     }
@@ -230,10 +234,10 @@
     .logout-button {
       padding: 8px 12px;
 
-      border: 1px solid #65437d;
+      border: 1px solid #333;
       border-radius: 10px;
 
-      background: #241833;
+      background: #151515;
 
       color: white;
 
@@ -253,9 +257,9 @@
 
       border-radius: 12px;
 
-      background: #0d0917;
+      background: #050505;
 
-      border: 1px solid #ffffff15;
+      border: 1px solid #222;
 
       font-size: 20px;
     }
@@ -265,4 +269,180 @@
     }
 
     /* =========================
-      
+       STATS
+    ========================= */
+
+    .stats {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 8px;
+
+      margin-bottom: 15px;
+    }
+
+    .stat {
+      padding: 9px;
+
+      text-align: center;
+
+      background: #050505;
+
+      border: 1px solid #222;
+
+      border-radius: 12px;
+    }
+
+    .stat small {
+      display: block;
+
+      color: #777;
+
+      font-size: 10px;
+    }
+
+    .stat strong {
+      display: block;
+
+      margin-top: 3px;
+
+      color: #ffd84d;
+
+      font-size: 17px;
+    }
+
+    /* =========================
+       MACHINE
+    ========================= */
+
+    .machine {
+      position: relative;
+
+      display: flex;
+
+      gap: 10px;
+
+      justify-content: center;
+
+      padding: 15px;
+
+      margin: 20px 0;
+
+      background: #000;
+
+      border: 3px solid #333;
+
+      border-radius: 20px;
+
+      box-shadow:
+        inset 0 0 25px #000,
+        0 0 20px rgba(255, 255, 255, 0.05);
+    }
+
+    .machine::after {
+      content: "";
+
+      position: absolute;
+
+      left: 5%;
+      right: 5%;
+
+      top: 50%;
+
+      height: 3px;
+
+      background: #ff3ca6;
+
+      box-shadow:
+        0 0 12px #ff3ca6;
+
+      pointer-events: none;
+    }
+
+    .reel {
+      width: 100px;
+
+      height: 110px;
+
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      background:
+        linear-gradient(#fff, #ddd);
+
+      border: 4px solid #333;
+
+      border-radius: 15px;
+
+      font-size: 55px;
+
+      box-shadow:
+        inset 0 0 15px #777,
+        0 0 10px rgba(255, 255, 255, 0.2);
+
+      overflow: hidden;
+    }
+
+    .spinning {
+      animation: shake 0.08s infinite;
+    }
+
+    @keyframes shake {
+      0% {
+        transform: translateY(-3px);
+      }
+
+      50% {
+        transform: translateY(3px);
+      }
+
+      100% {
+        transform: translateY(-3px);
+      }
+    }
+
+    /* =========================
+       PLAY BUTTON
+    ========================= */
+
+    .spin-button {
+      width: 100%;
+
+      border: none;
+
+      padding: 17px;
+
+      border-radius: 50px;
+
+      background:
+        linear-gradient(45deg, #ff9800, #ffd000);
+
+      color: #241300;
+
+      font-size: 22px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 6px 20px rgba(255, 174, 0, 0.35);
+
+      transition: 0.15s;
+    }
+
+    .spin-button:hover {
+      transform: scale(1.03);
+
+      filter: brightness(1.08);
+    }
+
+    .spin-button:active {
+      transform: scale(0.98);
+    }
+
+    .spin-button:disabled {
+      opacity: 
