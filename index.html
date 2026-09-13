@@ -445,4 +445,164 @@
     }
 
     .spin-button:disabled {
-      opacity: 
+      opacity: 0.5;
+
+      cursor: not-allowed;
+
+      transform: none;
+    }
+
+    /* =========================
+       SMALL BUTTONS
+    ========================= */
+
+    .buttons {
+      display: flex;
+
+      gap: 10px;
+
+      margin-top: 10px;
+    }
+
+    .small-button {
+      flex: 1;
+
+      padding: 11px;
+
+      border: 1px solid #333;
+
+      border-radius: 12px;
+
+      background: #151515;
+
+      color: white;
+
+      cursor: pointer;
+    }
+
+    .small-button:hover {
+      background: #222;
+    }
+
+    /* =========================
+       MESSAGE
+    ========================= */
+
+    .message {
+      min-height: 30px;
+
+      margin-top: 18px;
+
+      text-align: center;
+
+      font-size: 18px;
+
+      font-weight: bold;
+
+      color: #ffd84d;
+    }
+
+    .win {
+      animation: winEffect 0.5s ease;
+    }
+
+    @keyframes winEffect {
+      50% {
+        transform: scale(1.12);
+
+        text-shadow:
+          0 0 20px #ffd84d;
+      }
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 400px) {
+
+      body {
+        padding: 8px;
+      }
+
+      .box {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .machine {
+        gap: 6px;
+
+        padding: 10px;
+      }
+
+      .reel {
+        width: 85px;
+
+        height: 95px;
+
+        font-size: 45px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- ISI WEBSITE DI SINI -->
+
+    <div class="box">
+
+      <h1>♛ ROYAL ARCADE</h1>
+
+      <div class="subtitle">
+        ARCADE DEMO • KREDIT VIRTUAL
+      </div>
+
+      <div class="tabs">
+
+        <button class="tab active">
+          LOGIN
+        </button>
+
+        <button class="tab">
+          DAFTAR
+        </button>
+
+      </div>
+
+      <form class="form">
+
+        <input
+          type="text"
+          placeholder="Username"
+          required>
+
+        <input
+          type="password"
+          placeholder="Password"
+          required>
+
+        <button
+          class="main-button"
+          type="submit">
+          🔐 MASUK
+        </button>
+
+      </form>
+
+      <div class="info">
+        Akun hanya untuk demo arcade.
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
