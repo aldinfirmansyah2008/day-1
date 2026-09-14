@@ -1,16 +1,561 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
-    <title>Belajar HTML</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KerjaKita - Lowongan Kerja</title>
+
+    <style>
+        /* =========================
+           DASAR
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #222;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 20px;
+        }
+
+        .navbar {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            background-color: #dbeafe;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            max-width: 700px;
+            margin: auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .search-box button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            background-color: #1e3a8a;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* =========================
+           LOWONGAN
+        ========================= */
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .container h2 {
+            margin-bottom: 25px;
+        }
+
+        .jobs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .job-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .job-card h3 {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .company {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .job-info {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .salary {
+            color: green;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .apply-button {
+            display: inline-block;
+            background-color: #1e3a8a;
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+        }
+
+        .apply-button:hover {
+            background-color: #162d6b;
+        }
+
+        /* =========================
+           FORM LAMAR
+        ========================= */
+
+        .application {
+            background-color: white;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .application h2 {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background-color: #1e3a8a;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background-color: #162d6b;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background-color: #111827;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        /* =========================
+           RESPONSIVE HP
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin: 0 7px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .jobs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
-<body style="background-color: yellow;">
+<body>
 
-    <!-- isi website -->
+    <!-- =========================
+         HEADER
+    ========================= -->
 
-    <h1>Day 1</h1>
-    <h2>Belajar</h2>
-    <h3>HTML dan lain lain</h3>
+    <header>
 
-    <p>Bantu saya belajar menggunakan HTML</p>
+        <div class="navbar">
+
+            <div class="logo">
+                KerjaKita
+            </div>
+
+            <nav>
+                <a href="#home">Home</a>
+                <a href="#lowongan">Lowongan</a>
+                <a href="#lamar">Lamar</a>
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <section class="hero" id="home">
+
+        <h1>Cari Pekerjaan Impianmu</h1>
+
+        <p>
+            Temukan berbagai lowongan kerja yang sesuai
+            dengan kemampuanmu.
+        </p>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                placeholder="Cari pekerjaan...">
+
+            <button>
+                Cari
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         DAFTAR LOWONGAN
+    ========================= -->
+
+    <main class="container" id="lowongan">
+
+        <h2>Lowongan Terbaru</h2>
+
+        <div class="jobs">
+
+
+            <!-- LOWONGAN 1 -->
+
+            <div class="job-card">
+
+                <h3>Web Developer</h3>
+
+                <p class="company">
+                    PT Teknologi Indonesia
+                </p>
+
+                <p class="job-info">
+                    📍 Jakarta<br>
+                    💼 Full Time<br>
+                    🎓 Minimal SMA/SMK
+                </p>
+
+                <p class="salary">
+                    Rp5.000.000 - Rp8.000.000
+                </p>
+
+                <a
+                    href="#lamar"
+                    class="apply-button">
+                    Lamar Sekarang
+                </a>
+
+            </div>
+
+
+            <!-- LOWONGAN 2 -->
+
+            <div class="job-card">
+
+                <h3>UI/UX Designer</h3>
+
+                <p class="company">
+                    Kreatif Digital
+                </p>
+
+                <p class="job-info">
+                    📍 Bandung<br>
+                    💼 Full Time<br>
+                    🎓 Minimal D3
+                </p>
+
+                <p class="salary">
+                    Rp4.500.000 - Rp7.000.000
+                </p>
+
+                <a
+                    href="#lamar"
+                    class="apply-button">
+                    Lamar Sekarang
+                </a>
+
+            </div>
+
+
+            <!-- LOWONGAN 3 -->
+
+            <div class="job-card">
+
+                <h3>Admin Kantor</h3>
+
+                <p class="company">
+                    Maju Bersama
+                </p>
+
+                <p class="job-info">
+                    📍 Bekasi<br>
+                    💼 Full Time<br>
+                    🎓 Minimal SMA/SMK
+                </p>
+
+                <p class="salary">
+                    Rp3.500.000 - Rp5.000.000
+                </p>
+
+                <a
+                    href="#lamar"
+                    class="apply-button">
+                    Lamar Sekarang
+                </a>
+
+            </div>
+
+
+            <!-- LOWONGAN 4 -->
+
+            <div class="job-card">
+
+                <h3>Digital Marketing</h3>
+
+                <p class="company">
+                    Media Kreatif
+                </p>
+
+                <p class="job-info">
+                    📍 Depok<br>
+                    💼 Full Time<br>
+                    🎓 Minimal SMA/SMK
+                </p>
+
+                <p class="salary">
+                    Rp4.000.000 - Rp6.500.000
+                </p>
+
+                <a
+                    href="#lamar"
+                    class="apply-button">
+                    Lamar Sekarang
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         FORM LAMARAN
+    ========================= -->
+
+    <section class="application" id="lamar">
+
+        <h2>Formulir Lamaran</h2>
+
+        <form>
+
+            <div class="form-group">
+
+                <label for="nama">
+                    Nama Lengkap
+                </label>
+
+                <input
+                    type="text"
+                    id="nama"
+                    placeholder="Masukkan nama"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Masukkan email"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="posisi">
+                    Posisi yang Dilamar
+                </label>
+
+                <select id="posisi">
+
+                    <option>
+                        Web Developer
+                    </option>
+
+                    <option>
+                        UI/UX Designer
+                    </option>
+
+                    <option>
+                        Admin Kantor
+                    </option>
+
+                    <option>
+                        Digital Marketing
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="pesan">
+                    Tentang Diri Anda
+                </label>
+
+                <textarea
+                    id="pesan"
+                    placeholder="Ceritakan tentang diri Anda...">
+                </textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="submit-button">
+
+                Kirim Lamaran
+
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        <p>
+            © 2026 KerjaKita.
+            Website latihan HTML & CSS.
+        </p>
+
+    </footer>
+
+</body>
+
+    </html>
