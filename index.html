@@ -37,7 +37,6 @@ html{
 }
 
 body{
-
     min-height:100vh;
 
     font-family:Georgia,serif;
@@ -45,7 +44,6 @@ body{
     color:#fff;
 
     display:flex;
-
     justify-content:center;
 
     padding:3px 0 20px;
@@ -62,29 +60,18 @@ body{
     overflow-x:hidden;
 }
 
-
-/* =========================================================
-   GAME
-========================================================= */
-
 .game{
-
     width:100%;
-
     max-width:none;
-
     text-align:center;
 }
-
 
 /* =========================================================
    TITLE
 ========================================================= */
 
 h1{
-
-    font-size:
-        clamp(28px,7vw,52px);
+    font-size:clamp(28px,7vw,52px);
 
     margin:2px 0 0;
 
@@ -97,116 +84,80 @@ h1{
         0 0 15px rgba(255,255,255,.25);
 }
 
-
 .subtitle{
-
     color:#d8d8d8;
 
-    font-size:
-        clamp(10px,2.8vw,15px);
+    font-size:clamp(10px,2.8vw,15px);
 
     margin-bottom:7px;
 }
-
 
 /* =========================================================
    MODE
 ========================================================= */
 
 .mode-box{
-
     width:100%;
 
     margin:0 auto 7px;
 
     display:flex;
-
     justify-content:center;
-
     align-items:center;
 
     gap:7px;
-
     flex-wrap:wrap;
 }
 
-
 .mode-label{
-
     font-size:12px;
-
     color:#ccc;
-
     font-weight:bold;
 }
 
-
 .mode-select{
-
     padding:7px 11px;
 
     border:1px solid #777;
-
     border-radius:8px;
 
-    background:
-        linear-gradient(
-            #555,
-            #181818
-        );
+    background:linear-gradient(#555,#181818);
 
     color:#fff;
 
     font-family:Georgia,serif;
-
     font-weight:bold;
 
     cursor:pointer;
-
     outline:none;
 
     box-shadow:
-        0 4px 10px
-        rgba(0,0,0,.5);
+        0 4px 10px rgba(0,0,0,.5);
 }
-
 
 .mode-select option{
-
     background:#222;
-
     color:#fff;
 }
-
 
 /* =========================================================
    BOARD
 ========================================================= */
 
 .board{
-
     position:relative;
 
     width:100vw;
-
     height:100vw;
-
-    max-width:none;
-
-    max-height:none;
 
     margin:0 auto;
 
     display:grid;
 
-    grid-template-columns:
-        repeat(8,1fr);
-
-    grid-template-rows:
-        repeat(8,1fr);
+    grid-template-columns:repeat(8,1fr);
+    grid-template-rows:repeat(8,1fr);
 
     border:4px solid #0c0c0c;
-
     border-radius:8px;
 
     overflow:hidden;
@@ -214,49 +165,29 @@ h1{
     background:#111;
 
     box-shadow:
-
-        0 18px 45px
-        rgba(0,0,0,.9),
-
-        0 4px 0
-        #777,
-
-        0 0 28px
-        rgba(0,0,0,.7);
+        0 18px 45px rgba(0,0,0,.9),
+        0 4px 0 #777,
+        0 0 28px rgba(0,0,0,.7);
 }
-
-
-/* =========================================================
-   DESKTOP
-========================================================= */
 
 @media(min-width:700px){
 
     .board{
-
-        width:
-            min(100vw,100vh);
-
-        height:
-            min(100vw,100vh);
-
+        width:min(100vw,100vh);
+        height:min(100vw,100vh);
     }
 
 }
-
 
 /* =========================================================
    SQUARE
 ========================================================= */
 
 .square{
-
     position:relative;
 
     display:flex;
-
     align-items:center;
-
     justify-content:center;
 
     cursor:pointer;
@@ -270,9 +201,7 @@ h1{
     -webkit-tap-highlight-color:transparent;
 }
 
-
 .light{
-
     background:
         linear-gradient(
             145deg,
@@ -282,9 +211,7 @@ h1{
         );
 }
 
-
 .dark{
-
     background:
         linear-gradient(
             145deg,
@@ -294,13 +221,10 @@ h1{
         );
 }
 
-
 .square::before{
-
     content:"";
 
     position:absolute;
-
     inset:0;
 
     background:
@@ -314,21 +238,17 @@ h1{
     pointer-events:none;
 }
 
-
 /* =========================================================
    PIECE
 ========================================================= */
 
 .piece{
-
     width:95%;
-
     height:95%;
 
     object-fit:contain;
 
     position:relative;
-
     z-index:5;
 
     pointer-events:none;
@@ -342,9 +262,7 @@ h1{
         filter .18s ease;
 }
 
-
 .white-piece{
-
     filter:
         drop-shadow(
             0 11px 5px
@@ -358,9 +276,7 @@ h1{
         contrast(1.08);
 }
 
-
 .black-piece{
-
     filter:
         drop-shadow(
             0 11px 6px
@@ -374,15 +290,9 @@ h1{
         contrast(1.18);
 }
 
+@media(hover:hover){
 
-/* =========================================================
-   HOVER
-========================================================= */
-
-@media (hover:hover){
-
-    .square:has(.piece):hover .piece{
-
+    .square.has-piece:hover .piece{
         transform:
             translateY(-5px)
             scale(1.04);
@@ -390,41 +300,29 @@ h1{
 
 }
 
-
 /* =========================================================
    SELECTED
 ========================================================= */
 
 .selected{
-
     box-shadow:
-
-        inset
-        0 0 0 4px
-        rgba(255,255,255,.95),
-
-        inset
-        0 0 28px
-        rgba(255,255,255,.3);
+        inset 0 0 0 4px rgba(255,255,255,.95),
+        inset 0 0 28px rgba(255,255,255,.3);
 }
-
 
 /* =========================================================
    POSSIBLE MOVE
 ========================================================= */
 
 .possible::after{
-
     content:"";
 
     position:absolute;
 
     width:19%;
-
     height:19%;
 
     left:40.5%;
-
     top:40.5%;
 
     border-radius:50%;
@@ -437,19 +335,16 @@ h1{
         );
 
     box-shadow:
-        0 0 9px
-        rgba(255,255,255,.8);
+        0 0 9px rgba(255,255,255,.8);
 
     z-index:3;
 }
-
 
 /* =========================================================
    CAPTURE TARGET
 ========================================================= */
 
 .capture::after{
-
     content:"";
 
     position:absolute;
@@ -463,40 +358,29 @@ h1{
     border-radius:50%;
 
     box-shadow:
-
-        0 0 10px
-        rgba(255,255,255,.25),
-
-        inset
-        0 0 12px
-        rgba(0,0,0,.35);
+        0 0 10px rgba(255,255,255,.25),
+        inset 0 0 12px rgba(0,0,0,.35);
 
     z-index:3;
 }
 
-
 /* =========================================================
-   SKAK — RAJA TERANCAM
+   CHECK
 ========================================================= */
 
 .check{
-
     z-index:20;
 
     animation:
         checkFlash
         .55s
         infinite alternate;
-
 }
 
-
 .check::after{
-
     content:"";
 
     position:absolute;
-
     inset:0;
 
     pointer-events:none;
@@ -511,32 +395,23 @@ h1{
     z-index:4;
 }
 
-
 @keyframes checkFlash{
 
     from{
-
         box-shadow:
-
-            inset
-            0 0 0 4px
+            inset 0 0 0 4px
             rgba(255,50,50,.65),
 
-            inset
-            0 0 18px
+            inset 0 0 18px
             rgba(255,0,0,.25);
     }
 
     to{
-
         box-shadow:
-
-            inset
-            0 0 0 8px
+            inset 0 0 0 8px
             rgba(255,0,0,1),
 
-            inset
-            0 0 35px
+            inset 0 0 35px
             rgba(255,0,0,.55),
 
             0 0 15px
@@ -545,28 +420,22 @@ h1{
 
 }
 
-
 /* =========================================================
-   SKAK MAT
+   CHECKMATE
 ========================================================= */
 
 .checkmate-king{
-
     animation:
         checkmateFlash
         .4s
         infinite alternate;
 }
 
-
 @keyframes checkmateFlash{
 
     from{
-
         box-shadow:
-
-            inset
-            0 0 0 5px
+            inset 0 0 0 5px
             rgba(255,0,0,.7),
 
             0 0 10px
@@ -574,11 +443,8 @@ h1{
     }
 
     to{
-
         box-shadow:
-
-            inset
-            0 0 0 10px
+            inset 0 0 0 10px
             rgba(255,0,0,1),
 
             0 0 35px
@@ -587,13 +453,11 @@ h1{
 
 }
 
-
 /* =========================================================
    FLYING PIECE
 ========================================================= */
 
 .flying-piece{
-
     position:fixed;
 
     z-index:99999;
@@ -609,6 +473,11 @@ h1{
         top,
         transform;
 
+    transition:
+        left .42s cubic-bezier(.2,.75,.25,1),
+        top .42s cubic-bezier(.2,.75,.25,1),
+        transform .42s cubic-bezier(.2,.75,.25,1);
+
     filter:
         drop-shadow(
             0 20px 10px
@@ -620,13 +489,7 @@ h1{
         );
 }
 
-
-/* =========================================================
-   FLYING SHADOW
-========================================================= */
-
 .flying-piece-shadow{
-
     position:fixed;
 
     z-index:99998;
@@ -635,64 +498,57 @@ h1{
 
     border-radius:50%;
 
-    background:
-        rgba(0,0,0,.65);
+    background:rgba(0,0,0,.65);
 
     filter:blur(7px);
 
-    will-change:
-        left,
-        top,
-        width,
-        height,
-        opacity;
+    transition:
+        left .42s ease,
+        top .42s ease,
+        width .42s ease,
+        opacity .42s ease;
 }
 
-
 .animating-source .piece{
-
     opacity:0;
 }
 
+.animating-source .fallback-piece{
+    opacity:0;
+}
 
 /* =========================================================
    LANDING
 ========================================================= */
 
 .landing{
-
     animation:
         realisticLanding
         .32s
         cubic-bezier(.18,.8,.2,1);
 }
 
-
 @keyframes realisticLanding{
 
     0%{
-
         transform:
             translateY(-12px)
             scale(1.06);
     }
 
     45%{
-
         transform:
             translateY(3px)
             scale(.96);
     }
 
     70%{
-
         transform:
             translateY(-2px)
             scale(1.02);
     }
 
     100%{
-
         transform:
             translateY(0)
             scale(1);
@@ -700,23 +556,19 @@ h1{
 
 }
 
-
 /* =========================================================
    LANDING LIGHT
 ========================================================= */
 
 .square.land-effect::after{
-
     content:"";
 
     position:absolute;
 
     width:80%;
-
     height:80%;
 
     left:10%;
-
     top:10%;
 
     border-radius:50%;
@@ -739,49 +591,40 @@ h1{
     z-index:8;
 }
 
-
 @keyframes landingGlow{
 
     0%{
-
         transform:scale(.15);
-
         opacity:1;
     }
 
     100%{
-
         transform:scale(1.6);
-
         opacity:0;
     }
 
 }
-
 
 /* =========================================================
    CAPTURE EFFECT
 ========================================================= */
 
 .square.capture-effect::before{
-
     content:"";
 
     position:absolute;
 
     width:30%;
-
     height:30%;
 
     left:35%;
-
     top:35%;
-
-    border-radius:50%;
 
     border:
         3px solid
         rgba(255,255,255,.85);
+
+    border-radius:50%;
 
     animation:
         capturePulse
@@ -791,32 +634,25 @@ h1{
     z-index:20;
 }
 
-
 @keyframes capturePulse{
 
     0%{
-
         transform:scale(.4);
-
         opacity:1;
     }
 
     100%{
-
         transform:scale(2.8);
-
         opacity:0;
     }
 
 }
-
 
 /* =========================================================
    STATUS
 ========================================================= */
 
 .info{
-
     width:100%;
 
     margin:8px auto 0;
@@ -832,24 +668,15 @@ h1{
             #242424
         );
 
-    border:
-        1px solid #707070;
+    border:1px solid #707070;
 
     box-shadow:
-
-        0 8px 20px
-        rgba(0,0,0,.55),
-
-        inset
-        0 1px 0
-        rgba(255,255,255,.1);
+        0 8px 20px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.1);
 }
 
-
 #status{
-
-    font-size:
-        clamp(13px,4vw,18px);
+    font-size:clamp(13px,4vw,18px);
 
     font-weight:bold;
 
@@ -861,17 +688,10 @@ h1{
     min-height:22px;
 }
 
-
-/* =========================================================
-   CHECK BANNER
-========================================================= */
-
 #checkBanner{
-
     margin-top:5px;
 
-    font-size:
-        clamp(11px,3vw,14px);
+    font-size:clamp(11px,3vw,14px);
 
     font-weight:bold;
 
@@ -883,13 +703,11 @@ h1{
         0 1px 2px #000;
 }
 
-
 /* =========================================================
    BUTTONS
 ========================================================= */
 
 .buttons{
-
     width:100%;
 
     margin:8px auto 0;
@@ -903,13 +721,10 @@ h1{
     flex-wrap:wrap;
 }
 
-
 button{
-
     padding:8px 13px;
 
-    border:
-        1px solid #707070;
+    border:1px solid #707070;
 
     border-radius:8px;
 
@@ -921,43 +736,40 @@ button{
 
     color:white;
 
-    font-size:
-        clamp(11px,3vw,14px);
+    font-size:clamp(11px,3vw,14px);
 
     font-weight:bold;
 
     cursor:pointer;
 
     box-shadow:
-        0 5px 12px
-        rgba(0,0,0,.5);
+        0 5px 12px rgba(0,0,0,.5);
 
     transition:
         transform .15s ease,
         filter .15s ease;
 }
 
-
 button:hover{
-
     transform:translateY(-2px);
-
     filter:brightness(1.18);
 }
 
-
 button:active{
-
     transform:scale(.94);
 }
 
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+    transform:none;
+}
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
 .footer{
-
     margin-top:8px;
 
     color:#aaa;
@@ -965,26 +777,21 @@ button:active{
     font-size:10px;
 }
 
-
 /* =========================================================
    REDUCE MOTION
 ========================================================= */
 
 @media(prefers-reduced-motion:reduce){
 
-    .landing{
-
-        animation:none;
-    }
-
-    .check{
-
-        animation:none;
-    }
-
+    .landing,
+    .check,
     .checkmate-king{
-
         animation:none;
+    }
+
+    .flying-piece,
+    .flying-piece-shadow{
+        transition:none;
     }
 
 }
@@ -993,23 +800,15 @@ button:active{
 
 </head>
 
-
 <body>
 
 <div class="game">
 
-    <h1>
-        ♛ ROYAL CHESS
-    </h1>
+    <h1>♛ ROYAL CHESS</h1>
 
     <p class="subtitle">
         Catur • Animasi Bidak • Sistem SKAK
     </p>
-
-
-    <!-- =====================================================
-         MODE
-    ====================================================== -->
 
     <div class="mode-box">
 
@@ -1034,20 +833,10 @@ button:active{
 
     </div>
 
-
-    <!-- =====================================================
-         BOARD
-    ====================================================== -->
-
     <div
         id="board"
         class="board"
     ></div>
-
-
-    <!-- =====================================================
-         STATUS
-    ====================================================== -->
 
     <div class="info">
 
@@ -1058,11 +847,6 @@ button:active{
         <div id="checkBanner"></div>
 
     </div>
-
-
-    <!-- =====================================================
-         BUTTONS
-    ====================================================== -->
 
     <div class="buttons">
 
@@ -1076,31 +860,33 @@ button:active{
 
     </div>
 
-
     <p class="footer">
         Royal Chess • PV2 • Check System
     </p>
 
 </div>
 
-
 <script>
 
 /* =========================================================
-   CHECK CHESS.JS
+   CHESS ENGINE CHECK
 ========================================================= */
 
 if(typeof Chess === "undefined"){
 
-    document.body.innerHTML =
-        "<h2 style='color:white;text-align:center;padding:30px'>"+
-        "Chess engine gagal dimuat.<br>"+
-        "Periksa koneksi internet lalu refresh halaman."+
-        "</h2>";
+    document.body.innerHTML = `
+        <h2 style="
+            color:white;
+            text-align:center;
+            padding:30px;
+            font-family:Georgia,serif;
+        ">
+            Chess engine gagal dimuat.<br>
+            Periksa koneksi internet lalu refresh halaman.
+        </h2>
+    `;
 
-    throw new Error(
-        "Chess.js gagal dimuat."
-    );
+    throw new Error("Chess.js gagal dimuat.");
 }
 
 
@@ -1108,19 +894,7 @@ if(typeof Chess === "undefined"){
    ENGINE
 ========================================================= */
 
-const game =
-    new Chess();
-
-console.log(
-    "Royal Chess AI aktif:",
-    typeof Chess !== "undefined"
-);
-
-console.log(
-    "Giliran awal:",
-    game.turn()
-);
-
+const game = new Chess();
 
 
 /* =========================================================
@@ -1147,20 +921,16 @@ const modeSelect =
 
 
 /* =========================================================
-   VARIABLES
+   STATE
 ========================================================= */
 
-let selectedSquare =
-    null;
+let selectedSquare = null;
 
-let thinking =
-    false;
+let thinking = false;
 
-let animating =
-    false;
+let animating = false;
 
-let computerTimer =
-    null;
+let computerTimer = null;
 
 
 /* =========================================================
@@ -1182,45 +952,23 @@ const pieceImages = {
 
     w:{
 
-        k:
-        "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_klt45.svg",
-
-        q:
-        "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_qlt45.svg",
-
-        r:
-        "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_rlt45.svg",
-
-        b:
-        "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_blt45.svg",
-
-        n:
-        "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_nlt45.svg",
-
-        p:
-        "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_plt45.svg"
+        k:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_klt45.svg",
+        q:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_qlt45.svg",
+        r:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_rlt45.svg",
+        b:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_blt45.svg",
+        n:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_nlt45.svg",
+        p:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_plt45.svg"
 
     },
 
     b:{
 
-        k:
-        "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_kdt45.svg",
-
-        q:
-        "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_qdt45.svg",
-
-        r:
-        "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_rdt45.svg",
-
-        b:
-        "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_bdt45.svg",
-
-        n:
-        "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_ndt45.svg",
-
-        p:
-        "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_pdt45.svg"
+        k:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_kdt45.svg",
+        q:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_qdt45.svg",
+        r:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_rdt45.svg",
+        b:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_bdt45.svg",
+        n:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_ndt45.svg",
+        p:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_pdt45.svg"
 
     }
 
@@ -1251,16 +999,78 @@ const symbols = {
 
 
 /* =========================================================
-   GET SQUARE
+   GET SQUARE ELEMENT
 ========================================================= */
 
 function getSquareElement(square){
 
     return document.querySelector(
-        '[data-square="' +
-        square +
-        '"]'
+        `[data-square="${square}"]`
     );
+
+}
+
+
+/* =========================================================
+   CREATE PIECE
+========================================================= */
+
+function createPiece(square,piece){
+
+    const img =
+        document.createElement("img");
+
+    img.className =
+        "piece " +
+        (
+            piece.color === "w"
+            ? "white-piece"
+            : "black-piece"
+        );
+
+    img.src =
+        pieceImages[piece.color][piece.type];
+
+    img.alt =
+        piece.color + piece.type;
+
+    img.draggable = false;
+
+    img.onerror = function(){
+
+        this.style.display = "none";
+
+        const fallback =
+            document.createElement("span");
+
+        fallback.className =
+            "fallback-piece";
+
+        fallback.textContent =
+            symbols[
+                piece.color + piece.type
+            ];
+
+        fallback.style.fontSize = "80%";
+        fallback.style.lineHeight = "1";
+        fallback.style.position = "relative";
+        fallback.style.zIndex = "5";
+
+        fallback.style.color =
+            piece.color === "w"
+            ? "#fff"
+            : "#050505";
+
+        fallback.style.textShadow =
+            piece.color === "w"
+            ? "0 4px 4px #000"
+            : "0 4px 4px #777";
+
+        square.appendChild(fallback);
+
+    };
+
+    square.appendChild(img);
 
 }
 
@@ -1276,36 +1086,21 @@ function renderBoard(){
     const position =
         game.board();
 
+    for(let row=0;row<8;row++){
 
-    for(
-        let row = 0;
-        row < 8;
-        row++
-    ){
-
-        for(
-            let col = 0;
-            col < 8;
-            col++
-        ){
+        for(let col=0;col<8;col++){
 
             const square =
                 document.createElement("div");
 
-
             const file =
-                String.fromCharCode(
-                    97 + col
-                );
-
+                String.fromCharCode(97 + col);
 
             const rank =
                 8 - row;
 
-
             const squareName =
                 file + rank;
-
 
             square.className =
                 "square " +
@@ -1315,16 +1110,17 @@ function renderBoard(){
                     : "dark"
                 );
 
-
             square.dataset.square =
                 squareName;
-
 
             const piece =
                 position[row][col];
 
-
             if(piece){
+
+                square.classList.add(
+                    "has-piece"
+                );
 
                 createPiece(
                     square,
@@ -1333,27 +1129,16 @@ function renderBoard(){
 
             }
 
-
             square.addEventListener(
                 "click",
-                function(){
-
-                    handleSquareClick(
-                        squareName
-                    );
-
-                }
+                () => handleSquareClick(squareName)
             );
 
-
-            boardElement.appendChild(
-                square
-            );
+            boardElement.appendChild(square);
 
         }
 
     }
-
 
     highlightBoard();
 
@@ -1361,104 +1146,7 @@ function renderBoard(){
 
 
 /* =========================================================
-   CREATE PIECE
-========================================================= */
-
-function createPiece(
-    square,
-    piece
-){
-
-    const img =
-        document.createElement("img");
-
-
-    img.className =
-        "piece " +
-        (
-            piece.color === "w"
-            ? "white-piece"
-            : "black-piece"
-        );
-
-
-    img.src =
-        pieceImages
-        [piece.color]
-        [piece.type];
-
-
-    img.alt =
-        piece.color +
-        piece.type;
-
-
-    img.draggable =
-        false;
-
-
-    img.onerror =
-        function(){
-
-            this.style.display =
-                "none";
-
-
-            const fallback =
-                document.createElement("span");
-
-
-            fallback.textContent =
-                symbols[
-                    piece.color +
-                    piece.type
-                ];
-
-
-            fallback.style.fontSize =
-                "80%";
-
-
-            fallback.style.lineHeight =
-                "1";
-
-
-            fallback.style.position =
-                "relative";
-
-
-            fallback.style.zIndex =
-                "5";
-
-
-            fallback.style.color =
-                piece.color === "w"
-                ? "#fff"
-                : "#050505";
-
-
-            fallback.style.textShadow =
-                piece.color === "w"
-                ? "0 4px 4px #000"
-                : "0 4px 4px #777";
-
-
-            square.appendChild(
-                fallback
-            );
-
-        };
-
-
-    square.appendChild(
-        img
-    );
-
-}
-
-
-/* =========================================================
-   FIND KING SQUARE
+   FIND KING
 ========================================================= */
 
 function findKingSquare(color){
@@ -1466,22 +1154,12 @@ function findKingSquare(color){
     const position =
         game.board();
 
+    for(let row=0;row<8;row++){
 
-    for(
-        let row = 0;
-        row < 8;
-        row++
-    ){
-
-        for(
-            let col = 0;
-            col < 8;
-            col++
-        ){
+        for(let col=0;col<8;col++){
 
             const piece =
                 position[row][col];
-
 
             if(
                 piece &&
@@ -1490,9 +1168,7 @@ function findKingSquare(color){
             ){
 
                 return (
-                    String.fromCharCode(
-                        97 + col
-                    ) +
+                    String.fromCharCode(97 + col) +
                     (8 - row)
                 );
 
@@ -1501,7 +1177,6 @@ function findKingSquare(color){
         }
 
     }
-
 
     return null;
 
@@ -1516,32 +1191,25 @@ function highlightBoard(){
 
     document
         .querySelectorAll(".square")
-        .forEach(
-            function(square){
+        .forEach(square => {
 
-                square.classList.remove(
-                    "selected",
-                    "possible",
-                    "capture",
-                    "check",
-                    "checkmate-king"
-                );
+            square.classList.remove(
+                "selected",
+                "possible",
+                "capture",
+                "check",
+                "checkmate-king"
+            );
 
-            }
-        );
+        });
 
 
-    /* =====================================================
-       SELECTED SQUARE
-    ====================================================== */
+    /* SELECTED */
 
     if(selectedSquare){
 
         const selected =
-            getSquareElement(
-                selectedSquare
-            );
-
+            getSquareElement(selectedSquare);
 
         if(selected){
 
@@ -1551,95 +1219,65 @@ function highlightBoard(){
 
         }
 
-
         const moves =
             game.moves({
-
-                square:
-                    selectedSquare,
-
-                verbose:
-                    true
-
+                square:selectedSquare,
+                verbose:true
             });
 
+        moves.forEach(move => {
 
-        moves.forEach(
-            function(move){
+            const target =
+                getSquareElement(move.to);
 
-                const target =
-                    getSquareElement(
-                        move.to
-                    );
+            if(!target){
+                return;
+            }
 
+            if(move.captured){
 
-                if(!target){
+                target.classList.add(
+                    "capture"
+                );
 
-                    return;
+            }else{
 
-                }
-
-
-                if(move.captured){
-
-                    target.classList.add(
-                        "capture"
-                    );
-
-                }else{
-
-                    target.classList.add(
-                        "possible"
-                    );
-
-                }
+                target.classList.add(
+                    "possible"
+                );
 
             }
-        );
+
+        });
 
     }
 
 
-    /* =====================================================
-       SKAK
-    ====================================================== */
+    /* CHECK */
 
     if(game.in_check()){
 
-        const kingColor =
-            game.turn();
-
-
         const kingSquare =
-            findKingSquare(
-                kingColor
+            findKingSquare(game.turn());
+
+        if(!kingSquare){
+            return;
+        }
+
+        const kingElement =
+            getSquareElement(kingSquare);
+
+        if(!kingElement){
+            return;
+        }
+
+        kingElement.classList.add("check");
+
+        if(game.is_checkmate()){
+
+            kingElement.classList.add(
+                "checkmate-king"
             );
-
-
-        if(kingSquare){
-
-            const kingElement =
-                getSquareElement(
-                    kingSquare
-                );
-
-
-            if(kingElement){
-
-                kingElement.classList.add(
-                    "check"
-                );
-
-
-                if(game.is_checkmate()){
-
-                    kingElement.classList.add(
-                        "checkmate-king"
-                    );
-
-                }
-
-            }
 
         }
 
@@ -1656,13 +1294,13 @@ function handleSquareClick(square){
 
     if(
         thinking ||
-        animating
+        animating ||
+        game.game_over()
     ){
 
         return;
 
     }
-
 
     if(
         isComputerMode() &&
@@ -1674,76 +1312,36 @@ function handleSquareClick(square){
     }
 
 
-    /* =====================================================
-       SELECT
-    ====================================================== */
+    /* FIRST SELECTION */
 
     if(!selectedSquare){
 
         const piece =
             game.get(square);
 
-
-        if(piece){
-
-            if(
-                isComputerMode() &&
-                piece.color !== "w"
-            ){
-
-                return;
-
-            }
-
-
-            if(
-                piece.color !== game.turn()
-            ){
-
-                return;
-
-            }
-
-
-            selectedSquare =
-                square;
-
-
-            highlightBoard();
-
+        if(!piece){
+            return;
         }
 
-        return;
-
-    }
-
-
-    /* =====================================================
-       GANTI PILIHAN
-    ====================================================== */
-
-    const clickedPiece =
-        game.get(square);
-
-
-    if(
-        clickedPiece &&
-        clickedPiece.color === game.turn()
-    ){
-
         if(
-            isComputerMode() &&
-            clickedPiece.color !== "w"
+            piece.color !== game.turn()
         ){
 
             return;
 
         }
 
+        if(
+            isComputerMode() &&
+            piece.color !== "w"
+        ){
+
+            return;
+
+        }
 
         selectedSquare =
             square;
-
 
         highlightBoard();
 
@@ -1752,37 +1350,42 @@ function handleSquareClick(square){
     }
 
 
-    /* =====================================================
-       CEK LANGKAH LEGAL
-    ====================================================== */
+    /* RESELECT OWN PIECE */
+
+    const clickedPiece =
+        game.get(square);
+
+    if(
+        clickedPiece &&
+        clickedPiece.color === game.turn()
+    ){
+
+        selectedSquare =
+            square;
+
+        highlightBoard();
+
+        return;
+
+    }
+
+
+    /* CHECK LEGAL MOVE */
 
     const moves =
         game.moves({
-
-            square:
-                selectedSquare,
-
-            verbose:
-                true
-
+            square:selectedSquare,
+            verbose:true
         });
-
 
     const legalMove =
         moves.find(
-            function(move){
-
-                return move.to === square;
-
-            }
+            move => move.to === square
         );
-
 
     if(!legalMove){
 
-        selectedSquare =
-            null;
-
+        selectedSquare = null;
 
         highlightBoard();
 
@@ -1794,48 +1397,34 @@ function handleSquareClick(square){
     const from =
         selectedSquare;
 
-
     const to =
         square;
 
-
-    selectedSquare =
-        null;
+    selectedSquare = null;
 
 
     animatePhysicalMove(
         from,
         to,
-        function(){
+        () => {
 
             const move =
                 game.move({
-
-                    from:
-                        from,
-
-                    to:
-                        to,
-
-                    promotion:
-                        "q"
-
+                    from,
+                    to,
+                    promotion:"q"
                 });
-
 
             if(!move){
 
                 renderBoard();
-
                 updateStatus();
 
                 return;
 
             }
 
-
             renderBoard();
-
             updateStatus();
 
 
@@ -1845,11 +1434,9 @@ function handleSquareClick(square){
                 game.turn() === "b"
             ){
 
-                thinking =
-                    true;
+                thinking = true;
 
                 updateStatus();
-
 
                 computerTimer =
                     setTimeout(
@@ -1866,7 +1453,7 @@ function handleSquareClick(square){
 
 
 /* =========================================================
-   ANIMATE PHYSICAL MOVE
+   PHYSICAL MOVE ANIMATION
 ========================================================= */
 
 function animatePhysicalMove(
@@ -1878,10 +1465,8 @@ function animatePhysicalMove(
     const fromSquare =
         getSquareElement(from);
 
-
     const toSquare =
         getSquareElement(to);
-
 
     if(
         !fromSquare ||
@@ -1889,34 +1474,28 @@ function animatePhysicalMove(
     ){
 
         callback();
-
         return;
 
     }
 
 
     const piece =
-        fromSquare.querySelector(
-            ".piece"
-        );
+        fromSquare.querySelector(".piece");
 
 
     if(!piece){
 
         callback();
-
         return;
 
     }
 
 
-    animating =
-        true;
+    animating = true;
 
 
     const start =
         fromSquare.getBoundingClientRect();
-
 
     const end =
         toSquare.getBoundingClientRect();
@@ -1925,11 +1504,7 @@ function animatePhysicalMove(
     const clone =
         piece.cloneNode(true);
 
-
-    clone.classList.remove(
-        "piece"
-    );
-
+    clone.classList.remove("piece");
 
     clone.classList.add(
         "flying-piece"
@@ -1946,7 +1521,6 @@ function animatePhysicalMove(
     clone.style.width =
         size + "px";
 
-
     clone.style.height =
         size + "px";
 
@@ -1955,16 +1529,13 @@ function animatePhysicalMove(
         start.left +
         (start.width - size) / 2;
 
-
     const startTop =
         start.top +
         (start.height - size) / 2;
 
-
     const endLeft =
         end.left +
         (end.width - size) / 2;
-
 
     const endTop =
         end.top +
@@ -1974,46 +1545,33 @@ function animatePhysicalMove(
     clone.style.left =
         startLeft + "px";
 
-
     clone.style.top =
         startTop + "px";
 
 
-    clone.style.transform =
-        "translateY(0) scale(1)";
-
-
-    /* =====================================================
-       SHADOW
-    ====================================================== */
-
     const shadow =
         document.createElement("div");
-
 
     shadow.className =
         "flying-piece-shadow";
 
 
-    const shadowStartWidth =
+    const shadowWidth =
         size * .5;
 
 
     shadow.style.width =
-        shadowStartWidth + "px";
-
+        shadowWidth + "px";
 
     shadow.style.height =
         size * .14 + "px";
-
 
     shadow.style.left =
         (
             start.left +
             start.width / 2 -
-            shadowStartWidth / 2
+            shadowWidth / 2
         ) + "px";
-
 
     shadow.style.top =
         (
@@ -2021,19 +1579,12 @@ function animatePhysicalMove(
             start.height * .79
         ) + "px";
 
-
     shadow.style.opacity =
         ".72";
 
 
-    document.body.appendChild(
-        shadow
-    );
-
-
-    document.body.appendChild(
-        clone
-    );
+    document.body.appendChild(shadow);
+    document.body.appendChild(clone);
 
 
     fromSquare.classList.add(
@@ -2041,184 +1592,132 @@ function animatePhysicalMove(
     );
 
 
-    /* =====================================================
-       CAPTURE
-    ====================================================== */
-
-    const capturedPiece =
+    const captured =
         toSquare.querySelector(
-            ".piece"
+            ".piece, .fallback-piece"
         );
 
 
-    if(capturedPiece){
+    if(captured){
 
-        capturedPiece.style.opacity =
-            "0";
+        captured.style.opacity = "0";
 
     }
 
 
-    /* =====================================================
-       MOVEMENT
-    ====================================================== */
+    requestAnimationFrame(() => {
 
-    requestAnimationFrame(
-        function(){
+        requestAnimationFrame(() => {
 
-            requestAnimationFrame(
-                function(){
+            clone.style.left =
+                endLeft + "px";
 
-                    clone.style.left =
-                        endLeft + "px";
-
-
-                    clone.style.top =
-                        endTop + "px";
-
-
-                    clone.style.transform =
-                        "translateY(-28px) scale(1.06)";
-
-
-                    shadow.style.left =
-                        (
-                            end.left +
-                            end.width / 2 -
-                            size * .20
-                        ) + "px";
-
-
-                    shadow.style.top =
-                        (
-                            end.top +
-                            end.height * .80
-                        ) + "px";
-
-
-                    shadow.style.width =
-                        size * .40 + "px";
-
-
-                    shadow.style.opacity =
-                        ".35";
-
-                }
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       HIGH POINT
-    ====================================================== */
-
-    setTimeout(
-        function(){
+            clone.style.top =
+                endTop + "px";
 
             clone.style.transform =
-                "translateY(-36px) scale(1.08)";
-
-        },
-        200
-    );
+                "translateY(-28px) scale(1.06)";
 
 
-    /* =====================================================
-       LANDING
-    ====================================================== */
+            shadow.style.left =
+                (
+                    end.left +
+                    end.width / 2 -
+                    size * .20
+                ) + "px";
 
-    setTimeout(
-        function(){
+            shadow.style.top =
+                (
+                    end.top +
+                    end.height * .80
+                ) + "px";
 
-            clone.style.transform =
-                "translateY(0) scale(.98)";
+            shadow.style.width =
+                size * .40 + "px";
 
-        },
-        390
-    );
+            shadow.style.opacity =
+                ".35";
 
+        });
 
-    /* =====================================================
-       FINISH
-    ====================================================== */
-
-    setTimeout(
-        function(){
-
-            clone.remove();
-
-            shadow.remove();
+    });
 
 
-            fromSquare.classList.remove(
-                "animating-source"
+    setTimeout(() => {
+
+        clone.style.transform =
+            "translateY(-36px) scale(1.08)";
+
+    },180);
+
+
+    setTimeout(() => {
+
+        clone.style.transform =
+            "translateY(0) scale(.98)";
+
+    },390);
+
+
+    setTimeout(() => {
+
+        clone.remove();
+        shadow.remove();
+
+        fromSquare.classList.remove(
+            "animating-source"
+        );
+
+
+        if(captured){
+
+            toSquare.classList.add(
+                "capture-effect"
             );
 
+            setTimeout(() => {
 
-            if(capturedPiece){
-
-                toSquare.classList.add(
+                toSquare.classList.remove(
                     "capture-effect"
                 );
 
+            },450);
 
-                setTimeout(
-                    function(){
-
-                        toSquare.classList.remove(
-                            "capture-effect"
-                        );
-
-                    },
-                    450
-                );
-
-            }
+        }
 
 
-            toSquare.classList.add(
+        toSquare.classList.add(
+            "landing",
+            "land-effect"
+        );
+
+
+        setTimeout(() => {
+
+            toSquare.classList.remove(
                 "landing",
                 "land-effect"
             );
 
-
-            setTimeout(
-                function(){
-
-                    toSquare.classList.remove(
-                        "landing",
-                        "land-effect"
-                    );
-
-                },
-                500
-            );
+        },500);
 
 
-            animating =
-                false;
+        animating = false;
 
+        callback();
 
-            callback();
-
-        },
-        540
-    );
+    },540);
 
 }
 
 
 /* =========================================================
-   STATUS + SKAK
+   STATUS
 ========================================================= */
 
 function updateStatus(){
 
-    /* =====================================================
-       SKAKMAT
-    ====================================================== */
+    /* CHECKMATE */
 
     if(game.is_checkmate()){
 
@@ -2227,10 +1726,8 @@ function updateStatus(){
             ? "♚ SKAKMAT — Hitam Menang"
             : "♔ SKAKMAT — Putih Menang";
 
-
         checkBanner.textContent =
             "💀 Raja tidak memiliki langkah legal.";
-
 
         highlightBoard();
 
@@ -2239,19 +1736,15 @@ function updateStatus(){
     }
 
 
-    /* =====================================================
-       STALEMATE
-    ====================================================== */
+    /* STALEMATE */
 
     if(game.is_stalemate()){
 
         statusElement.textContent =
             "🤝 REMIS — Stalemate";
 
-
         checkBanner.textContent =
             "Tidak ada langkah legal.";
-
 
         highlightBoard();
 
@@ -2260,19 +1753,15 @@ function updateStatus(){
     }
 
 
-    /* =====================================================
-       DRAW
-    ====================================================== */
+    /* DRAW */
 
     if(game.is_draw()){
 
         statusElement.textContent =
             "🤝 PERMAINAN REMIS";
 
-
         checkBanner.textContent =
             "Permainan berakhir seri.";
-
 
         highlightBoard();
 
@@ -2281,9 +1770,7 @@ function updateStatus(){
     }
 
 
-    /* =====================================================
-       SKAK
-    ====================================================== */
+    /* CHECK */
 
     if(game.in_check()){
 
@@ -2305,7 +1792,6 @@ function updateStatus(){
 
         }
 
-
         highlightBoard();
 
         return;
@@ -2313,30 +1799,23 @@ function updateStatus(){
     }
 
 
-    /* =====================================================
-       KOMPUTER BERPIKIR
-    ====================================================== */
+    /* COMPUTER THINKING */
 
     if(thinking){
 
         statusElement.textContent =
             "♚ Komputer sedang berpikir...";
 
-
-        checkBanner.textContent =
-            "";
+        checkBanner.textContent = "";
 
         return;
 
     }
 
 
-    /* =====================================================
-       NORMAL
-    ====================================================== */
+    /* NORMAL */
 
-    checkBanner.textContent =
-        "";
+    checkBanner.textContent = "";
 
 
     if(isComputerMode()){
@@ -2362,7 +1841,7 @@ function updateStatus(){
 
 
 /* =========================================================
-   AI VALUES
+   AI
 ========================================================= */
 
 const pieceValue = {
@@ -2378,52 +1857,98 @@ const pieceValue = {
 
 
 /* =========================================================
-   EVALUATION
+   POSITION BONUS
+========================================================= */
+
+const centerBonus = [
+
+    [0,0,0,0,0,0,0,0],
+    [0,5,5,5,5,5,5,0],
+    [0,5,10,15,15,10,5,0],
+    [0,5,15,20,20,15,5,0],
+    [0,5,15,20,20,15,5,0],
+    [0,5,10,15,15,10,5,0],
+    [0,5,5,5,5,5,5,0],
+    [0,0,0,0,0,0,0,0]
+
+];
+
+
+/* =========================================================
+   EVALUATE
 ========================================================= */
 
 function evaluateBoard(){
 
-    let score =
-        0;
+    if(game.is_checkmate()){
 
+        return game.turn() === "b"
+            ? -1000000
+            : 1000000;
+
+    }
+
+
+    if(
+        game.is_stalemate() ||
+        game.is_draw()
+    ){
+
+        return 0;
+
+    }
+
+
+    let score = 0;
 
     const board =
         game.board();
 
 
-    for(
-        let row = 0;
-        row < 8;
-        row++
-    ){
+    for(let row=0;row<8;row++){
 
-        for(
-            let col = 0;
-            col < 8;
-            col++
-        ){
+        for(let col=0;col<8;col++){
 
             const piece =
                 board[row][col];
 
-
             if(!piece){
-
                 continue;
+            }
+
+
+            let value =
+                pieceValue[piece.type];
+
+
+            /* Center control */
+
+            if(piece.type !== "k"){
+
+                value +=
+                    centerBonus[row][col];
 
             }
 
 
-            const value =
-                pieceValue[
-                    piece.type
-                ];
+            /* Pawn advancement */
 
+            if(piece.type === "p"){
 
-            /*
-               Hitam = positif.
-               Putih = negatif.
-            */
+                if(piece.color === "b"){
+
+                    value +=
+                        (row - 1) * 3;
+
+                }else{
+
+                    value +=
+                        (6 - row) * 3;
+
+                }
+
+            }
+
 
             if(piece.color === "b"){
 
@@ -2440,13 +1965,24 @@ function evaluateBoard(){
     }
 
 
+    /* Mobility */
+
+    const mobility =
+        game.moves().length;
+
+    score +=
+        game.turn() === "b"
+        ? mobility * 2
+        : mobility * -2;
+
+
     return score;
 
 }
 
 
 /* =========================================================
-   MINIMAX PV2
+   MINIMAX
 ========================================================= */
 
 function minimax(
@@ -2457,7 +1993,7 @@ function minimax(
 ){
 
     if(
-        depth <= 0 ||
+        depth === 0 ||
         game.game_over()
     ){
 
@@ -2468,7 +2004,6 @@ function minimax(
 
     const moves =
         game.moves();
-
 
     if(!moves.length){
 
@@ -2483,16 +2018,9 @@ function minimax(
             -Infinity;
 
 
-        for(
-            let i = 0;
-            i < moves.length;
-            i++
-        ){
+        for(const move of moves){
 
-            game.move(
-                moves[i]
-            );
-
+            game.move(move);
 
             const score =
                 minimax(
@@ -2502,34 +2030,27 @@ function minimax(
                     false
                 );
 
-
             game.undo();
 
 
-            if(score > best){
+            best =
+                Math.max(
+                    best,
+                    score
+                );
 
-                best =
-                    score;
-
-            }
-
-
-            if(best > alpha){
-
-                alpha =
-                    best;
-
-            }
+            alpha =
+                Math.max(
+                    alpha,
+                    best
+                );
 
 
             if(beta <= alpha){
-
                 break;
-
             }
 
         }
-
 
         return best;
 
@@ -2540,16 +2061,9 @@ function minimax(
         Infinity;
 
 
-    for(
-        let i = 0;
-        i < moves.length;
-        i++
-    ){
+    for(const move of moves){
 
-        game.move(
-            moves[i]
-        );
-
+        game.move(move);
 
         const score =
             minimax(
@@ -2559,30 +2073,24 @@ function minimax(
                 true
             );
 
-
         game.undo();
 
 
-        if(score < best){
+        best =
+            Math.min(
+                best,
+                score
+            );
 
-            best =
-                score;
-
-        }
-
-
-        if(best < beta){
-
-            beta =
-                best;
-
-        }
+        beta =
+            Math.min(
+                beta,
+                best
+            );
 
 
         if(beta <= alpha){
-
             break;
-
         }
 
     }
@@ -2594,13 +2102,45 @@ function minimax(
 
 
 /* =========================================================
+   MOVE ORDERING
+========================================================= */
+
+function orderMoves(moves){
+
+    return moves.sort(
+        (a,b) => {
+
+            const scoreA =
+                (a.captured
+                    ? pieceValue[a.captured]
+                    : 0) +
+                (a.promotion
+                    ? 800
+                    : 0);
+
+            const scoreB =
+                (b.captured
+                    ? pieceValue[b.captured]
+                    : 0) +
+                (b.promotion
+                    ? 800
+                    : 0);
+
+            return scoreB - scoreA;
+
+        }
+    );
+
+}
+
+
+/* =========================================================
    COMPUTER MOVE
 ========================================================= */
 
 function computerMove(){
 
-    computerTimer =
-        null;
+    computerTimer = null;
 
 
     if(
@@ -2609,9 +2149,7 @@ function computerMove(){
         game.turn() !== "b"
     ){
 
-        thinking =
-            false;
-
+        thinking = false;
         updateStatus();
 
         return;
@@ -2619,14 +2157,11 @@ function computerMove(){
     }
 
 
-    thinking =
-        true;
-
-
+    thinking = true;
     updateStatus();
 
 
-    const moves =
+    let moves =
         game.moves({
             verbose:true
         });
@@ -2634,9 +2169,7 @@ function computerMove(){
 
     if(!moves.length){
 
-        thinking =
-            false;
-
+        thinking = false;
         updateStatus();
 
         return;
@@ -2644,39 +2177,29 @@ function computerMove(){
     }
 
 
+    moves =
+        orderMoves(moves);
+
+
     let bestMove =
         moves[0];
-
 
     let bestScore =
         -Infinity;
 
 
-    /* =====================================================
-       PV2
-    ====================================================== */
+    /*
+       Depth 2 total:
+       komputer -> pemain -> evaluasi
+    */
 
-    for(
-        let i = 0;
-        i < moves.length;
-        i++
-    ){
-
-        const move =
-            moves[i];
-
+    for(const move of moves){
 
         game.move({
-
-            from:
-                move.from,
-
-            to:
-                move.to,
-
+            from:move.from,
+            to:move.to,
             promotion:
                 move.promotion || "q"
-
         });
 
 
@@ -2692,97 +2215,79 @@ function computerMove(){
         game.undo();
 
 
+        /*
+           Random kecil di antara
+           langkah dengan skor sama
+           agar AI tidak selalu kaku.
+        */
+
         if(score > bestScore){
 
-            bestScore =
-                score;
-
-            bestMove =
-                move;
+            bestScore = score;
+            bestMove = move;
 
         }
 
     }
 
 
-    /* =====================================================
-       EXECUTE
-    ====================================================== */
-
     computerTimer =
-        setTimeout(
-            function(){
+        setTimeout(() => {
 
-                computerTimer =
-                    null;
+            computerTimer = null;
 
 
-                if(
-                    !isComputerMode() ||
-                    game.game_over() ||
-                    game.turn() !== "b"
-                ){
+            if(
+                !isComputerMode() ||
+                game.game_over() ||
+                game.turn() !== "b"
+            ){
 
-                    thinking =
-                        false;
+                thinking = false;
+                updateStatus();
+
+                return;
+
+            }
+
+
+            animatePhysicalMove(
+                bestMove.from,
+                bestMove.to,
+                () => {
+
+                    const move =
+                        game.move({
+                            from:bestMove.from,
+                            to:bestMove.to,
+                            promotion:
+                                bestMove.promotion ||
+                                "q"
+                        });
+
+
+                    if(!move){
+
+                        thinking = false;
+
+                        renderBoard();
+                        updateStatus();
+
+                        return;
+
+                    }
+
+
+                    renderBoard();
+
+                    thinking = false;
 
                     updateStatus();
 
-                    return;
-
                 }
+            );
 
-
-                animatePhysicalMove(
-                    bestMove.from,
-                    bestMove.to,
-                    function(){
-
-                        const move =
-                            game.move({
-
-                                from:
-                                    bestMove.from,
-
-                                to:
-                                    bestMove.to,
-
-                                promotion:
-                                    bestMove.promotion ||
-                                    "q"
-
-                            });
-
-
-                        if(!move){
-
-                            thinking =
-                                false;
-
-                            renderBoard();
-
-                            updateStatus();
-
-                            return;
-
-                        }
-
-
-                        renderBoard();
-
-
-                        thinking =
-                            false;
-
-
-                        updateStatus();
-
-                    }
-                );
-
-            },
-            300
-        );
+        },300);
 
 }
 
@@ -2799,29 +2304,21 @@ function newGame(){
             computerTimer
         );
 
-        computerTimer =
-            null;
+        computerTimer = null;
 
     }
 
 
     game.reset();
 
+    selectedSquare = null;
 
-    selectedSquare =
-        null;
+    thinking = false;
 
-
-    thinking =
-        false;
-
-
-    animating =
-        false;
+    animating = false;
 
 
     renderBoard();
-
     updateStatus();
 
 }
@@ -2849,8 +2346,7 @@ function undoMove(){
             computerTimer
         );
 
-        computerTimer =
-            null;
+        computerTimer = null;
 
     }
 
@@ -2866,25 +2362,33 @@ function undoMove(){
     }
 
 
+    /*
+       MODE KOMPUTER
+
+       Setelah komputer selesai,
+       posisi normalnya kembali ke
+       giliran Putih.
+
+       Jadi undo dua langkah:
+       komputer + pemain.
+
+       Jika hanya ada satu langkah,
+       undo satu saja.
+    */
+
     if(isComputerMode()){
-
-        /*
-           Jika sekarang giliran putih,
-           berarti komputer baru saja jalan.
-
-           Undo:
-           1. Langkah komputer
-           2. Langkah pemain
-        */
 
         if(game.turn() === "w"){
 
             game.undo();
 
-        }
+            if(game.history().length > 0){
 
+                game.undo();
 
-        if(game.history().length > 0){
+            }
+
+        }else{
 
             game.undo();
 
@@ -2897,20 +2401,14 @@ function undoMove(){
     }
 
 
-    selectedSquare =
-        null;
+    selectedSquare = null;
 
+    thinking = false;
 
-    thinking =
-        false;
-
-
-    animating =
-        false;
+    animating = false;
 
 
     renderBoard();
-
     updateStatus();
 
 }
@@ -2928,29 +2426,21 @@ function changeMode(){
             computerTimer
         );
 
-        computerTimer =
-            null;
+        computerTimer = null;
 
     }
 
 
-    thinking =
-        false;
-
-
-    animating =
-        false;
-
-
-    selectedSquare =
-        null;
-
-
     game.reset();
+
+    selectedSquare = null;
+
+    thinking = false;
+
+    animating = false;
 
 
     renderBoard();
-
     updateStatus();
 
 }
@@ -2965,12 +2455,10 @@ newGameBtn.addEventListener(
     newGame
 );
 
-
 undoBtn.addEventListener(
     "click",
     undoMove
 );
-
 
 modeSelect.addEventListener(
     "change",
@@ -2989,5 +2477,4 @@ updateStatus();
 </script>
 
 </body>
-
 </html>
