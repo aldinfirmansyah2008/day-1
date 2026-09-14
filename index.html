@@ -1,33 +1,20 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
->
-
-<title>Royal Chess — Check Edition</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Royal Chess — Kamu vs Komputer</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 
 <style>
-
-/* =========================================================
-   RESET
-========================================================= */
-
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
 }
 
-html,
-body{
+html,body{
     width:100%;
     min-height:100%;
 }
@@ -38,16 +25,11 @@ html{
 
 body{
     min-height:100vh;
-
     font-family:Georgia,serif;
-
     color:#fff;
-
     display:flex;
     justify-content:center;
-
     padding:3px 0 20px;
-
     background:
         radial-gradient(
             circle at 50% 0%,
@@ -56,7 +38,6 @@ body{
             #292929 65%,
             #111 100%
         );
-
     overflow-x:hidden;
 }
 
@@ -66,19 +47,13 @@ body{
     text-align:center;
 }
 
-/* =========================================================
-   TITLE
-========================================================= */
+/* TITLE */
 
 h1{
     font-size:clamp(28px,7vw,52px);
-
     margin:2px 0 0;
-
     color:#f5f5f5;
-
     letter-spacing:2px;
-
     text-shadow:
         0 4px 4px #000,
         0 0 15px rgba(255,255,255,.25);
@@ -86,25 +61,18 @@ h1{
 
 .subtitle{
     color:#d8d8d8;
-
     font-size:clamp(10px,2.8vw,15px);
-
     margin-bottom:7px;
 }
 
-/* =========================================================
-   MODE
-========================================================= */
+/* MODE */
 
 .mode-box{
     width:100%;
-
     margin:0 auto 7px;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     gap:7px;
     flex-wrap:wrap;
 }
@@ -117,22 +85,15 @@ h1{
 
 .mode-select{
     padding:7px 11px;
-
     border:1px solid #777;
     border-radius:8px;
-
     background:linear-gradient(#555,#181818);
-
     color:#fff;
-
     font-family:Georgia,serif;
     font-weight:bold;
-
     cursor:pointer;
     outline:none;
-
-    box-shadow:
-        0 4px 10px rgba(0,0,0,.5);
+    box-shadow:0 4px 10px rgba(0,0,0,.5);
 }
 
 .mode-select option{
@@ -140,30 +101,20 @@ h1{
     color:#fff;
 }
 
-/* =========================================================
-   BOARD
-========================================================= */
+/* BOARD */
 
 .board{
     position:relative;
-
     width:100vw;
     height:100vw;
-
     margin:0 auto;
-
     display:grid;
-
     grid-template-columns:repeat(8,1fr);
     grid-template-rows:repeat(8,1fr);
-
     border:4px solid #0c0c0c;
     border-radius:8px;
-
     overflow:hidden;
-
     background:#111;
-
     box-shadow:
         0 18px 45px rgba(0,0,0,.9),
         0 4px 0 #777,
@@ -171,33 +122,23 @@ h1{
 }
 
 @media(min-width:700px){
-
     .board{
         width:min(100vw,100vh);
         height:min(100vw,100vh);
     }
-
 }
 
-/* =========================================================
-   SQUARE
-========================================================= */
+/* SQUARE */
 
 .square{
     position:relative;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     cursor:pointer;
-
     overflow:hidden;
-
     user-select:none;
-
     touch-action:manipulation;
-
     -webkit-tap-highlight-color:transparent;
 }
 
@@ -223,10 +164,8 @@ h1{
 
 .square::before{
     content:"";
-
     position:absolute;
     inset:0;
-
     background:
         linear-gradient(
             135deg,
@@ -234,29 +173,20 @@ h1{
             transparent 40%,
             rgba(0,0,0,.12)
         );
-
     pointer-events:none;
 }
 
-/* =========================================================
-   PIECE
-========================================================= */
+/* PIECE */
 
 .piece{
     width:95%;
     height:95%;
-
     object-fit:contain;
-
     position:relative;
     z-index:5;
-
     pointer-events:none;
-
     transform-origin:center bottom;
-
     will-change:transform,filter;
-
     transition:
         transform .18s ease,
         filter .18s ease;
@@ -291,18 +221,14 @@ h1{
 }
 
 @media(hover:hover){
-
     .square.has-piece:hover .piece{
         transform:
             translateY(-5px)
             scale(1.04);
     }
-
 }
 
-/* =========================================================
-   SELECTED
-========================================================= */
+/* SELECTED */
 
 .selected{
     box-shadow:
@@ -310,67 +236,45 @@ h1{
         inset 0 0 28px rgba(255,255,255,.3);
 }
 
-/* =========================================================
-   POSSIBLE MOVE
-========================================================= */
+/* POSSIBLE MOVE */
 
 .possible::after{
     content:"";
-
     position:absolute;
-
     width:19%;
     height:19%;
-
     left:40.5%;
     top:40.5%;
-
     border-radius:50%;
-
     background:
         radial-gradient(
             circle,
             #777,
             #333
         );
-
     box-shadow:
         0 0 9px rgba(255,255,255,.8);
-
     z-index:3;
 }
 
-/* =========================================================
-   CAPTURE TARGET
-========================================================= */
+/* CAPTURE */
 
 .capture::after{
     content:"";
-
     position:absolute;
-
     inset:5px;
-
-    border:
-        4px solid
-        rgba(255,255,255,.85);
-
+    border:4px solid rgba(255,255,255,.85);
     border-radius:50%;
-
     box-shadow:
         0 0 10px rgba(255,255,255,.25),
         inset 0 0 12px rgba(0,0,0,.35);
-
     z-index:3;
 }
 
-/* =========================================================
-   CHECK
-========================================================= */
+/* CHECK */
 
 .check{
     z-index:20;
-
     animation:
         checkFlash
         .55s
@@ -379,29 +283,23 @@ h1{
 
 .check::after{
     content:"";
-
     position:absolute;
     inset:0;
-
     pointer-events:none;
-
     background:
         radial-gradient(
             circle,
             rgba(255,0,0,.08),
             rgba(255,0,0,.38)
         );
-
     z-index:4;
 }
 
 @keyframes checkFlash{
-
     from{
         box-shadow:
             inset 0 0 0 4px
             rgba(255,50,50,.65),
-
             inset 0 0 18px
             rgba(255,0,0,.25);
     }
@@ -410,19 +308,12 @@ h1{
         box-shadow:
             inset 0 0 0 8px
             rgba(255,0,0,1),
-
             inset 0 0 35px
             rgba(255,0,0,.55),
-
             0 0 15px
             rgba(255,0,0,.7);
     }
-
 }
-
-/* =========================================================
-   CHECKMATE
-========================================================= */
 
 .checkmate-king{
     animation:
@@ -432,12 +323,10 @@ h1{
 }
 
 @keyframes checkmateFlash{
-
     from{
         box-shadow:
             inset 0 0 0 5px
             rgba(255,0,0,.7),
-
             0 0 10px
             rgba(255,0,0,.4);
     }
@@ -446,32 +335,20 @@ h1{
         box-shadow:
             inset 0 0 0 10px
             rgba(255,0,0,1),
-
             0 0 35px
             rgba(255,0,0,.9);
     }
-
 }
 
-/* =========================================================
-   FLYING PIECE
-========================================================= */
+/* FLYING PIECE */
 
 .flying-piece{
     position:fixed;
-
     z-index:99999;
-
     pointer-events:none;
-
     object-fit:contain;
-
     transform-origin:center bottom;
-
-    will-change:
-        left,
-        top,
-        transform;
+    will-change:left,top,transform;
 
     transition:
         left .42s cubic-bezier(.2,.75,.25,1),
@@ -491,15 +368,10 @@ h1{
 
 .flying-piece-shadow{
     position:fixed;
-
     z-index:99998;
-
     pointer-events:none;
-
     border-radius:50%;
-
     background:rgba(0,0,0,.65);
-
     filter:blur(7px);
 
     transition:
@@ -517,9 +389,7 @@ h1{
     opacity:0;
 }
 
-/* =========================================================
-   LANDING
-========================================================= */
+/* LANDING */
 
 .landing{
     animation:
@@ -529,7 +399,6 @@ h1{
 }
 
 @keyframes realisticLanding{
-
     0%{
         transform:
             translateY(-12px)
@@ -553,24 +422,15 @@ h1{
             translateY(0)
             scale(1);
     }
-
 }
-
-/* =========================================================
-   LANDING LIGHT
-========================================================= */
 
 .square.land-effect::after{
     content:"";
-
     position:absolute;
-
     width:80%;
     height:80%;
-
     left:10%;
     top:10%;
-
     border-radius:50%;
 
     background:
@@ -587,12 +447,10 @@ h1{
         ease-out;
 
     pointer-events:none;
-
     z-index:8;
 }
 
 @keyframes landingGlow{
-
     0%{
         transform:scale(.15);
         opacity:1;
@@ -602,40 +460,27 @@ h1{
         transform:scale(1.6);
         opacity:0;
     }
-
 }
 
-/* =========================================================
-   CAPTURE EFFECT
-========================================================= */
+/* CAPTURE EFFECT */
 
 .square.capture-effect::before{
     content:"";
-
     position:absolute;
-
     width:30%;
     height:30%;
-
     left:35%;
     top:35%;
-
-    border:
-        3px solid
-        rgba(255,255,255,.85);
-
+    border:3px solid rgba(255,255,255,.85);
     border-radius:50%;
-
     animation:
         capturePulse
         .4s
         ease-out;
-
     z-index:20;
 }
 
 @keyframes capturePulse{
-
     0%{
         transform:scale(.4);
         opacity:1;
@@ -645,20 +490,14 @@ h1{
         transform:scale(2.8);
         opacity:0;
     }
-
 }
 
-/* =========================================================
-   STATUS
-========================================================= */
+/* STATUS */
 
 .info{
     width:100%;
-
     margin:8px auto 0;
-
     padding:10px;
-
     border-radius:9px;
 
     background:
@@ -677,9 +516,7 @@ h1{
 
 #status{
     font-size:clamp(13px,4vw,18px);
-
     font-weight:bold;
-
     color:#f5f5f5;
 
     text-shadow:
@@ -690,11 +527,8 @@ h1{
 
 #checkBanner{
     margin-top:5px;
-
     font-size:clamp(11px,3vw,14px);
-
     font-weight:bold;
-
     color:#ffb0b0;
 
     min-height:16px;
@@ -703,29 +537,20 @@ h1{
         0 1px 2px #000;
 }
 
-/* =========================================================
-   BUTTONS
-========================================================= */
+/* BUTTONS */
 
 .buttons{
     width:100%;
-
     margin:8px auto 0;
-
     display:flex;
-
     justify-content:center;
-
     gap:6px;
-
     flex-wrap:wrap;
 }
 
 button{
     padding:8px 13px;
-
     border:1px solid #707070;
-
     border-radius:8px;
 
     background:
@@ -735,11 +560,8 @@ button{
         );
 
     color:white;
-
     font-size:clamp(11px,3vw,14px);
-
     font-weight:bold;
-
     cursor:pointer;
 
     box-shadow:
@@ -765,21 +587,15 @@ button:disabled{
     transform:none;
 }
 
-/* =========================================================
-   FOOTER
-========================================================= */
+/* FOOTER */
 
 .footer{
     margin-top:8px;
-
     color:#aaa;
-
     font-size:10px;
 }
 
-/* =========================================================
-   REDUCE MOTION
-========================================================= */
+/* REDUCE MOTION */
 
 @media(prefers-reduced-motion:reduce){
 
@@ -793,11 +609,8 @@ button:disabled{
     .flying-piece-shadow{
         transition:none;
     }
-
 }
-
 </style>
-
 </head>
 
 <body>
@@ -807,7 +620,7 @@ button:disabled{
     <h1>♛ ROYAL CHESS</h1>
 
     <p class="subtitle">
-        Catur • Animasi Bidak • Sistem SKAK
+        Catur • Kamu vs Komputer • Sistem SKAK
     </p>
 
     <div class="mode-box">
@@ -820,7 +633,6 @@ button:disabled{
             id="modeSelect"
             class="mode-select"
         >
-
             <option value="computer">
                 🤖 Kamu vs Komputer
             </option>
@@ -828,7 +640,6 @@ button:disabled{
             <option value="two">
                 👥 2 Pemain
             </option>
-
         </select>
 
     </div>
@@ -841,7 +652,7 @@ button:disabled{
     <div class="info">
 
         <div id="status">
-            ♟ Giliran Kamu
+            ♔ Giliran Kamu
         </div>
 
         <div id="checkBanner"></div>
@@ -861,7 +672,7 @@ button:disabled{
     </div>
 
     <p class="footer">
-        Royal Chess • PV2 • Check System
+        Royal Chess • Computer AI • Minimax
     </p>
 
 </div>
@@ -869,7 +680,7 @@ button:disabled{
 <script>
 
 /* =========================================================
-   CHESS ENGINE CHECK
+   CHESS ENGINE
 ========================================================= */
 
 if(typeof Chess === "undefined"){
@@ -934,13 +745,19 @@ let computerTimer = null;
 
 
 /* =========================================================
+   COMPUTER COLOR
+========================================================= */
+
+const HUMAN_COLOR = "w";
+const COMPUTER_COLOR = "b";
+
+
+/* =========================================================
    MODE
 ========================================================= */
 
 function isComputerMode(){
-
     return modeSelect.value === "computer";
-
 }
 
 
@@ -951,25 +768,21 @@ function isComputerMode(){
 const pieceImages = {
 
     w:{
-
         k:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_klt45.svg",
         q:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_qlt45.svg",
         r:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_rlt45.svg",
         b:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_blt45.svg",
         n:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_nlt45.svg",
         p:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_plt45.svg"
-
     },
 
     b:{
-
         k:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_kdt45.svg",
         q:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_qdt45.svg",
         r:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_rdt45.svg",
         b:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_bdt45.svg",
         n:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_ndt45.svg",
         p:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_pdt45.svg"
-
     }
 
 };
@@ -999,7 +812,7 @@ const symbols = {
 
 
 /* =========================================================
-   GET SQUARE ELEMENT
+   GET SQUARE
 ========================================================= */
 
 function getSquareElement(square){
@@ -1029,7 +842,11 @@ function createPiece(square,piece){
         );
 
     img.src =
-        pieceImages[piece.color][piece.type];
+        pieceImages[
+            piece.color
+        ][
+            piece.type
+        ];
 
     img.alt =
         piece.color + piece.type;
@@ -1067,11 +884,9 @@ function createPiece(square,piece){
             : "0 4px 4px #777";
 
         square.appendChild(fallback);
-
     };
 
     square.appendChild(img);
-
 }
 
 
@@ -1086,9 +901,9 @@ function renderBoard(){
     const position =
         game.board();
 
-    for(let row=0;row<8;row++){
+    for(let row=0; row<8; row++){
 
-        for(let col=0;col<8;col++){
+        for(let col=0; col<8; col++){
 
             const square =
                 document.createElement("div");
@@ -1126,7 +941,6 @@ function renderBoard(){
                     square,
                     piece
                 );
-
             }
 
             square.addEventListener(
@@ -1135,13 +949,10 @@ function renderBoard(){
             );
 
             boardElement.appendChild(square);
-
         }
-
     }
 
     highlightBoard();
-
 }
 
 
@@ -1154,9 +965,9 @@ function findKingSquare(color){
     const position =
         game.board();
 
-    for(let row=0;row<8;row++){
+    for(let row=0; row<8; row++){
 
-        for(let col=0;col<8;col++){
+        for(let col=0; col<8; col++){
 
             const piece =
                 position[row][col];
@@ -1171,20 +982,16 @@ function findKingSquare(color){
                     String.fromCharCode(97 + col) +
                     (8 - row)
                 );
-
             }
-
         }
-
     }
 
     return null;
-
 }
 
 
 /* =========================================================
-   HIGHLIGHT BOARD
+   HIGHLIGHT
 ========================================================= */
 
 function highlightBoard(){
@@ -1209,14 +1016,15 @@ function highlightBoard(){
     if(selectedSquare){
 
         const selected =
-            getSquareElement(selectedSquare);
+            getSquareElement(
+                selectedSquare
+            );
 
         if(selected){
 
             selected.classList.add(
                 "selected"
             );
-
         }
 
         const moves =
@@ -1228,7 +1036,9 @@ function highlightBoard(){
         moves.forEach(move => {
 
             const target =
-                getSquareElement(move.to);
+                getSquareElement(
+                    move.to
+                );
 
             if(!target){
                 return;
@@ -1245,11 +1055,9 @@ function highlightBoard(){
                 target.classList.add(
                     "possible"
                 );
-
             }
 
         });
-
     }
 
 
@@ -1258,31 +1066,34 @@ function highlightBoard(){
     if(game.in_check()){
 
         const kingSquare =
-            findKingSquare(game.turn());
+            findKingSquare(
+                game.turn()
+            );
 
         if(!kingSquare){
             return;
         }
 
         const kingElement =
-            getSquareElement(kingSquare);
+            getSquareElement(
+                kingSquare
+            );
 
         if(!kingElement){
             return;
         }
 
-        kingElement.classList.add("check");
+        kingElement.classList.add(
+            "check"
+        );
 
         if(game.is_checkmate()){
 
             kingElement.classList.add(
                 "checkmate-king"
             );
-
         }
-
     }
-
 }
 
 
@@ -1297,18 +1108,18 @@ function handleSquareClick(square){
         animating ||
         game.game_over()
     ){
-
         return;
-
     }
+
+
+    /* COMPUTER MODE:
+       MANUSIA HANYA BOLEH MEMAINKAN PUTIH */
 
     if(
         isComputerMode() &&
-        game.turn() !== "w"
+        game.turn() !== HUMAN_COLOR
     ){
-
         return;
-
     }
 
 
@@ -1326,18 +1137,14 @@ function handleSquareClick(square){
         if(
             piece.color !== game.turn()
         ){
-
             return;
-
         }
 
         if(
             isComputerMode() &&
-            piece.color !== "w"
+            piece.color !== HUMAN_COLOR
         ){
-
             return;
-
         }
 
         selectedSquare =
@@ -1346,7 +1153,6 @@ function handleSquareClick(square){
         highlightBoard();
 
         return;
-
     }
 
 
@@ -1366,11 +1172,10 @@ function handleSquareClick(square){
         highlightBoard();
 
         return;
-
     }
 
 
-    /* CHECK LEGAL MOVE */
+    /* LEGAL MOVE */
 
     const moves =
         game.moves({
@@ -1380,7 +1185,8 @@ function handleSquareClick(square){
 
     const legalMove =
         moves.find(
-            move => move.to === square
+            move =>
+                move.to === square
         );
 
     if(!legalMove){
@@ -1390,7 +1196,6 @@ function handleSquareClick(square){
         highlightBoard();
 
         return;
-
     }
 
 
@@ -1410,8 +1215,8 @@ function handleSquareClick(square){
 
             const move =
                 game.move({
-                    from,
-                    to,
+                    from:from,
+                    to:to,
                     promotion:"q"
                 });
 
@@ -1421,17 +1226,19 @@ function handleSquareClick(square){
                 updateStatus();
 
                 return;
-
             }
+
 
             renderBoard();
             updateStatus();
 
 
+            /* KOMPUTER LANGSUNG JALAN */
+
             if(
                 isComputerMode() &&
                 !game.game_over() &&
-                game.turn() === "b"
+                game.turn() === COMPUTER_COLOR
             ){
 
                 thinking = true;
@@ -1441,14 +1248,12 @@ function handleSquareClick(square){
                 computerTimer =
                     setTimeout(
                         computerMove,
-                        450
+                        350
                     );
-
             }
 
         }
     );
-
 }
 
 
@@ -1474,20 +1279,19 @@ function animatePhysicalMove(
     ){
 
         callback();
-        return;
 
+        return;
     }
 
 
     const piece =
         fromSquare.querySelector(".piece");
 
-
     if(!piece){
 
         callback();
-        return;
 
+        return;
     }
 
 
@@ -1559,7 +1363,6 @@ function animatePhysicalMove(
     const shadowWidth =
         size * .5;
 
-
     shadow.style.width =
         shadowWidth + "px";
 
@@ -1597,11 +1400,10 @@ function animatePhysicalMove(
             ".piece, .fallback-piece"
         );
 
-
     if(captured){
 
-        captured.style.opacity = "0";
-
+        captured.style.opacity =
+            "0";
     }
 
 
@@ -1682,7 +1484,6 @@ function animatePhysicalMove(
                 );
 
             },450);
-
         }
 
 
@@ -1707,7 +1508,6 @@ function animatePhysicalMove(
         callback();
 
     },540);
-
 }
 
 
@@ -1722,9 +1522,9 @@ function updateStatus(){
     if(game.is_checkmate()){
 
         statusElement.textContent =
-            game.turn() === "w"
-            ? "♚ SKAKMAT — Hitam Menang"
-            : "♔ SKAKMAT — Putih Menang";
+            game.turn() === HUMAN_COLOR
+            ? "♚ SKAKMAT — Komputer Menang"
+            : "♔ SKAKMAT — Kamu Menang";
 
         checkBanner.textContent =
             "💀 Raja tidak memiliki langkah legal.";
@@ -1732,7 +1532,6 @@ function updateStatus(){
         highlightBoard();
 
         return;
-
     }
 
 
@@ -1749,7 +1548,6 @@ function updateStatus(){
         highlightBoard();
 
         return;
-
     }
 
 
@@ -1766,7 +1564,6 @@ function updateStatus(){
         highlightBoard();
 
         return;
-
     }
 
 
@@ -1774,10 +1571,10 @@ function updateStatus(){
 
     if(game.in_check()){
 
-        if(game.turn() === "w"){
+        if(game.turn() === HUMAN_COLOR){
 
             statusElement.textContent =
-                "⚠️ SKAK! Giliran Putih";
+                "⚠️ SKAK! Giliran Kamu";
 
             checkBanner.textContent =
                 "♔ RAJA PUTIH SEDANG TERANCAM!";
@@ -1785,21 +1582,19 @@ function updateStatus(){
         }else{
 
             statusElement.textContent =
-                "⚠️ SKAK! Giliran Hitam";
+                "⚠️ SKAK! Komputer";
 
             checkBanner.textContent =
                 "♚ RAJA HITAM SEDANG TERANCAM!";
-
         }
 
         highlightBoard();
 
         return;
-
     }
 
 
-    /* COMPUTER THINKING */
+    /* THINKING */
 
     if(thinking){
 
@@ -1809,7 +1604,6 @@ function updateStatus(){
         checkBanner.textContent = "";
 
         return;
-
     }
 
 
@@ -1821,28 +1615,30 @@ function updateStatus(){
     if(isComputerMode()){
 
         statusElement.textContent =
-            game.turn() === "w"
-            ? "♟ Giliran Kamu"
+            game.turn() === HUMAN_COLOR
+            ? "♔ Giliran Kamu"
             : "♚ Giliran Komputer";
 
     }else{
 
         statusElement.textContent =
-            game.turn() === "w"
+            game.turn() === HUMAN_COLOR
             ? "♔ Giliran Pemain Putih"
             : "♚ Giliran Pemain Hitam";
-
     }
 
 
     highlightBoard();
-
 }
 
 
 /* =========================================================
    AI
 ========================================================= */
+
+/*
+    Nilai material standar.
+*/
 
 const pieceValue = {
 
@@ -1856,36 +1652,75 @@ const pieceValue = {
 };
 
 
-/* =========================================================
-   POSITION BONUS
-========================================================= */
+/*
+    Bonus posisi.
+
+    Positif = bagus untuk bidak yang
+    berada di posisi tersebut.
+*/
 
 const centerBonus = [
 
     [0,0,0,0,0,0,0,0],
+
     [0,5,5,5,5,5,5,0],
+
     [0,5,10,15,15,10,5,0],
+
     [0,5,15,20,20,15,5,0],
+
     [0,5,15,20,20,15,5,0],
+
     [0,5,10,15,15,10,5,0],
+
     [0,5,5,5,5,5,5,0],
+
+    [0,0,0,0,0,0,0,0]
+
+];
+
+
+/*
+    Piece-square sederhana untuk pion.
+*/
+
+const pawnBonus = [
+
+    [0,0,0,0,0,0,0,0],
+
+    [50,50,50,50,50,50,50,50],
+
+    [25,25,30,35,35,30,25,25],
+
+    [10,10,15,25,25,15,10,10],
+
+    [5,5,10,20,20,10,5,5],
+
+    [0,0,0,10,10,0,0,0],
+
+    [0,0,0,-10,-10,0,0,0],
+
     [0,0,0,0,0,0,0,0]
 
 ];
 
 
 /* =========================================================
-   EVALUATE
+   EVALUATION
+
+   HASIL POSITIF = BAGUS UNTUK HITAM.
+   HASIL NEGATIF = BAGUS UNTUK PUTIH.
+
+   Ini penting karena komputer adalah HITAM.
 ========================================================= */
 
 function evaluateBoard(){
 
     if(game.is_checkmate()){
 
-        return game.turn() === "b"
+        return game.turn() === COMPUTER_COLOR
             ? -1000000
             : 1000000;
-
     }
 
 
@@ -1895,7 +1730,6 @@ function evaluateBoard(){
     ){
 
         return 0;
-
     }
 
 
@@ -1905,9 +1739,9 @@ function evaluateBoard(){
         game.board();
 
 
-    for(let row=0;row<8;row++){
+    for(let row=0; row<8; row++){
 
-        for(let col=0;col<8;col++){
+        for(let col=0; col<8; col++){
 
             const piece =
                 board[row][col];
@@ -1921,68 +1755,116 @@ function evaluateBoard(){
                 pieceValue[piece.type];
 
 
-            /* Center control */
+            /*
+                Posisi tengah.
+            */
 
             if(piece.type !== "k"){
 
                 value +=
                     centerBonus[row][col];
-
             }
 
 
-            /* Pawn advancement */
+            /*
+                Bonus pion maju.
+            */
 
             if(piece.type === "p"){
 
                 if(piece.color === "b"){
 
                     value +=
-                        (row - 1) * 3;
+                        pawnBonus[row][col];
 
                 }else{
 
+                    /*
+                        Balik posisi untuk putih.
+                    */
+
                     value +=
-                        (6 - row) * 3;
-
+                        pawnBonus[7-row][col];
                 }
-
             }
 
 
-            if(piece.color === "b"){
+            /*
+                Bonus mobilitas ringan.
+            */
+
+            if(piece.color === COMPUTER_COLOR){
 
                 score += value;
 
             }else{
 
                 score -= value;
-
             }
-
         }
-
     }
 
 
-    /* Mobility */
+    /*
+        Mobility dihitung berdasarkan
+        giliran saat evaluasi.
+    */
 
-    const mobility =
+    const currentMoves =
         game.moves().length;
 
-    score +=
-        game.turn() === "b"
-        ? mobility * 2
-        : mobility * -2;
+
+    if(game.turn() === COMPUTER_COLOR){
+
+        score +=
+            currentMoves * 3;
+
+    }else{
+
+        score -=
+            currentMoves * 3;
+    }
 
 
     return score;
+}
 
+
+/* =========================================================
+   MOVE ORDERING
+========================================================= */
+
+function orderMoves(moves){
+
+    return moves.sort((a,b) => {
+
+        const scoreA =
+            (a.captured
+                ? pieceValue[a.captured]
+                : 0) +
+            (a.promotion
+                ? 800
+                : 0);
+
+        const scoreB =
+            (b.captured
+                ? pieceValue[b.captured]
+                : 0) +
+            (b.promotion
+                ? 800
+                : 0);
+
+        return scoreB - scoreA;
+    });
 }
 
 
 /* =========================================================
    MINIMAX
+
+   maximizing = komputer / HITAM
+
+   minimizing = pemain / PUTIH
 ========================================================= */
 
 function minimax(
@@ -1993,24 +1875,31 @@ function minimax(
 ){
 
     if(
-        depth === 0 ||
+        depth <= 0 ||
         game.game_over()
     ){
 
         return evaluateBoard();
-
     }
 
 
-    const moves =
-        game.moves();
+    let moves =
+        game.moves({
+            verbose:true
+        });
+
 
     if(!moves.length){
 
         return evaluateBoard();
-
     }
 
+
+    moves =
+        orderMoves(moves);
+
+
+    /* KOMPUTER / HITAM */
 
     if(maximizing){
 
@@ -2020,7 +1909,13 @@ function minimax(
 
         for(const move of moves){
 
-            game.move(move);
+            game.move({
+                from:move.from,
+                to:move.to,
+                promotion:
+                    move.promotion || "q"
+            });
+
 
             const score =
                 minimax(
@@ -2030,32 +1925,34 @@ function minimax(
                     false
                 );
 
+
             game.undo();
 
 
-            best =
-                Math.max(
-                    best,
-                    score
-                );
+            if(score > best){
 
-            alpha =
-                Math.max(
-                    alpha,
-                    best
-                );
+                best = score;
+            }
+
+
+            if(best > alpha){
+
+                alpha = best;
+            }
 
 
             if(beta <= alpha){
+
                 break;
             }
-
         }
 
-        return best;
 
+        return best;
     }
 
+
+    /* PEMAIN / PUTIH */
 
     let best =
         Infinity;
@@ -2063,7 +1960,13 @@ function minimax(
 
     for(const move of moves){
 
-        game.move(move);
+        game.move({
+            from:move.from,
+            to:move.to,
+            promotion:
+                move.promotion || "q"
+        });
+
 
         const score =
             minimax(
@@ -2073,64 +1976,30 @@ function minimax(
                 true
             );
 
+
         game.undo();
 
 
-        best =
-            Math.min(
-                best,
-                score
-            );
+        if(score < best){
 
-        beta =
-            Math.min(
-                beta,
-                best
-            );
+            best = score;
+        }
+
+
+        if(best < beta){
+
+            beta = best;
+        }
 
 
         if(beta <= alpha){
+
             break;
         }
-
     }
 
 
     return best;
-
-}
-
-
-/* =========================================================
-   MOVE ORDERING
-========================================================= */
-
-function orderMoves(moves){
-
-    return moves.sort(
-        (a,b) => {
-
-            const scoreA =
-                (a.captured
-                    ? pieceValue[a.captured]
-                    : 0) +
-                (a.promotion
-                    ? 800
-                    : 0);
-
-            const scoreB =
-                (b.captured
-                    ? pieceValue[b.captured]
-                    : 0) +
-                (b.promotion
-                    ? 800
-                    : 0);
-
-            return scoreB - scoreA;
-
-        }
-    );
-
 }
 
 
@@ -2146,18 +2015,19 @@ function computerMove(){
     if(
         !isComputerMode() ||
         game.game_over() ||
-        game.turn() !== "b"
+        game.turn() !== COMPUTER_COLOR
     ){
 
         thinking = false;
+
         updateStatus();
 
         return;
-
     }
 
 
     thinking = true;
+
     updateStatus();
 
 
@@ -2170,10 +2040,10 @@ function computerMove(){
     if(!moves.length){
 
         thinking = false;
+
         updateStatus();
 
         return;
-
     }
 
 
@@ -2189,9 +2059,23 @@ function computerMove(){
 
 
     /*
-       Depth 2 total:
-       komputer -> pemain -> evaluasi
+        Depth 3:
+
+        Komputer
+           ↓
+        Pemain
+           ↓
+        Komputer
+           ↓
+        Evaluasi
+
+        Karena komputer dijalankan
+        di browser, depth 3 masih
+        relatif ringan.
     */
+
+    const SEARCH_DEPTH = 3;
+
 
     for(const move of moves){
 
@@ -2205,7 +2089,7 @@ function computerMove(){
 
         const score =
             minimax(
-                1,
+                SEARCH_DEPTH - 1,
                 -Infinity,
                 Infinity,
                 false
@@ -2215,21 +2099,21 @@ function computerMove(){
         game.undo();
 
 
-        /*
-           Random kecil di antara
-           langkah dengan skor sama
-           agar AI tidak selalu kaku.
-        */
-
         if(score > bestScore){
 
-            bestScore = score;
-            bestMove = move;
+            bestScore =
+                score;
 
+            bestMove =
+                move;
         }
-
     }
 
+
+    /*
+        Beri jeda kecil agar terasa
+        seperti komputer berpikir.
+    */
 
     computerTimer =
         setTimeout(() => {
@@ -2240,14 +2124,14 @@ function computerMove(){
             if(
                 !isComputerMode() ||
                 game.game_over() ||
-                game.turn() !== "b"
+                game.turn() !== COMPUTER_COLOR
             ){
 
                 thinking = false;
+
                 updateStatus();
 
                 return;
-
             }
 
 
@@ -2261,8 +2145,7 @@ function computerMove(){
                             from:bestMove.from,
                             to:bestMove.to,
                             promotion:
-                                bestMove.promotion ||
-                                "q"
+                                bestMove.promotion || "q"
                         });
 
 
@@ -2271,10 +2154,10 @@ function computerMove(){
                         thinking = false;
 
                         renderBoard();
+
                         updateStatus();
 
                         return;
-
                     }
 
 
@@ -2287,8 +2170,7 @@ function computerMove(){
                 }
             );
 
-        },300);
-
+        },250);
 }
 
 
@@ -2305,7 +2187,6 @@ function newGame(){
         );
 
         computerTimer = null;
-
     }
 
 
@@ -2319,8 +2200,8 @@ function newGame(){
 
 
     renderBoard();
-    updateStatus();
 
+    updateStatus();
 }
 
 
@@ -2336,7 +2217,6 @@ function undoMove(){
     ){
 
         return;
-
     }
 
 
@@ -2347,7 +2227,6 @@ function undoMove(){
         );
 
         computerTimer = null;
-
     }
 
 
@@ -2358,46 +2237,60 @@ function undoMove(){
     if(!history.length){
 
         return;
-
     }
 
 
     /*
-       MODE KOMPUTER
+        MODE KOMPUTER:
 
-       Setelah komputer selesai,
-       posisi normalnya kembali ke
-       giliran Putih.
+        Setelah kamu bergerak:
+        Putih -> Hitam
 
-       Jadi undo dua langkah:
-       komputer + pemain.
+        Setelah komputer bergerak:
+        Hitam -> Putih
 
-       Jika hanya ada satu langkah,
-       undo satu saja.
+        Jadi jika sudah sampai giliran
+        kamu, hapus dua langkah sekaligus.
+
+        Kalau baru ada satu langkah,
+        hapus satu saja.
     */
 
     if(isComputerMode()){
 
-        if(game.turn() === "w"){
+        if(game.turn() === HUMAN_COLOR){
+
+            /*
+                Posisi setelah komputer.
+                Undo komputer.
+            */
 
             game.undo();
+
+
+            /*
+                Jika masih ada langkah,
+                undo langkah pemain juga.
+            */
 
             if(game.history().length > 0){
 
                 game.undo();
-
             }
 
         }else{
 
-            game.undo();
+            /*
+                Komputer belum bergerak.
+                Undo langkah pemain saja.
+            */
 
+            game.undo();
         }
 
     }else{
 
         game.undo();
-
     }
 
 
@@ -2409,8 +2302,8 @@ function undoMove(){
 
 
     renderBoard();
-    updateStatus();
 
+    updateStatus();
 }
 
 
@@ -2427,7 +2320,6 @@ function changeMode(){
         );
 
         computerTimer = null;
-
     }
 
 
@@ -2441,8 +2333,8 @@ function changeMode(){
 
 
     renderBoard();
-    updateStatus();
 
+    updateStatus();
 }
 
 
