@@ -2,772 +2,603 @@
 <html lang="id">
 
 <head>
+<meta charset="UTF-8">
 
-    <meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+<title>Royal HD Chess</title>
 
-    <title>HD Chess</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 
-    <!-- Mesin aturan catur -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<style>
 
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-    <style>
+body{
+    min-height:100vh;
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    font-family:Georgia,serif;
 
+    color:white;
 
-        body {
+    display:flex;
+    justify-content:center;
 
-            min-height: 100vh;
+    padding:20px;
 
-            font-family: Arial, sans-serif;
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            #5d4520,
+            #17120a 45%,
+            #050505 100%
+        );
+}
 
-            background:
-                radial-gradient(
-                    circle at top,
-                    #263238,
-                    #080b0f 70%
-                );
+.game{
+    width:100%;
+    max-width:720px;
 
-            color: white;
+    text-align:center;
+}
 
-            display: flex;
+h1{
+    font-size:clamp(32px,8vw,54px);
 
-            justify-content: center;
+    margin-top:10px;
+    margin-bottom:5px;
 
-            align-items: center;
+    color:#f8d77a;
 
-            padding: 20px;
+    text-shadow:
+        0 2px 3px #000,
+        0 0 15px rgba(255,210,70,.55);
+}
 
-        }
+.subtitle{
+    color:#d8c28a;
+    margin-bottom:18px;
+}
 
+/* =========================
+   PAPAN
+========================= */
 
-        .game {
+.board{
 
-            width: 100%;
+    width:min(94vw,680px);
 
-            max-width: 700px;
+    aspect-ratio:1;
 
-            text-align: center;
+    margin:auto;
 
-        }
+    display:grid;
 
+    grid-template-columns:
+        repeat(8,1fr);
 
-        h1 {
+    border:10px solid #4a3014;
 
-            font-size: clamp(30px, 8vw, 48px);
+    border-radius:14px;
 
-            margin-bottom: 5px;
+    overflow:hidden;
 
-            text-shadow:
-                0 0 10px #00e5ff,
-                0 0 25px #00e5ff;
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.8),
+        0 0 30px rgba(255,190,60,.2);
+}
 
-        }
+.square{
 
+    position:relative;
 
-        .subtitle {
+    display:flex;
 
-            color: #b0bec5;
+    align-items:center;
+    justify-content:center;
 
-            margin-bottom: 20px;
+    cursor:pointer;
 
-        }
+    overflow:hidden;
+}
 
+.light{
 
-        /* =========================
-           PAPAN
-        ========================= */
+    background:
+        linear-gradient(
+            135deg,
+            #f5e6bd,
+            #c9aa70
+        );
+}
 
-        .board {
+.dark{
 
-            width: min(94vw, 640px);
+    background:
+        linear-gradient(
+            135deg,
+            #80613a,
+            #4d3218
+        );
+}
 
-            aspect-ratio: 1 / 1;
+.square:hover{
+    filter:brightness(1.13);
+}
 
-            margin: auto;
+/* =========================
+   BIDAK REALISTIS
+========================= */
 
-            display: grid;
+.piece{
 
-            grid-template-columns:
-                repeat(8, 1fr);
+    width:88%;
+    height:88%;
 
-            border: 5px solid #263238;
+    object-fit:contain;
 
-            border-radius: 12px;
+    position:relative;
 
-            overflow: hidden;
+    z-index:5;
 
-            box-shadow:
-                0 0 25px rgba(0, 229, 255, 0.3),
-                0 15px 50px rgba(0, 0, 0, 0.7);
+    pointer-events:none;
 
-        }
+    transform-origin:center bottom;
 
+    filter:
+        drop-shadow(
+            0 5px 3px rgba(0,0,0,.75)
+        );
 
-        .square {
+    transition:
+        transform .18s ease,
+        filter .18s ease;
+}
 
-            position: relative;
+.white-piece{
 
-            display: flex;
+    filter:
+        drop-shadow(
+            0 4px 2px rgba(0,0,0,.8)
+        )
+        drop-shadow(
+            0 0 3px rgba(255,255,255,.7)
+        );
+}
 
-            justify-content: center;
+.black-piece{
 
-            align-items: center;
+    filter:
+        drop-shadow(
+            0 5px 3px rgba(0,0,0,.95)
+        )
+        brightness(.82)
+        contrast(1.15);
+}
 
-            cursor: pointer;
+/* Animasi gerakan */
 
-            user-select: none;
+.moving{
 
-        }
+    animation:
+        pieceMove .38s
+        cubic-bezier(.2,.8,.3,1);
+}
 
+@keyframes pieceMove{
 
-        .light {
+    0%{
+        transform:
+            translateY(-22px)
+            scale(1.08);
+    }
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #f4ead2,
-                    #d9c9a5
-                );
+    45%{
+        transform:
+            translateY(-7px)
+            scale(1.03);
+    }
 
-        }
+    100%{
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
 
+/* Bidak saat dipilih */
 
-        .dark {
+.selected{
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #789b58,
-                    #55743d
-                );
+    box-shadow:
+        inset 0 0 0 5px #f7d35b,
+        inset 0 0 25px
+        rgba(255,210,70,.55);
+}
 
-        }
+/* Langkah tersedia */
 
+.possible::after{
 
-        .square:hover {
+    content:"";
 
-            filter: brightness(1.15);
+    position:absolute;
 
-        }
+    width:22%;
+    height:22%;
 
+    border-radius:50%;
 
-        /* =========================
-           BIDAK
-        ========================= */
+    background:
+        rgba(30,20,5,.5);
 
-        .piece {
+    box-shadow:
+        0 0 8px
+        rgba(255,230,120,.5);
+}
 
-            font-family:
-                "Segoe UI Symbol",
-                "Noto Sans Symbols",
-                "DejaVu Sans",
-                sans-serif;
+/* Bisa makan */
 
-            font-size:
-                clamp(38px, 10vw, 72px);
+.capture::after{
 
-            line-height: 1;
+    content:"";
 
-            position: relative;
+    position:absolute;
 
-            z-index: 5;
+    inset:7px;
 
-            pointer-events: none;
+    border:
+        5px solid
+        rgba(170,30,20,.7);
 
-            transform-origin: center bottom;
+    border-radius:50%;
+}
 
-            transition:
-                filter 0.15s,
-                transform 0.15s;
+/* SKAK */
 
-        }
+.check{
 
+    animation:
+        checkFlash .7s
+        infinite alternate;
+}
 
-        /*
-           BIDAK PUTIH
-        */
+@keyframes checkFlash{
 
-        .white-piece {
+    from{
+        box-shadow:
+            inset 0 0 0 4px
+            rgba(255,0,0,.35);
+    }
 
-            color: #ffffff;
+    to{
+        box-shadow:
+            inset 0 0 0 8px
+            rgba(255,30,30,.9);
+    }
+}
 
-            text-shadow:
+/* =========================
+   STATUS
+========================= */
 
-                0 2px 0 #aaa,
+.info{
 
-                0 4px 4px #555,
+    margin-top:18px;
 
-                0 7px 8px rgba(0,0,0,0.6),
+    padding:16px;
 
-                0 0 5px white;
+    border-radius:14px;
 
-        }
+    background:
+        linear-gradient(
+            145deg,
+            rgba(100,70,25,.55),
+            rgba(20,15,8,.85)
+        );
 
+    border:
+        1px solid
+        rgba(255,215,100,.25);
 
-        /*
-           BIDAK HITAM
-        */
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.4);
+}
 
-        .black-piece {
+#status{
 
-            color: #171717;
+    font-size:20px;
 
-            text-shadow:
+    font-weight:bold;
 
-                0 1px 0 #777,
+    color:#f8d77a;
+}
 
-                0 3px 3px #000,
+/* =========================
+   BUTTON
+========================= */
 
-                0 6px 8px rgba(0,0,0,0.8),
+.buttons{
 
-                0 0 3px #aaa;
+    margin-top:14px;
 
-        }
+    display:flex;
 
+    justify-content:center;
 
-        /* =========================
-           ANIMASI BIDAK
-        ========================= */
+    gap:10px;
 
-        .moving {
+    flex-wrap:wrap;
+}
 
-            animation:
+button{
 
-                movePiece 0.35s
-                cubic-bezier(.2,.8,.3,1);
+    padding:12px 19px;
 
-        }
+    border:none;
 
+    border-radius:9px;
 
-        @keyframes movePiece {
+    background:
+        linear-gradient(
+            #d9a62e,
+            #815719
+        );
 
-            0% {
+    color:white;
 
-                transform:
-                    translateY(-18px)
-                    scale(1.08);
+    font-size:15px;
 
-            }
+    font-weight:bold;
 
-            45% {
+    cursor:pointer;
 
-                transform:
-                    translateY(-8px)
-                    scale(1.03);
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.4);
+}
 
-            }
+button:hover{
 
-            100% {
+    transform:translateY(-2px);
 
-                transform:
-                    translateY(0)
-                    scale(1);
+    filter:brightness(1.15);
+}
 
-            }
+button:active{
 
-        }
+    transform:scale(.96);
+}
 
+.footer{
 
-        /*
-           EFEK SAAT DIPILIH
-        */
+    margin-top:17px;
 
-        .selected {
+    color:#9e8c67;
 
-            box-shadow:
-                inset 0 0 0 5px #00e5ff,
-                inset 0 0 20px rgba(0,229,255,0.5);
+    font-size:12px;
+}
 
-        }
+@media(max-width:500px){
 
+    body{
+        padding:10px;
+    }
 
-        /*
-           LANGKAH YANG BISA DIPILIH
-        */
+    .board{
+        border-width:6px;
+    }
 
-        .possible::after {
+    .piece{
+        width:94%;
+        height:94%;
+    }
 
-            content: "";
+}
 
-            position: absolute;
-
-            width: 22%;
-
-            height: 22%;
-
-            border-radius: 50%;
-
-            background:
-                rgba(0,0,0,0.35);
-
-            box-shadow:
-                0 0 8px rgba(255,255,255,0.3);
-
-        }
-
-
-        /*
-           KOTAK BIDAK YANG BISA DIMAKAN
-        */
-
-        .capture::after {
-
-            content: "";
-
-            position: absolute;
-
-            inset: 7px;
-
-            border:
-                5px solid
-                rgba(180, 20, 20, 0.65);
-
-            border-radius: 50%;
-
-        }
-
-
-        /* =========================
-           EFEK SKAK
-        ========================= */
-
-        .check {
-
-            animation:
-                checkFlash 0.8s infinite alternate;
-
-        }
-
-
-        @keyframes checkFlash {
-
-            from {
-
-                box-shadow:
-                    inset 0 0 0 4px
-                    rgba(255,0,0,0.4);
-
-            }
-
-            to {
-
-                box-shadow:
-                    inset 0 0 0 8px
-                    rgba(255,0,0,0.9);
-
-            }
-
-        }
-
-
-        /* =========================
-           STATUS
-        ========================= */
-
-        .info {
-
-            margin-top: 20px;
-
-            padding: 15px;
-
-            border-radius: 12px;
-
-            background:
-                rgba(255,255,255,0.08);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.1);
-
-            backdrop-filter: blur(10px);
-
-        }
-
-
-        #status {
-
-            font-size: 20px;
-
-            font-weight: bold;
-
-        }
-
-
-        /* =========================
-           TOMBOL
-        ========================= */
-
-        .buttons {
-
-            margin-top: 15px;
-
-            display: flex;
-
-            justify-content: center;
-
-            gap: 10px;
-
-            flex-wrap: wrap;
-
-        }
-
-
-        button {
-
-            padding: 12px 20px;
-
-            border: none;
-
-            border-radius: 8px;
-
-            background: #00acc1;
-
-            color: white;
-
-            font-size: 16px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            transition: 0.2s;
-
-        }
-
-
-        button:hover {
-
-            background: #00e5ff;
-
-            transform:
-                translateY(-2px);
-
-            box-shadow:
-                0 5px 20px
-                rgba(0,229,255,0.4);
-
-        }
-
-
-        .footer {
-
-            margin-top: 20px;
-
-            color: #78909c;
-
-            font-size: 13px;
-
-        }
-
-    </style>
-
+</style>
 </head>
 
 
 <body>
 
-
 <div class="game">
 
+<h1>♛ ROYAL CHESS</h1>
 
-    <h1>♛ HD CHESS</h1>
-
-
-    <p class="subtitle">
-        Permainan Catur
-    </p>
+<p class="subtitle">
+    Kamu ♔ vs Komputer ♚
+</p>
 
 
-    <!-- PAPAN CATUR -->
-
-    <div
-        id="board"
-        class="board">
-    </div>
+<div id="board" class="board"></div>
 
 
-    <!-- STATUS -->
+<div class="info">
 
-    <div class="info">
-
-        <div id="status">
-            Giliran Putih
-        </div>
-
-    </div>
-
-
-    <!-- TOMBOL -->
-
-    <div class="buttons">
-
-        <button onclick="newGame()">
-            🔄 Game Baru
-        </button>
-
-        <button onclick="undoMove()">
-            ↩️ Undo
-        </button>
-
-    </div>
-
-
-    <p class="footer">
-
-        HTML + CSS + JavaScript
-
-    </p>
-
+<div id="status">
+    Giliran Putih
+</div>
 
 </div>
 
 
+<div class="buttons">
+
+<button onclick="newGame()">
+    🔄 Game Baru
+</button>
+
+<button onclick="undoMove()">
+    ↩️ Undo
+</button>
+
+<button onclick="toggleMusic()">
+    🎵 Musik Kerajaan
+</button>
+
+</div>
+
+
+<p class="footer">
+    Royal Chess • HTML + CSS + JavaScript
+</p>
+
+</div>
+
 
 <script>
 
-
-/* =========================
+/* =====================================================
    MESIN CATUR
-========================= */
+===================================================== */
 
 const game = new Chess();
-
 
 const boardElement =
     document.getElementById("board");
 
-
 const statusElement =
     document.getElementById("status");
 
-
 let selectedSquare = null;
-
-
-/*
-   Menyimpan langkah terakhir
-*/
 
 let lastMove = null;
 
+let thinking = false;
 
 
-/* =========================
-   BIDAK CATUR
-========================= */
+/* =====================================================
+   GAMBAR BIDAK SVG
+===================================================== */
 
-const pieces = {
+/*
+   Nama file:
+   k = king
+   q = queen
+   r = rook
+   b = bishop
+   n = knight
+   p = pawn
 
-    w: {
+   l = light / putih
+   d = dark / hitam
+*/
 
-        p: "♙",
+const pieceImages = {
 
-        r: "♖",
-
-        n: "♘",
-
-        b: "♗",
-
-        q: "♕",
-
-        k: "♔"
-
+    w:{
+        k:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_klt45.svg",
+        q:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_qlt45.svg",
+        r:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_rlt45.svg",
+        b:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_blt45.svg",
+        n:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_nlt45.svg",
+        p:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_plt45.svg"
     },
 
-    b: {
-
-        p: "♟",
-
-        r: "♜",
-
-        n: "♞",
-
-        b: "♝",
-
-        q: "♛",
-
-        k: "♚"
-
+    b:{
+        k:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_kdt45.svg",
+        q:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_qdt45.svg",
+        r:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_rdt45.svg",
+        b:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_bdt45.svg",
+        n:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_ndt45.svg",
+        p:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_pdt45.svg"
     }
 
 };
 
 
-
-/* =========================
+/* =====================================================
    BUAT PAPAN
-========================= */
+===================================================== */
 
-function drawBoard() {
+function drawBoard(){
 
-
-    boardElement.innerHTML = "";
-
+    boardElement.innerHTML="";
 
     const board =
         game.board();
 
+    for(let row=0;row<8;row++){
 
-    for (
-        let row = 0;
-        row < 8;
-        row++
-    ) {
-
-
-        for (
-            let col = 0;
-            col < 8;
-            col++
-        ) {
-
+        for(let col=0;col<8;col++){
 
             const square =
                 document.createElement("div");
 
-
-            /*
-               Nama kotak:
-
-               a8 b8 c8 ...
-               a7 b7 c7 ...
-            */
-
             const squareName =
-
-                String.fromCharCode(
-                    97 + col
-                )
-
+                String.fromCharCode(97+col)
                 +
-
-                (8 - row);
-
+                (8-row);
 
             square.dataset.square =
                 squareName;
 
-
-            square.classList.add(
-                "square"
-            );
+            square.classList.add("square");
 
 
-            /*
-               WARNA PAPAN
-            */
+            if((row+col)%2===0){
 
-            if (
-                (row + col) % 2 === 0
-            ) {
+                square.classList.add("light");
 
-                square.classList.add(
-                    "light"
-                );
+            }else{
 
-            } else {
-
-                square.classList.add(
-                    "dark"
-                );
+                square.classList.add("dark");
 
             }
 
-
-            /*
-               BIDAK
-            */
 
             const piece =
                 board[row][col];
 
 
-            if (piece) {
+            if(piece){
 
+                const img =
+                    document.createElement("img");
 
-                const pieceElement =
-                    document.createElement("span");
+                img.classList.add("piece");
 
-
-                pieceElement.classList.add(
-                    "piece"
+                img.classList.add(
+                    piece.color==="w"
+                    ? "white-piece"
+                    : "black-piece"
                 );
 
-
-                /*
-                   Warna bidak
-                */
-
-                if (
-                    piece.color === "w"
-                ) {
-
-                    pieceElement.classList.add(
-                        "white-piece"
-                    );
-
-                } else {
-
-                    pieceElement.classList.add(
-                        "black-piece"
-                    );
-
-                }
-
-
-                /*
-                   Karakter bidak
-                */
-
-                pieceElement.textContent =
-                    pieces[
+                img.src =
+                    pieceImages[
                         piece.color
                     ][
                         piece.type
                     ];
 
+                img.alt =
+                    piece.type;
 
-                /*
-                   Animasi langkah terakhir
-                */
 
-                if (
+                if(
                     lastMove &&
                     lastMove.to === squareName
-                ) {
+                ){
 
-                    pieceElement.classList.add(
-                        "moving"
-                    );
+                    img.classList.add("moving");
 
                 }
 
 
-                square.appendChild(
-                    pieceElement
-                );
+                square.appendChild(img);
 
             }
 
 
-            /*
-               Kotak yang dipilih
-            */
-
-            if (
+            if(
                 selectedSquare ===
                 squareName
-            ) {
+            ){
 
                 square.classList.add(
                     "selected"
@@ -778,12 +609,10 @@ function drawBoard() {
 
             square.addEventListener(
                 "click",
-                function() {
-
+                ()=>{
                     handleSquareClick(
                         squareName
                     );
-
                 }
             );
 
@@ -806,123 +635,88 @@ function drawBoard() {
 }
 
 
+/* =====================================================
+   KLIK BIDAK
+===================================================== */
 
-/* =========================
-   KLIK KOTAK
-========================= */
+function handleSquareClick(square){
 
-function handleSquareClick(square) {
+    if(thinking)
+        return;
 
 
     /*
-       Belum memilih bidak
+       Komputer = HITAM
+       Pemain = PUTIH
     */
 
-    if (!selectedSquare) {
+    if(game.turn() !== "w")
+        return;
 
+
+    if(!selectedSquare){
 
         const piece =
             game.get(square);
 
-
-        /*
-           Kotak kosong
-        */
-
-        if (!piece) {
-
+        if(!piece)
             return;
 
-        }
-
-
-        /*
-           Bukan giliran kita
-        */
-
-        if (
-            piece.color !==
-            game.turn()
-        ) {
-
+        if(piece.color !== "w")
             return;
-
-        }
-
 
         selectedSquare =
             square;
 
-
         drawBoard();
 
-
         return;
-
     }
 
-
-
-    /*
-       Coba melakukan langkah
-    */
 
     const move =
         game.move({
 
-            from:
-                selectedSquare,
+            from:selectedSquare,
 
-            to:
-                square,
+            to:square,
 
-            promotion:
-                "q"
+            promotion:"q"
 
         });
 
 
+    if(move){
 
-    /*
-       Langkah berhasil
-    */
-
-    if (move) {
-
-
-        lastMove = move;
-
+        lastMove =
+            move;
 
         selectedSquare =
             null;
 
-
         drawBoard();
 
+        if(!game.game_over()){
 
-    }
+            setTimeout(
+                computerMove,
+                350
+            );
 
-    else {
+        }
 
-
-        /*
-           Jika klik bidak sendiri,
-           pindahkan pilihan
-        */
+    }else{
 
         const piece =
             game.get(square);
 
-
-        if (
+        if(
             piece &&
-            piece.color ===
-            game.turn()
-        ) {
+            piece.color === "w"
+        ){
 
             selectedSquare =
                 square;
-
 
             drawBoard();
 
@@ -933,148 +727,97 @@ function handleSquareClick(square) {
 }
 
 
+/* =====================================================
+   LANGKAH TERSEDIA
+===================================================== */
 
-/* =========================
-   LANGKAH YANG TERSEDIA
-========================= */
+function showPossibleMoves(){
 
-function showPossibleMoves() {
-
-
-    if (!selectedSquare) {
-
+    if(!selectedSquare)
         return;
-
-    }
 
 
     const moves =
         game.moves({
 
-            square:
-                selectedSquare,
+            square:selectedSquare,
 
-            verbose:
-                true
+            verbose:true
 
         });
 
 
-    moves.forEach(
-        function(move) {
+    moves.forEach(move=>{
+
+        const element =
+            document.querySelector(
+                `[data-square="${move.to}"]`
+            );
+
+        if(!element)
+            return;
 
 
-            const element =
-                document.querySelector(
-                    `[data-square="${move.to}"]`
-                );
+        if(game.get(move.to)){
 
+            element.classList.add(
+                "capture"
+            );
 
-            if (!element) {
+        }else{
 
-                return;
-
-            }
-
-
-            /*
-               Kalau ada bidak lawan
-            */
-
-            if (
-                game.get(move.to)
-            ) {
-
-                element.classList.add(
-                    "capture"
-                );
-
-            }
-
-            else {
-
-                element.classList.add(
-                    "possible"
-                );
-
-            }
+            element.classList.add(
+                "possible"
+            );
 
         }
-    );
+
+    });
 
 }
 
 
+/* =====================================================
+   SKAK
+===================================================== */
 
-/* =========================
-   TANDA SKAK
-========================= */
+function showCheck(){
 
-function showCheck() {
-
-
-    if (!game.in_check()) {
-
+    if(!game.in_check())
         return;
 
-    }
-
-
-    /*
-       Cari raja yang sedang skak
-    */
 
     const color =
         game.turn();
-
 
     const board =
         game.board();
 
 
-    for (
-        let row = 0;
-        row < 8;
-        row++
-    ) {
+    for(let row=0;row<8;row++){
 
-
-        for (
-            let col = 0;
-            col < 8;
-            col++
-        ) {
-
+        for(let col=0;col<8;col++){
 
             const piece =
                 board[row][col];
 
-
-            if (
+            if(
                 piece &&
-                piece.type === "k" &&
-                piece.color === color
-            ) {
+                piece.type==="k" &&
+                piece.color===color
+            ){
 
-
-                const squareName =
-
-                    String.fromCharCode(
-                        97 + col
-                    )
-
+                const name =
+                    String.fromCharCode(97+col)
                     +
-
-                    (8 - row);
-
+                    (8-row);
 
                 const element =
                     document.querySelector(
-                        `[data-square="${squareName}"]`
+                        `[data-square="${name}"]`
                     );
 
-
-                if (element) {
+                if(element){
 
                     element.classList.add(
                         "check"
@@ -1091,31 +834,21 @@ function showCheck() {
 }
 
 
-
-/* =========================
+/* =====================================================
    STATUS
-========================= */
+===================================================== */
 
-function updateStatus() {
+function updateStatus(){
+
+    let text="";
 
 
-    let text = "";
-
-
-    /*
-       SKAKMAT
-    */
-
-    if (
-        game.in_checkmate()
-    ) {
-
+    if(game.in_checkmate()){
 
         const winner =
-            game.turn() === "w"
-                ? "Hitam"
-                : "Putih";
-
+            game.turn()==="w"
+            ? "Komputer"
+            : "Kamu";
 
         text =
             "🏆 " +
@@ -1124,56 +857,25 @@ function updateStatus() {
 
     }
 
-
-    /*
-       SERI
-    */
-
-    else if (
-        game.in_draw()
-    ) {
+    else if(game.in_draw()){
 
         text =
-            "🤝 Permainan Seri";
+            "🤝 Permainan seri";
 
     }
 
-
-    /*
-       PERMAINAN SELESAI
-    */
-
-    else if (
-        game.game_over()
-    ) {
-
-        text =
-            "Permainan selesai";
-
-    }
-
-
-    /*
-       PERMAINAN BERJALAN
-    */
-
-    else {
-
+    else{
 
         const turn =
-            game.turn() === "w"
-                ? "Putih"
-                : "Hitam";
-
+            game.turn()==="w"
+            ? "Kamu"
+            : "Komputer";
 
         text =
-            "Giliran " +
+            "♟ Giliran " +
             turn;
 
-
-        if (
-            game.in_check()
-        ) {
+        if(game.in_check()){
 
             text +=
                 " — ⚠️ SKAK!";
@@ -1189,65 +891,455 @@ function updateStatus() {
 }
 
 
+/* =====================================================
+   NILAI BIDAK
+===================================================== */
 
-/* =========================
+const values = {
+
+    p:100,
+
+    n:320,
+
+    b:330,
+
+    r:500,
+
+    q:900,
+
+    k:20000
+
+};
+
+
+/* =====================================================
+   EVALUASI
+===================================================== */
+
+function evaluate(){
+
+    const board =
+        game.board();
+
+    let score=0;
+
+
+    for(const row of board){
+
+        for(const piece of row){
+
+            if(!piece)
+                continue;
+
+            const value =
+                values[piece.type];
+
+            if(piece.color==="b"){
+
+                score += value;
+
+            }else{
+
+                score -= value;
+
+            }
+
+        }
+
+    }
+
+
+    return score;
+}
+
+
+/* =====================================================
+   MINIMAX KOMPUTER
+===================================================== */
+
+function minimax(
+    depth,
+    alpha,
+    beta,
+    maximizing
+){
+
+    if(depth===0 ||
+       game.game_over()){
+
+        return evaluate();
+
+    }
+
+
+    const moves =
+        game.moves();
+
+
+    if(maximizing){
+
+        let best =
+            -Infinity;
+
+
+        for(const move of moves){
+
+            game.move(move);
+
+            const score =
+                minimax(
+                    depth-1,
+                    alpha,
+                    beta,
+                    false
+                );
+
+            game.undo();
+
+
+            best =
+                Math.max(
+                    best,
+                    score
+                );
+
+            alpha =
+                Math.max(
+                    alpha,
+                    score
+                );
+
+            if(beta<=alpha)
+                break;
+
+        }
+
+
+        return best;
+
+    }else{
+
+        let best =
+            Infinity;
+
+
+        for(const move of moves){
+
+            game.move(move);
+
+            const score =
+                minimax(
+                    depth-1,
+                    alpha,
+                    beta,
+                    true
+                );
+
+            game.undo();
+
+
+            best =
+                Math.min(
+                    best,
+                    score
+                );
+
+            beta =
+                Math.min(
+                    beta,
+                    score
+                );
+
+            if(beta<=alpha)
+                break;
+
+        }
+
+
+        return best;
+
+    }
+
+}
+
+
+/* =====================================================
+   KOMPUTER BERMAIN
+===================================================== */
+
+function computerMove(){
+
+    if(
+        game.game_over() ||
+        game.turn()!=="b"
+    ){
+
+        return;
+
+    }
+
+
+    thinking=true;
+
+    statusElement.textContent =
+        "🤖 Komputer sedang berpikir...";
+
+
+    setTimeout(()=>{
+
+        const moves =
+            game.moves();
+
+
+        if(!moves.length){
+
+            thinking=false;
+
+            drawBoard();
+
+            return;
+
+        }
+
+
+        let bestMove =
+            null;
+
+        let bestScore =
+            -Infinity;
+
+
+        /*
+           Depth 2:
+           cukup ringan untuk HP.
+
+           Kalau HP kamu kuat,
+           bisa ubah 2 menjadi 3.
+        */
+
+        for(const move of moves){
+
+            game.move(move);
+
+            const score =
+                minimax(
+                    2,
+                    -Infinity,
+                    Infinity,
+                    false
+                );
+
+            game.undo();
+
+
+            /*
+               Sedikit variasi supaya
+               komputer tidak selalu
+               memainkan langkah identik.
+            */
+
+            const randomBonus =
+                Math.random()*3;
+
+
+            if(
+                score + randomBonus
+                >
+                bestScore
+            ){
+
+                bestScore =
+                    score +
+                    randomBonus;
+
+                bestMove =
+                    move;
+
+            }
+
+        }
+
+
+        if(bestMove){
+
+            const played =
+                game.move(bestMove);
+
+            lastMove =
+                played;
+
+        }
+
+
+        thinking=false;
+
+        drawBoard();
+
+    },250);
+
+}
+
+
+/* =====================================================
    GAME BARU
-========================= */
+===================================================== */
 
-function newGame() {
-
+function newGame(){
 
     game.reset();
 
-
     selectedSquare =
         null;
-
 
     lastMove =
         null;
 
+    thinking=false;
 
     drawBoard();
 
 }
 
 
-
-/* =========================
+/* =====================================================
    UNDO
-========================= */
+===================================================== */
 
-function undoMove() {
+function undoMove(){
 
+    if(thinking)
+        return;
+
+
+    /*
+       Undo langkah komputer
+       kemudian undo langkah pemain.
+    */
 
     game.undo();
 
+    if(game.history().length){
+
+        game.undo();
+
+    }
+
 
     selectedSquare =
         null;
 
-
     lastMove =
         null;
-
 
     drawBoard();
 
 }
 
 
+/* =====================================================
+   MUSIK KERAJAAN
+===================================================== */
 
-/* =========================
-   MULAI GAME
-========================= */
+let audioContext =
+    null;
 
-drawBoard();
+let musicTimer =
+    null;
+
+let musicPlaying =
+    false;
 
 
-</script>
+/*
+   Melodi bergaya kerajaan.
+*/
+
+const melody = [
+
+    392,440,494,523,
+
+    587,523,494,440,
+
+    392,440,494,587,
+
+    659,587,523,494,
+
+    523,587,659,784,
+
+    659,587,523,440
+
+];
 
 
-</body>
+function playRoyalNote(
+    frequency,
+    duration
+){
 
-</html>
+    const osc =
+        audioContext.createOscillator();
+
+    const gain =
+        audioContext.createGain();
+
+
+    osc.type =
+        "triangle";
+
+
+    osc.frequency.value =
+        frequency;
+
+
+    gain.gain.setValueAtTime(
+        0,
+        audioContext.currentTime
+    );
+
+
+    gain.gain.linearRampToValueAtTime(
+        .08,
+        audioContext.currentTime+.03
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+        .001,
+        audioContext.currentTime+
+        duration
+    );
+
+
+    osc.connect(gain);
+
+    gain.connect(
+        audioContext.destination
+    );
+
+
+    osc.start();
+
+    osc.stop(
+        audioContext.currentTime+
+        duration
+    );
+
+}
+
+
+function startMusic(){
+
+    if(!audioContext){
+
+        audioContext =
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
+    }
+
+
+    if(
+        audioContext.state ===
+        "s
