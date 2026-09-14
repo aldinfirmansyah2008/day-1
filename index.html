@@ -48,8 +48,7 @@ body{
 
     justify-content:center;
 
-    padding:
-        5px 0 25px;
+    padding:5px 0 25px;
 
     background:
         radial-gradient(
@@ -61,7 +60,6 @@ body{
         );
 
     overflow-x:hidden;
-
 }
 
 
@@ -76,7 +74,6 @@ body{
     max-width:900px;
 
     text-align:center;
-
 }
 
 
@@ -89,8 +86,7 @@ h1{
     font-size:
         clamp(30px,7vw,55px);
 
-    margin:
-        3px 0 1px;
+    margin:3px 0 1px;
 
     color:#f5f5f5;
 
@@ -99,7 +95,6 @@ h1{
     text-shadow:
         0 4px 4px #000,
         0 0 15px rgba(255,255,255,.25);
-
 }
 
 
@@ -110,13 +105,87 @@ h1{
     font-size:
         clamp(11px,3vw,15px);
 
-    margin-bottom:9px;
-
+    margin-bottom:8px;
 }
 
 
 /* =========================================================
-   CAMERA AREA
+   MODE SELECTOR
+========================================================= */
+
+.mode-box{
+
+    width:
+        min(
+            calc(100vw - 6px),
+            820px
+        );
+
+    margin:0 auto 9px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:7px;
+
+    flex-wrap:wrap;
+}
+
+
+.mode-label{
+
+    font-size:12px;
+
+    color:#ccc;
+
+    font-weight:bold;
+}
+
+
+.mode-select{
+
+    padding:8px 12px;
+
+    border:
+        1px solid #777;
+
+    border-radius:8px;
+
+    background:
+        linear-gradient(
+            #555,
+            #181818
+        );
+
+    color:#fff;
+
+    font-family:Georgia,serif;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    outline:none;
+
+    box-shadow:
+        0 4px 10px
+        rgba(0,0,0,.5);
+}
+
+
+.mode-select option{
+
+    background:#222;
+
+    color:#fff;
+}
+
+
+/* =========================================================
+   CAMERA
 ========================================================= */
 
 .camera{
@@ -129,16 +198,11 @@ h1{
 
     overflow:visible;
 
+    position:relative;
 }
 
 
-/* =========================================================
-   CAMERA VIEW
-========================================================= */
-
 .camera-view{
-
-    position:relative;
 
     width:100%;
 
@@ -150,14 +214,14 @@ h1{
 
     transform-origin:center center;
 
-    will-change:
-        transform;
+    will-change:transform;
 
+    position:relative;
 }
 
 
 /* =========================================================
-   CAMERA CINEMATIC ZOOM
+   CAMERA ZOOM
 ========================================================= */
 
 .camera-view.camera-zoom{
@@ -165,13 +229,7 @@ h1{
     animation:
         cameraZoom
         .9s
-        cubic-bezier(
-            .16,
-            .75,
-            .25,
-            1
-        );
-
+        cubic-bezier(.16,.75,.25,1);
 }
 
 
@@ -182,31 +240,34 @@ h1{
         transform:
             scale(1)
             translate3d(0,0,0);
-
     }
 
-    28%{
-
-        transform:
-            scale(1.055)
-            translate3d(0,-4px,0);
-
-    }
-
-    55%{
-
-        transform:
-            scale(1.075)
-            translate3d(0,-6px,0);
-
-    }
-
-    78%{
+    22%{
 
         transform:
             scale(1.045)
-            translate3d(0,-3px,0);
+            translate3d(0,-2px,0);
+    }
 
+    48%{
+
+        transform:
+            scale(1.10)
+            translate3d(0,-5px,0);
+    }
+
+    70%{
+
+        transform:
+            scale(1.075)
+            translate3d(0,-4px,0);
+    }
+
+    88%{
+
+        transform:
+            scale(1.035)
+            translate3d(0,-2px,0);
     }
 
     100%{
@@ -214,9 +275,7 @@ h1{
         transform:
             scale(1)
             translate3d(0,0,0);
-
     }
-
 }
 
 
@@ -250,8 +309,7 @@ h1{
     grid-template-rows:
         repeat(8,1fr);
 
-    border:
-        5px solid #0c0c0c;
+    border:5px solid #0c0c0c;
 
     border-radius:11px;
 
@@ -269,12 +327,11 @@ h1{
 
         0 0 30px
         rgba(0,0,0,.7);
-
 }
 
 
 /* =========================================================
-   CINEMATIC VIGNETTE
+   VIGNETTE
 ========================================================= */
 
 .board::after{
@@ -294,10 +351,9 @@ h1{
     background:
         radial-gradient(
             ellipse at center,
-            transparent 45%,
-            rgba(0,0,0,.35) 100%
+            transparent 42%,
+            rgba(0,0,0,.45) 100%
         );
-
 }
 
 
@@ -307,7 +363,6 @@ h1{
         cinematicVignette
         .9s
         ease-out;
-
 }
 
 
@@ -318,17 +373,16 @@ h1{
     }
 
     25%{
-        opacity:.65;
+        opacity:.7;
     }
 
-    70%{
+    65%{
         opacity:.42;
     }
 
     100%{
         opacity:0;
     }
-
 }
 
 
@@ -354,32 +408,21 @@ h1{
 
     touch-action:manipulation;
 
-    -webkit-tap-highlight-color:
-        transparent;
-
+    -webkit-tap-highlight-color:transparent;
 }
 
-
-/* =========================================================
-   LIGHT
-========================================================= */
 
 .light{
 
     background:
         linear-gradient(
             145deg,
-            #ffffff 0%,
+            #fff 0%,
             #e4e4e4 45%,
             #cfcfcf 100%
         );
-
 }
 
-
-/* =========================================================
-   DARK
-========================================================= */
 
 .dark{
 
@@ -390,13 +433,8 @@ h1{
             #202020 55%,
             #111 100%
         );
-
 }
 
-
-/* =========================================================
-   TEXTURE
-========================================================= */
 
 .square::before{
 
@@ -415,7 +453,6 @@ h1{
         );
 
     pointer-events:none;
-
 }
 
 
@@ -437,67 +474,45 @@ h1{
 
     pointer-events:none;
 
-    transform-origin:
-        center bottom;
+    transform-origin:center bottom;
 
-    will-change:
-        transform,
-        filter;
+    will-change:transform,filter;
 
     transition:
         transform .18s ease,
         filter .18s ease;
-
 }
 
-
-/* =========================================================
-   WHITE PIECE
-========================================================= */
 
 .white-piece{
 
     filter:
-
         drop-shadow(
             0 11px 5px
             rgba(0,0,0,.72)
         )
-
         drop-shadow(
             0 3px 2px
             rgba(0,0,0,.95)
         )
-
         brightness(1.08)
-
         contrast(1.08);
-
 }
 
-
-/* =========================================================
-   BLACK PIECE
-========================================================= */
 
 .black-piece{
 
     filter:
-
         drop-shadow(
             0 11px 6px
             rgba(0,0,0,.95)
         )
-
         drop-shadow(
             0 3px 2px
             rgba(0,0,0,1)
         )
-
         brightness(.76)
-
         contrast(1.18);
-
 }
 
 
@@ -519,9 +534,7 @@ h1{
                 rgba(0,0,0,.8)
             )
             brightness(1.12);
-
     }
-
 }
 
 
@@ -540,7 +553,6 @@ h1{
         inset
         0 0 28px
         rgba(255,255,255,.3);
-
 }
 
 
@@ -576,7 +588,6 @@ h1{
         rgba(255,255,255,.8);
 
     z-index:3;
-
 }
 
 
@@ -608,7 +619,6 @@ h1{
         rgba(0,0,0,.35);
 
     z-index:3;
-
 }
 
 
@@ -622,7 +632,6 @@ h1{
         checkFlash
         .55s
         infinite alternate;
-
 }
 
 
@@ -634,7 +643,6 @@ h1{
             inset
             0 0 0 3px
             rgba(255,255,255,.3);
-
     }
 
     to{
@@ -647,9 +655,7 @@ h1{
             inset
             0 0 25px
             rgba(255,255,255,.25);
-
     }
-
 }
 
 
@@ -667,8 +673,7 @@ h1{
 
     object-fit:contain;
 
-    transform-origin:
-        center bottom;
+    transform-origin:center bottom;
 
     will-change:
         left,
@@ -676,17 +681,14 @@ h1{
         transform;
 
     filter:
-
         drop-shadow(
             0 20px 10px
             rgba(0,0,0,.8)
         )
-
         drop-shadow(
             0 4px 2px
             rgba(0,0,0,1)
         );
-
 }
 
 
@@ -707,8 +709,7 @@ h1{
     background:
         rgba(0,0,0,.65);
 
-    filter:
-        blur(7px);
+    filter:blur(7px);
 
     will-change:
         left,
@@ -716,18 +717,12 @@ h1{
         width,
         height,
         opacity;
-
 }
 
-
-/* =========================================================
-   SOURCE
-========================================================= */
 
 .animating-source .piece{
 
     opacity:0;
-
 }
 
 
@@ -741,7 +736,6 @@ h1{
         realisticLanding
         .32s
         cubic-bezier(.18,.8,.2,1);
-
 }
 
 
@@ -752,7 +746,6 @@ h1{
         transform:
             translateY(-12px)
             scale(1.06);
-
     }
 
     45%{
@@ -760,7 +753,6 @@ h1{
         transform:
             translateY(3px)
             scale(.96);
-
     }
 
     70%{
@@ -768,7 +760,6 @@ h1{
         transform:
             translateY(-2px)
             scale(1.02);
-
     }
 
     100%{
@@ -776,9 +767,7 @@ h1{
         transform:
             translateY(0)
             scale(1);
-
     }
-
 }
 
 
@@ -818,7 +807,6 @@ h1{
     pointer-events:none;
 
     z-index:8;
-
 }
 
 
@@ -826,22 +814,17 @@ h1{
 
     0%{
 
-        transform:
-            scale(.15);
+        transform:scale(.15);
 
         opacity:1;
-
     }
 
     100%{
 
-        transform:
-            scale(1.6);
+        transform:scale(1.6);
 
         opacity:0;
-
     }
-
 }
 
 
@@ -875,7 +858,6 @@ h1{
         ease-out;
 
     z-index:20;
-
 }
 
 
@@ -886,7 +868,6 @@ h1{
         transform:scale(.4);
 
         opacity:1;
-
     }
 
     100%{
@@ -894,9 +875,7 @@ h1{
         transform:scale(2.8);
 
         opacity:0;
-
     }
-
 }
 
 
@@ -912,11 +891,9 @@ h1{
             820px
         );
 
-    margin:
-        10px auto 0;
+    margin:10px auto 0;
 
-    padding:
-        11px;
+    padding:11px;
 
     border-radius:10px;
 
@@ -938,7 +915,6 @@ h1{
         inset
         0 1px 0
         rgba(255,255,255,.1);
-
 }
 
 
@@ -953,7 +929,6 @@ h1{
 
     text-shadow:
         0 2px 2px #000;
-
 }
 
 
@@ -969,8 +944,7 @@ h1{
             820px
         );
 
-    margin:
-        10px auto 0;
+    margin:10px auto 0;
 
     display:flex;
 
@@ -979,14 +953,12 @@ h1{
     gap:7px;
 
     flex-wrap:wrap;
-
 }
 
 
 button{
 
-    padding:
-        9px 14px;
+    padding:9px 14px;
 
     border:
         1px solid #707070;
@@ -1016,30 +988,24 @@ button{
         transform .15s ease,
         filter .15s ease,
         box-shadow .15s ease;
-
 }
 
 
 button:hover{
 
-    transform:
-        translateY(-2px);
+    transform:translateY(-2px);
 
-    filter:
-        brightness(1.18);
+    filter:brightness(1.18);
 
     box-shadow:
         0 7px 15px
         rgba(0,0,0,.6);
-
 }
 
 
 button:active{
 
-    transform:
-        scale(.94);
-
+    transform:scale(.94);
 }
 
 
@@ -1054,7 +1020,6 @@ button:active{
     color:#aaa;
 
     font-size:10px;
-
 }
 
 
@@ -1066,9 +1031,7 @@ button:active{
 
     body{
 
-        padding:
-            3px 0 20px;
-
+        padding:3px 0 20px;
     }
 
 
@@ -1078,7 +1041,6 @@ button:active{
             clamp(29px,8vw,38px);
 
         margin-top:1px;
-
     }
 
 
@@ -1087,7 +1049,26 @@ button:active{
         font-size:11px;
 
         margin-bottom:6px;
+    }
 
+
+    .mode-box{
+
+        margin-bottom:7px;
+    }
+
+
+    .mode-label{
+
+        font-size:11px;
+    }
+
+
+    .mode-select{
+
+        padding:7px 9px;
+
+        font-size:11px;
     }
 
 
@@ -1106,7 +1087,6 @@ button:active{
         border-width:4px;
 
         border-radius:8px;
-
     }
 
 
@@ -1115,7 +1095,6 @@ button:active{
         width:96%;
 
         height:96%;
-
     }
 
 
@@ -1127,14 +1106,12 @@ button:active{
         margin-top:8px;
 
         padding:9px;
-
     }
 
 
     #status{
 
         font-size:15px;
-
     }
 
 
@@ -1144,26 +1121,21 @@ button:active{
             calc(100vw - 4px);
 
         gap:5px;
-
     }
 
 
     button{
 
-        padding:
-            8px 10px;
+        padding:8px 10px;
 
         font-size:11px;
-
     }
 
 
     .footer{
 
         font-size:9px;
-
     }
-
 }
 
 
@@ -1176,21 +1148,17 @@ button:active{
     .camera-view.camera-zoom{
 
         animation:none;
-
     }
 
     .landing{
 
         animation:none;
-
     }
 
     .check{
 
         animation:none;
-
     }
-
 }
 
 </style>
@@ -1199,7 +1167,6 @@ button:active{
 
 
 <body>
-
 
 <div class="game">
 
@@ -1210,8 +1177,36 @@ button:active{
 
 
     <p class="subtitle">
-        Kamu ♔ vs Komputer ♚ • PV2 • CINEMATIC CAMERA
+        Catur Sinematik • Kamera Mengikuti Gerakan Bidak
     </p>
+
+
+    <!-- =====================================================
+         MODE
+    ====================================================== -->
+
+    <div class="mode-box">
+
+        <span class="mode-label">
+            Mode Permainan:
+        </span>
+
+        <select
+            id="modeSelect"
+            class="mode-select"
+        >
+
+            <option value="computer">
+                🤖 Kamu vs Komputer
+            </option>
+
+            <option value="two">
+                👥 2 Pemain
+            </option>
+
+        </select>
+
+    </div>
 
 
     <!-- =====================================================
@@ -1266,9 +1261,8 @@ button:active{
 
 
     <p class="footer">
-        Royal Chess • Cinematic Camera System
+        Royal Chess • PV2 • Cinematic Camera
     </p>
-
 
 </div>
 
@@ -1276,60 +1270,82 @@ button:active{
 <script>
 
 /* =========================================================
-   CHESS ENGINE
+   CHECK CHESS.JS
 ========================================================= */
 
 if(typeof Chess === "undefined"){
 
-    alert(
-        "Chess engine gagal dimuat. Periksa koneksi internet."
-    );
+    document.body.innerHTML =
+        "<h2 style='color:white;text-align:center;padding:30px'>"+
+        "Chess engine gagal dimuat.<br>"+
+        "Periksa koneksi internet lalu refresh halaman."+
+        "</h2>";
 
+    throw new Error(
+        "Chess.js gagal dimuat."
+    );
 }
 
+
+/* =========================================================
+   ENGINE
+========================================================= */
 
 const game =
     new Chess();
 
 
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
 const boardElement =
     document.getElementById("board");
-
 
 const cameraView =
     document.getElementById("cameraView");
 
-
 const statusElement =
     document.getElementById("status");
-
 
 const newGameBtn =
     document.getElementById("newGameBtn");
 
-
 const undoBtn =
     document.getElementById("undoBtn");
 
+const modeSelect =
+    document.getElementById("modeSelect");
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
 
 let selectedSquare =
     null;
 
-
-let lastMove =
-    null;
-
-
 let thinking =
     false;
-
 
 let animating =
     false;
 
-
 let computerTimer =
     null;
+
+let cameraTimer =
+    null;
+
+
+/* =========================================================
+   MODE
+========================================================= */
+
+function isComputerMode(){
+
+    return modeSelect.value === "computer";
+}
 
 
 /* =========================================================
@@ -1386,7 +1402,7 @@ const pieceImages = {
 
 
 /* =========================================================
-   FALLBACK SYMBOL
+   FALLBACK SYMBOLS
 ========================================================= */
 
 const symbols = {
@@ -1409,7 +1425,7 @@ const symbols = {
 
 
 /* =========================================================
-   SQUARE ELEMENT
+   GET SQUARE
 ========================================================= */
 
 function getSquareElement(square){
@@ -1419,12 +1435,11 @@ function getSquareElement(square){
         square +
         '"]'
     );
-
 }
 
 
 /* =========================================================
-   CINEMATIC CAMERA
+   CAMERA
 ========================================================= */
 
 function cinematicCamera(){
@@ -1433,15 +1448,13 @@ function cinematicCamera(){
         "camera-zoom"
     );
 
-
     boardElement.classList.remove(
         "camera-active"
     );
 
 
-    /*
-       Paksa browser mengulang animasi.
-    */
+    clearTimeout(cameraTimer);
+
 
     void cameraView.offsetWidth;
 
@@ -1450,38 +1463,36 @@ function cinematicCamera(){
         "camera-zoom"
     );
 
-
     boardElement.classList.add(
         "camera-active"
     );
 
 
-    setTimeout(
-        function(){
+    cameraTimer =
+        setTimeout(
+            function(){
 
-            cameraView.classList.remove(
-                "camera-zoom"
-            );
+                cameraView.classList.remove(
+                    "camera-zoom"
+                );
 
-            boardElement.classList.remove(
-                "camera-active"
-            );
+                boardElement.classList.remove(
+                    "camera-active"
+                );
 
-        },
-        950
-    );
-
+            },
+            950
+        );
 }
 
 
 /* =========================================================
-   RENDER BOARD
+   RENDER
 ========================================================= */
 
 function renderBoard(){
 
-    boardElement.innerHTML =
-        "";
+    boardElement.innerHTML = "";
 
 
     const position =
@@ -1567,7 +1578,6 @@ function renderBoard(){
 
 
     highlightBoard();
-
 }
 
 
@@ -1664,12 +1674,11 @@ function createPiece(
     square.appendChild(
         img
     );
-
 }
 
 
 /* =========================================================
-   HIGHLIGHT BOARD
+   HIGHLIGHT
 ========================================================= */
 
 function highlightBoard(){
@@ -1819,17 +1828,14 @@ function highlightBoard(){
         }
 
     }
-
 }
 
 
 /* =========================================================
-   CLICK HANDLER
+   PLAYER CLICK
 ========================================================= */
 
-function handleSquareClick(
-    square
-){
+function handleSquareClick(square){
 
     if(
         thinking ||
@@ -1841,7 +1847,13 @@ function handleSquareClick(
     }
 
 
+    /*
+       Mode komputer:
+       manusia hanya bermain putih.
+    */
+
     if(
+        isComputerMode() &&
         game.turn() !== "w"
     ){
 
@@ -1851,7 +1863,7 @@ function handleSquareClick(
 
 
     /* =====================================================
-       SELECT PIECE
+       SELECT
     ====================================================== */
 
     if(!selectedSquare){
@@ -1860,10 +1872,25 @@ function handleSquareClick(
             game.get(square);
 
 
-        if(
-            piece &&
-            piece.color === "w"
-        ){
+        if(piece){
+
+            /*
+               Mode komputer:
+               hanya putih.
+
+               Mode 2 pemain:
+               putih atau hitam.
+            */
+
+            if(
+                isComputerMode() &&
+                piece.color !== "w"
+            ){
+
+                return;
+
+            }
+
 
             selectedSquare =
                 square;
@@ -1879,7 +1906,7 @@ function handleSquareClick(
 
 
     /* =====================================================
-       CHANGE SELECTION
+       GANTI PILIHAN
     ====================================================== */
 
     const clickedPiece =
@@ -1888,8 +1915,23 @@ function handleSquareClick(
 
     if(
         clickedPiece &&
-        clickedPiece.color === "w"
+        clickedPiece.color === game.turn()
     ){
+
+        /*
+           Pada mode komputer jangan
+           bisa memilih hitam.
+        */
+
+        if(
+            isComputerMode() &&
+            clickedPiece.color !== "w"
+        ){
+
+            return;
+
+        }
+
 
         selectedSquare =
             square;
@@ -1903,7 +1945,7 @@ function handleSquareClick(
 
 
     /* =====================================================
-       CHECK LEGAL MOVE
+       LEGAL MOVE
     ====================================================== */
 
     const moves =
@@ -1984,20 +2026,24 @@ function handleSquareClick(
             }
 
 
-            lastMove =
-                move;
-
-
             renderBoard();
 
             updateStatus();
 
 
-            if(!game.game_over()){
+            /*
+               Hanya mode komputer yang
+               menjalankan AI.
+            */
+
+            if(
+                isComputerMode() &&
+                !game.game_over() &&
+                game.turn() === "b"
+            ){
 
                 thinking =
                     true;
-
 
                 updateStatus();
 
@@ -2005,19 +2051,18 @@ function handleSquareClick(
                 computerTimer =
                     setTimeout(
                         computerMove,
-                        500
+                        350
                     );
 
             }
 
         }
     );
-
 }
 
 
 /* =========================================================
-   REALISTIC MOVE + CAMERA
+   ANIMATE MOVE
 ========================================================= */
 
 function animatePhysicalMove(
@@ -2066,7 +2111,7 @@ function animatePhysicalMove(
 
 
     /*
-       Kamera mulai bergerak bersamaan
+       Kamera bergerak bersamaan
        dengan bidak.
     */
 
@@ -2219,7 +2264,7 @@ function animatePhysicalMove(
 
 
     /* =====================================================
-       START MOVEMENT
+       MOVEMENT
     ====================================================== */
 
     requestAnimationFrame(
@@ -2365,7 +2410,6 @@ function animatePhysicalMove(
         },
         560
     );
-
 }
 
 
@@ -2379,8 +2423,8 @@ function updateStatus(){
 
         statusElement.textContent =
             game.turn() === "w"
-            ? "♚ Skakmat — Komputer Menang"
-            : "♔ Skakmat — Kamu Menang";
+            ? "♚ Skakmat — Hitam Menang"
+            : "♔ Skakmat — Putih Menang";
 
         return;
 
@@ -2411,8 +2455,8 @@ function updateStatus(){
 
         statusElement.textContent =
             game.turn() === "w"
-            ? "⚠️ Skak! Giliran Kamu"
-            : "⚠️ Skak! Komputer";
+            ? "⚠️ Skak! Giliran Putih"
+            : "⚠️ Skak! Giliran Hitam";
 
         return;
 
@@ -2422,17 +2466,28 @@ function updateStatus(){
     if(thinking){
 
         statusElement.textContent =
-            "♚ Komputer berpikir...";
+            "♚ Komputer sedang berpikir...";
 
         return;
 
     }
 
 
-    statusElement.textContent =
-        game.turn() === "w"
-        ? "♟ Giliran Kamu"
-        : "♚ Giliran Komputer";
+    if(isComputerMode()){
+
+        statusElement.textContent =
+            game.turn() === "w"
+            ? "♟ Giliran Kamu"
+            : "♚ Giliran Komputer";
+
+    }else{
+
+        statusElement.textContent =
+            game.turn() === "w"
+            ? "♔ Giliran Pemain Putih"
+            : "♚ Giliran Pemain Hitam";
+
+    }
 
 }
 
@@ -2459,7 +2514,7 @@ const pieceValue = {
 
 
 /* =========================================================
-   EVALUATE
+   EVALUATION
 ========================================================= */
 
 function evaluateBoard(){
@@ -2516,12 +2571,11 @@ function evaluateBoard(){
 
 
     return score;
-
 }
 
 
 /* =========================================================
-   MINIMAX PV2
+   MINIMAX
 ========================================================= */
 
 function minimax(
@@ -2587,7 +2641,7 @@ function minimax(
             alpha =
                 Math.max(
                     alpha,
-                    score
+                    best
                 );
 
 
@@ -2638,7 +2692,7 @@ function minimax(
         beta =
             Math.min(
                 beta,
-                score
+                best
             );
 
 
@@ -2652,12 +2706,11 @@ function minimax(
 
 
     return best;
-
 }
 
 
 /* =========================================================
-   COMPUTER
+   COMPUTER MOVE
 ========================================================= */
 
 function computerMove(){
@@ -2667,6 +2720,7 @@ function computerMove(){
 
 
     if(
+        !isComputerMode() ||
         game.game_over() ||
         game.turn() !== "b"
     ){
@@ -2714,16 +2768,39 @@ function computerMove(){
         -Infinity;
 
 
+    /*
+       AI melihat semua langkah hitam.
+    */
+
     for(
         const move of moves
     ){
 
-        game.move(move);
+        game.move({
 
+            from:
+                move.from,
+
+            to:
+                move.to,
+
+            promotion:
+                move.promotion || "q"
+
+        });
+
+
+        /*
+           Setelah hitam bergerak,
+           giliran putih.
+
+           Jadi minimax berikutnya
+           adalah minimizing.
+        */
 
         const score =
             minimax(
-                1,
+                2,
                 -Infinity,
                 Infinity,
                 false
@@ -2734,11 +2811,7 @@ function computerMove(){
 
 
         if(
-            score > bestScore ||
-            (
-                score === bestScore &&
-                Math.random() < .25
-            )
+            score > bestScore
         ){
 
             bestScore =
@@ -2764,44 +2837,78 @@ function computerMove(){
     }
 
 
-    animatePhysicalMove(
-        bestMove.from,
-        bestMove.to,
+    /*
+       Beri sedikit jeda supaya
+       terasa seperti komputer berpikir.
+    */
+
+    setTimeout(
         function(){
 
-            const move =
-                game.move({
+            if(
+                !isComputerMode() ||
+                game.game_over() ||
+                game.turn() !== "b"
+            ){
 
-                    from:
-                        bestMove.from,
+                thinking =
+                    false;
 
-                    to:
-                        bestMove.to,
+                updateStatus();
 
-                    promotion:
-                        "q"
-
-                });
-
-
-            if(move){
-
-                lastMove =
-                    move;
+                return;
 
             }
 
 
-            renderBoard();
+            animatePhysicalMove(
+                bestMove.from,
+                bestMove.to,
+                function(){
+
+                    const move =
+                        game.move({
+
+                            from:
+                                bestMove.from,
+
+                            to:
+                                bestMove.to,
+
+                            promotion:
+                                "q"
+
+                        });
 
 
-            thinking =
-                false;
+                    if(!move){
+
+                        thinking =
+                            false;
+
+                        renderBoard();
+
+                        updateStatus();
+
+                        return;
+
+                    }
 
 
-            updateStatus();
+                    renderBoard();
 
-        }
+
+                    thinking =
+                        false;
+
+
+                    updateStatus();
+
+                }
+            );
+
+        },
+        250
     );
 
 }
@@ -2825,14 +2932,25 @@ function newGame(){
     }
 
 
+    clearTimeout(
+        cameraTimer
+    );
+
+
+    cameraView.classList.remove(
+        "camera-zoom"
+    );
+
+
+    boardElement.classList.remove(
+        "camera-active"
+    );
+
+
     game.reset();
 
 
     selectedSquare =
-        null;
-
-
-    lastMove =
         null;
 
 
@@ -2879,9 +2997,11 @@ function undoMove(){
     }
 
 
-    if(
-        game.history().length === 0
-    ){
+    const history =
+        game.history();
+
+
+    if(!history.length){
 
         return;
 
@@ -2889,26 +3009,32 @@ function undoMove(){
 
 
     /*
-       Hapus langkah komputer
-       jika sudah dimainkan.
+       Mode komputer:
+       Undo 2 langkah sekaligus:
+       langkah komputer + langkah pemain.
     */
 
-    if(
-        game.turn() === "w"
-    ){
+    if(isComputerMode()){
 
-        game.undo();
+        if(game.turn() === "w"){
 
-    }
+            game.undo();
+
+        }
 
 
-    /*
-       Hapus langkah pemain.
-    */
+        if(game.history().length > 0){
 
-    if(
-        game.history().length > 0
-    ){
+            game.undo();
+
+        }
+
+    }else{
+
+        /*
+           Mode 2 pemain:
+           hanya undo 1 langkah.
+        */
 
         game.undo();
 
@@ -2919,11 +3045,11 @@ function undoMove(){
         null;
 
 
-    lastMove =
-        null;
-
-
     thinking =
+        false;
+
+
+    animating =
         false;
 
 
@@ -2935,7 +3061,45 @@ function undoMove(){
 
 
 /* =========================================================
-   BUTTON EVENTS
+   CHANGE MODE
+========================================================= */
+
+function changeMode(){
+
+    if(computerTimer){
+
+        clearTimeout(
+            computerTimer
+        );
+
+        computerTimer =
+            null;
+
+    }
+
+
+    thinking =
+        false;
+
+    animating =
+        false;
+
+    selectedSquare =
+        null;
+
+
+    game.reset();
+
+
+    renderBoard();
+
+    updateStatus();
+
+}
+
+
+/* =========================================================
+   EVENTS
 ========================================================= */
 
 newGameBtn.addEventListener(
@@ -2947,6 +3111,12 @@ newGameBtn.addEventListener(
 undoBtn.addEventListener(
     "click",
     undoMove
+);
+
+
+modeSelect.addEventListener(
+    "change",
+    changeMode
 );
 
 
