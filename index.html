@@ -2,15 +2,20 @@
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>KerjaKita - Lowongan Kerja</title>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>HD Chess</title>
+
+    <!-- Mesin aturan catur -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+
 
     <style>
-        /* =========================
-           DASAR
-        ========================= */
 
         * {
             box-sizing: border-box;
@@ -18,544 +23,1231 @@
             padding: 0;
         }
 
+
         body {
+
+            min-height: 100vh;
+
             font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
-            color: #222;
-        }
 
-        /* =========================
-           HEADER
-        ========================= */
+            background:
+                radial-gradient(
+                    circle at top,
+                    #263238,
+                    #080b0f 70%
+                );
 
-        header {
-            background-color: #1e3a8a;
             color: white;
-            padding: 20px;
-        }
 
-        .navbar {
-            max-width: 1100px;
-            margin: auto;
             display: flex;
-            justify-content: space-between;
+
+            justify-content: center;
+
             align-items: center;
+
+            padding: 20px;
+
         }
 
-        .logo {
-            font-size: 25px;
-            font-weight: bold;
-        }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-        }
+        .game {
 
-        nav a:hover {
-            text-decoration: underline;
-        }
+            width: 100%;
 
-        /* =========================
-           HERO
-        ========================= */
-
-        .hero {
-            background-color: #dbeafe;
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        .hero h1 {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-
-        .hero p {
-            font-size: 18px;
-            margin-bottom: 25px;
-        }
-
-        .search-box {
             max-width: 700px;
-            margin: auto;
-            display: flex;
-            gap: 10px;
+
+            text-align: center;
+
         }
 
-        .search-box input {
-            flex: 1;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
+
+        h1 {
+
+            font-size: clamp(30px, 8vw, 48px);
+
+            margin-bottom: 5px;
+
+            text-shadow:
+                0 0 10px #00e5ff,
+                0 0 25px #00e5ff;
+
         }
 
-        .search-box button {
-            padding: 15px 25px;
-            border: none;
-            border-radius: 8px;
-            background-color: #1e3a8a;
-            color: white;
-            cursor: pointer;
-        }
 
-        /* =========================
-           LOWONGAN
-        ========================= */
+        .subtitle {
 
-        .container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
+            color: #b0bec5;
 
-        .container h2 {
-            margin-bottom: 25px;
-        }
-
-        .jobs {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .job-card {
-            background-color: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-        }
-
-        .job-card h3 {
-            color: #1e3a8a;
-            margin-bottom: 10px;
-        }
-
-        .company {
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .job-info {
-            color: #555;
-            line-height: 1.8;
-            margin-bottom: 15px;
-        }
-
-        .salary {
-            color: green;
-            font-weight: bold;
             margin-bottom: 20px;
+
         }
 
-        .apply-button {
-            display: inline-block;
-            background-color: #1e3a8a;
-            color: white;
-            text-decoration: none;
-            padding: 10px 18px;
-            border-radius: 6px;
-        }
-
-        .apply-button:hover {
-            background-color: #162d6b;
-        }
 
         /* =========================
-           FORM LAMAR
+           PAPAN
         ========================= */
 
-        .application {
-            background-color: white;
-            max-width: 700px;
-            margin: 50px auto;
-            padding: 30px;
+        .board {
+
+            width: min(94vw, 640px);
+
+            aspect-ratio: 1 / 1;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(8, 1fr);
+
+            border: 5px solid #263238;
+
             border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+
+            overflow: hidden;
+
+            box-shadow:
+                0 0 25px rgba(0, 229, 255, 0.3),
+                0 15px 50px rgba(0, 0, 0, 0.7);
+
         }
 
-        .application h2 {
-            margin-bottom: 25px;
-            text-align: center;
-        }
 
-        .form-group {
-            margin-bottom: 18px;
-        }
+        .square {
 
-        .form-group label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: bold;
-        }
+            position: relative;
 
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-        }
+            display: flex;
 
-        .form-group textarea {
-            height: 120px;
-            resize: vertical;
-        }
+            justify-content: center;
 
-        .submit-button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 7px;
-            background-color: #1e3a8a;
-            color: white;
-            font-size: 16px;
+            align-items: center;
+
             cursor: pointer;
+
+            user-select: none;
+
         }
 
-        .submit-button:hover {
-            background-color: #162d6b;
+
+        .light {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f4ead2,
+                    #d9c9a5
+                );
+
         }
+
+
+        .dark {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #789b58,
+                    #55743d
+                );
+
+        }
+
+
+        .square:hover {
+
+            filter: brightness(1.15);
+
+        }
+
 
         /* =========================
-           FOOTER
+           BIDAK
         ========================= */
 
-        footer {
-            background-color: #111827;
+        .piece {
+
+            font-family:
+                "Segoe UI Symbol",
+                "Noto Sans Symbols",
+                "DejaVu Sans",
+                sans-serif;
+
+            font-size:
+                clamp(38px, 10vw, 72px);
+
+            line-height: 1;
+
+            position: relative;
+
+            z-index: 5;
+
+            pointer-events: none;
+
+            transform-origin: center bottom;
+
+            transition:
+                filter 0.15s,
+                transform 0.15s;
+
+        }
+
+
+        /*
+           BIDAK PUTIH
+        */
+
+        .white-piece {
+
+            color: #ffffff;
+
+            text-shadow:
+
+                0 2px 0 #aaa,
+
+                0 4px 4px #555,
+
+                0 7px 8px rgba(0,0,0,0.6),
+
+                0 0 5px white;
+
+        }
+
+
+        /*
+           BIDAK HITAM
+        */
+
+        .black-piece {
+
+            color: #171717;
+
+            text-shadow:
+
+                0 1px 0 #777,
+
+                0 3px 3px #000,
+
+                0 6px 8px rgba(0,0,0,0.8),
+
+                0 0 3px #aaa;
+
+        }
+
+
+        /* =========================
+           ANIMASI BIDAK
+        ========================= */
+
+        .moving {
+
+            animation:
+
+                movePiece 0.35s
+                cubic-bezier(.2,.8,.3,1);
+
+        }
+
+
+        @keyframes movePiece {
+
+            0% {
+
+                transform:
+                    translateY(-18px)
+                    scale(1.08);
+
+            }
+
+            45% {
+
+                transform:
+                    translateY(-8px)
+                    scale(1.03);
+
+            }
+
+            100% {
+
+                transform:
+                    translateY(0)
+                    scale(1);
+
+            }
+
+        }
+
+
+        /*
+           EFEK SAAT DIPILIH
+        */
+
+        .selected {
+
+            box-shadow:
+                inset 0 0 0 5px #00e5ff,
+                inset 0 0 20px rgba(0,229,255,0.5);
+
+        }
+
+
+        /*
+           LANGKAH YANG BISA DIPILIH
+        */
+
+        .possible::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 22%;
+
+            height: 22%;
+
+            border-radius: 50%;
+
+            background:
+                rgba(0,0,0,0.35);
+
+            box-shadow:
+                0 0 8px rgba(255,255,255,0.3);
+
+        }
+
+
+        /*
+           KOTAK BIDAK YANG BISA DIMAKAN
+        */
+
+        .capture::after {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 7px;
+
+            border:
+                5px solid
+                rgba(180, 20, 20, 0.65);
+
+            border-radius: 50%;
+
+        }
+
+
+        /* =========================
+           EFEK SKAK
+        ========================= */
+
+        .check {
+
+            animation:
+                checkFlash 0.8s infinite alternate;
+
+        }
+
+
+        @keyframes checkFlash {
+
+            from {
+
+                box-shadow:
+                    inset 0 0 0 4px
+                    rgba(255,0,0,0.4);
+
+            }
+
+            to {
+
+                box-shadow:
+                    inset 0 0 0 8px
+                    rgba(255,0,0,0.9);
+
+            }
+
+        }
+
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .info {
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.1);
+
+            backdrop-filter: blur(10px);
+
+        }
+
+
+        #status {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           TOMBOL
+        ========================= */
+
+        .buttons {
+
+            margin-top: 15px;
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        button {
+
+            padding: 12px 20px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #00acc1;
+
             color: white;
-            text-align: center;
-            padding: 30px;
-            margin-top: 50px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
         }
 
-        /* =========================
-           RESPONSIVE HP
-        ========================= */
 
-        @media (max-width: 700px) {
+        button:hover {
 
-            .navbar {
-                flex-direction: column;
-                gap: 15px;
-            }
+            background: #00e5ff;
 
-            nav a {
-                margin: 0 7px;
-            }
+            transform:
+                translateY(-2px);
 
-            .hero h1 {
-                font-size: 30px;
-            }
+            box-shadow:
+                0 5px 20px
+                rgba(0,229,255,0.4);
 
-            .search-box {
-                flex-direction: column;
-            }
-
-            .jobs {
-                grid-template-columns: 1fr;
-            }
         }
+
+
+        .footer {
+
+            margin-top: 20px;
+
+            color: #78909c;
+
+            font-size: 13px;
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- =========================
-         HEADER
-    ========================= -->
 
-    <header>
+<div class="game">
 
-        <div class="navbar">
 
-            <div class="logo">
-                KerjaKita
-            </div>
+    <h1>♛ HD CHESS</h1>
 
-            <nav>
-                <a href="#home">Home</a>
-                <a href="#lowongan">Lowongan</a>
-                <a href="#lamar">Lamar</a>
-            </nav>
 
+    <p class="subtitle">
+        Permainan Catur
+    </p>
+
+
+    <!-- PAPAN CATUR -->
+
+    <div
+        id="board"
+        class="board">
+    </div>
+
+
+    <!-- STATUS -->
+
+    <div class="info">
+
+        <div id="status">
+            Giliran Putih
         </div>
 
-    </header>
+    </div>
 
 
-    <!-- =========================
-         HERO
-    ========================= -->
+    <!-- TOMBOL -->
 
-    <section class="hero" id="home">
+    <div class="buttons">
 
-        <h1>Cari Pekerjaan Impianmu</h1>
+        <button onclick="newGame()">
+            🔄 Game Baru
+        </button>
 
-        <p>
-            Temukan berbagai lowongan kerja yang sesuai
-            dengan kemampuanmu.
-        </p>
+        <button onclick="undoMove()">
+            ↩️ Undo
+        </button>
 
-        <div class="search-box">
+    </div>
 
-            <input
-                type="text"
-                placeholder="Cari pekerjaan...">
 
-            <button>
-                Cari
-            </button>
+    <p class="footer">
 
-        </div>
+        HTML + CSS + JavaScript
 
-    </section>
+    </p>
 
 
-    <!-- =========================
-         DAFTAR LOWONGAN
-    ========================= -->
+</div>
 
-    <main class="container" id="lowongan">
 
-        <h2>Lowongan Terbaru</h2>
 
-        <div class="jobs">
+<script>
 
 
-            <!-- LOWONGAN 1 -->
+/* =========================
+   MESIN CATUR
+========================= */
 
-            <div class="job-card">
+const game = new Chess();
 
-                <h3>Web Developer</h3>
 
-                <p class="company">
-                    PT Teknologi Indonesia
-                </p>
+const boardElement =
+    document.getElementById("board");
 
-                <p class="job-info">
-                    📍 Jakarta<br>
-                    💼 Full Time<br>
-                    🎓 Minimal SMA/SMK
-                </p>
 
-                <p class="salary">
-                    Rp5.000.000 - Rp8.000.000
-                </p>
+const statusElement =
+    document.getElementById("status");
 
-                <a
-                    href="#lamar"
-                    class="apply-button">
-                    Lamar Sekarang
-                </a>
 
-            </div>
+let selectedSquare = null;
 
 
-            <!-- LOWONGAN 2 -->
+/*
+   Menyimpan langkah terakhir
+*/
 
-            <div class="job-card">
+let lastMove = null;
 
-                <h3>UI/UX Designer</h3>
 
-                <p class="company">
-                    Kreatif Digital
-                </p>
 
-                <p class="job-info">
-                    📍 Bandung<br>
-                    💼 Full Time<br>
-                    🎓 Minimal D3
-                </p>
+/* =========================
+   BIDAK CATUR
+========================= */
 
-                <p class="salary">
-                    Rp4.500.000 - Rp7.000.000
-                </p>
+const pieces = {
 
-                <a
-                    href="#lamar"
-                    class="apply-button">
-                    Lamar Sekarang
-                </a>
+    w: {
 
-            </div>
+        p: "♙",
 
+        r: "♖",
 
-            <!-- LOWONGAN 3 -->
+        n: "♘",
 
-            <div class="job-card">
+        b: "♗",
 
-                <h3>Admin Kantor</h3>
+        q: "♕",
 
-                <p class="company">
-                    Maju Bersama
-                </p>
+        k: "♔"
 
-                <p class="job-info">
-                    📍 Bekasi<br>
-                    💼 Full Time<br>
-                    🎓 Minimal SMA/SMK
-                </p>
+    },
 
-                <p class="salary">
-                    Rp3.500.000 - Rp5.000.000
-                </p>
+    b: {
 
-                <a
-                    href="#lamar"
-                    class="apply-button">
-                    Lamar Sekarang
-                </a>
+        p: "♟",
 
-            </div>
+        r: "♜",
 
+        n: "♞",
 
-            <!-- LOWONGAN 4 -->
+        b: "♝",
 
-            <div class="job-card">
+        q: "♛",
 
-                <h3>Digital Marketing</h3>
+        k: "♚"
 
-                <p class="company">
-                    Media Kreatif
-                </p>
+    }
 
-                <p class="job-info">
-                    📍 Depok<br>
-                    💼 Full Time<br>
-                    🎓 Minimal SMA/SMK
-                </p>
+};
 
-                <p class="salary">
-                    Rp4.000.000 - Rp6.500.000
-                </p>
 
-                <a
-                    href="#lamar"
-                    class="apply-button">
-                    Lamar Sekarang
-                </a>
 
-            </div>
+/* =========================
+   BUAT PAPAN
+========================= */
 
-        </div>
+function drawBoard() {
 
-    </main>
 
+    boardElement.innerHTML = "";
 
-    <!-- =========================
-         FORM LAMARAN
-    ========================= -->
 
-    <section class="application" id="lamar">
+    const board =
+        game.board();
 
-        <h2>Formulir Lamaran</h2>
 
-        <form>
+    for (
+        let row = 0;
+        row < 8;
+        row++
+    ) {
 
-            <div class="form-group">
 
-                <label for="nama">
-                    Nama Lengkap
-                </label>
+        for (
+            let col = 0;
+            col < 8;
+            col++
+        ) {
 
-                <input
-                    type="text"
-                    id="nama"
-                    placeholder="Masukkan nama"
-                    required>
 
-            </div>
+            const square =
+                document.createElement("div");
 
 
-            <div class="form-group">
+            /*
+               Nama kotak:
 
-                <label for="email">
-                    Email
-                </label>
+               a8 b8 c8 ...
+               a7 b7 c7 ...
+            */
 
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Masukkan email"
-                    required>
+            const squareName =
 
-            </div>
+                String.fromCharCode(
+                    97 + col
+                )
 
+                +
 
-            <div class="form-group">
+                (8 - row);
 
-                <label for="posisi">
-                    Posisi yang Dilamar
-                </label>
 
-                <select id="posisi">
+            square.dataset.square =
+                squareName;
 
-                    <option>
-                        Web Developer
-                    </option>
 
-                    <option>
-                        UI/UX Designer
-                    </option>
+            square.classList.add(
+                "square"
+            );
 
-                    <option>
-                        Admin Kantor
-                    </option>
 
-                    <option>
-                        Digital Marketing
-                    </option>
+            /*
+               WARNA PAPAN
+            */
 
-                </select>
+            if (
+                (row + col) % 2 === 0
+            ) {
 
-            </div>
+                square.classList.add(
+                    "light"
+                );
 
+            } else {
 
-            <div class="form-group">
+                square.classList.add(
+                    "dark"
+                );
 
-                <label for="pesan">
-                    Tentang Diri Anda
-                </label>
+            }
 
-                <textarea
-                    id="pesan"
-                    placeholder="Ceritakan tentang diri Anda...">
-                </textarea>
 
-            </div>
+            /*
+               BIDAK
+            */
 
+            const piece =
+                board[row][col];
 
-            <button
-                type="submit"
-                class="submit-button">
 
-                Kirim Lamaran
+            if (piece) {
 
-            </button>
 
-        </form>
+                const pieceElement =
+                    document.createElement("span");
 
-    </section>
 
+                pieceElement.classList.add(
+                    "piece"
+                );
 
-    <!-- =========================
-         FOOTER
-    ========================= -->
 
-    <footer>
+                /*
+                   Warna bidak
+                */
 
-        <p>
-            © 2026 KerjaKita.
-            Website latihan HTML & CSS.
-        </p>
+                if (
+                    piece.color === "w"
+                ) {
 
-    </footer>
+                    pieceElement.classList.add(
+                        "white-piece"
+                    );
+
+                } else {
+
+                    pieceElement.classList.add(
+                        "black-piece"
+                    );
+
+                }
+
+
+                /*
+                   Karakter bidak
+                */
+
+                pieceElement.textContent =
+                    pieces[
+                        piece.color
+                    ][
+                        piece.type
+                    ];
+
+
+                /*
+                   Animasi langkah terakhir
+                */
+
+                if (
+                    lastMove &&
+                    lastMove.to === squareName
+                ) {
+
+                    pieceElement.classList.add(
+                        "moving"
+                    );
+
+                }
+
+
+                square.appendChild(
+                    pieceElement
+                );
+
+            }
+
+
+            /*
+               Kotak yang dipilih
+            */
+
+            if (
+                selectedSquare ===
+                squareName
+            ) {
+
+                square.classList.add(
+                    "selected"
+                );
+
+            }
+
+
+            square.addEventListener(
+                "click",
+                function() {
+
+                    handleSquareClick(
+                        squareName
+                    );
+
+                }
+            );
+
+
+            boardElement.appendChild(
+                square
+            );
+
+        }
+
+    }
+
+
+    showPossibleMoves();
+
+    showCheck();
+
+    updateStatus();
+
+}
+
+
+
+/* =========================
+   KLIK KOTAK
+========================= */
+
+function handleSquareClick(square) {
+
+
+    /*
+       Belum memilih bidak
+    */
+
+    if (!selectedSquare) {
+
+
+        const piece =
+            game.get(square);
+
+
+        /*
+           Kotak kosong
+        */
+
+        if (!piece) {
+
+            return;
+
+        }
+
+
+        /*
+           Bukan giliran kita
+        */
+
+        if (
+            piece.color !==
+            game.turn()
+        ) {
+
+            return;
+
+        }
+
+
+        selectedSquare =
+            square;
+
+
+        drawBoard();
+
+
+        return;
+
+    }
+
+
+
+    /*
+       Coba melakukan langkah
+    */
+
+    const move =
+        game.move({
+
+            from:
+                selectedSquare,
+
+            to:
+                square,
+
+            promotion:
+                "q"
+
+        });
+
+
+
+    /*
+       Langkah berhasil
+    */
+
+    if (move) {
+
+
+        lastMove = move;
+
+
+        selectedSquare =
+            null;
+
+
+        drawBoard();
+
+
+    }
+
+    else {
+
+
+        /*
+           Jika klik bidak sendiri,
+           pindahkan pilihan
+        */
+
+        const piece =
+            game.get(square);
+
+
+        if (
+            piece &&
+            piece.color ===
+            game.turn()
+        ) {
+
+            selectedSquare =
+                square;
+
+
+            drawBoard();
+
+        }
+
+    }
+
+}
+
+
+
+/* =========================
+   LANGKAH YANG TERSEDIA
+========================= */
+
+function showPossibleMoves() {
+
+
+    if (!selectedSquare) {
+
+        return;
+
+    }
+
+
+    const moves =
+        game.moves({
+
+            square:
+                selectedSquare,
+
+            verbose:
+                true
+
+        });
+
+
+    moves.forEach(
+        function(move) {
+
+
+            const element =
+                document.querySelector(
+                    `[data-square="${move.to}"]`
+                );
+
+
+            if (!element) {
+
+                return;
+
+            }
+
+
+            /*
+               Kalau ada bidak lawan
+            */
+
+            if (
+                game.get(move.to)
+            ) {
+
+                element.classList.add(
+                    "capture"
+                );
+
+            }
+
+            else {
+
+                element.classList.add(
+                    "possible"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+
+/* =========================
+   TANDA SKAK
+========================= */
+
+function showCheck() {
+
+
+    if (!game.in_check()) {
+
+        return;
+
+    }
+
+
+    /*
+       Cari raja yang sedang skak
+    */
+
+    const color =
+        game.turn();
+
+
+    const board =
+        game.board();
+
+
+    for (
+        let row = 0;
+        row < 8;
+        row++
+    ) {
+
+
+        for (
+            let col = 0;
+            col < 8;
+            col++
+        ) {
+
+
+            const piece =
+                board[row][col];
+
+
+            if (
+                piece &&
+                piece.type === "k" &&
+                piece.color === color
+            ) {
+
+
+                const squareName =
+
+                    String.fromCharCode(
+                        97 + col
+                    )
+
+                    +
+
+                    (8 - row);
+
+
+                const element =
+                    document.querySelector(
+                        `[data-square="${squareName}"]`
+                    );
+
+
+                if (element) {
+
+                    element.classList.add(
+                        "check"
+                    );
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+/* =========================
+   STATUS
+========================= */
+
+function updateStatus() {
+
+
+    let text = "";
+
+
+    /*
+       SKAKMAT
+    */
+
+    if (
+        game.in_checkmate()
+    ) {
+
+
+        const winner =
+            game.turn() === "w"
+                ? "Hitam"
+                : "Putih";
+
+
+        text =
+            "🏆 " +
+            winner +
+            " menang — SKAKMAT!";
+
+    }
+
+
+    /*
+       SERI
+    */
+
+    else if (
+        game.in_draw()
+    ) {
+
+        text =
+            "🤝 Permainan Seri";
+
+    }
+
+
+    /*
+       PERMAINAN SELESAI
+    */
+
+    else if (
+        game.game_over()
+    ) {
+
+        text =
+            "Permainan selesai";
+
+    }
+
+
+    /*
+       PERMAINAN BERJALAN
+    */
+
+    else {
+
+
+        const turn =
+            game.turn() === "w"
+                ? "Putih"
+                : "Hitam";
+
+
+        text =
+            "Giliran " +
+            turn;
+
+
+        if (
+            game.in_check()
+        ) {
+
+            text +=
+                " — ⚠️ SKAK!";
+
+        }
+
+    }
+
+
+    statusElement.textContent =
+        text;
+
+}
+
+
+
+/* =========================
+   GAME BARU
+========================= */
+
+function newGame() {
+
+
+    game.reset();
+
+
+    selectedSquare =
+        null;
+
+
+    lastMove =
+        null;
+
+
+    drawBoard();
+
+}
+
+
+
+/* =========================
+   UNDO
+========================= */
+
+function undoMove() {
+
+
+    game.undo();
+
+
+    selectedSquare =
+        null;
+
+
+    lastMove =
+        null;
+
+
+    drawBoard();
+
+}
+
+
+
+/* =========================
+   MULAI GAME
+========================= */
+
+drawBoard();
+
+
+</script>
+
 
 </body>
 
-    </html>
+</html>
