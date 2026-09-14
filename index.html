@@ -1,120 +1,781 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Royal Chess</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+
+<style>
+
+/* =====================================================
+   DASAR
+===================================================== */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+
+    font-family:Georgia,serif;
+
+    color:white;
+
+    display:flex;
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            #666666,
+            #3a3a3a 45%,
+            #1f1f1f 100%
+        );
+}
+
+.game{
+    width:100%;
+    max-width:720px;
+
+    text-align:center;
+}
+
+
+/* =====================================================
+   JUDUL
+===================================================== */
+
+h1{
+    font-size:clamp(32px,8vw,54px);
+
+    margin-top:10px;
+    margin-bottom:5px;
+
+    color:#eeeeee;
+
+    text-shadow:
+        0 2px 3px #000,
+        0 0 15px rgba(255,255,255,.25);
+}
+
+.subtitle{
+    color:#bbbbbb;
+
+    margin-bottom:18px;
+}
+
+
+/* =====================================================
+   PAPAN CATUR
+===================================================== */
+
+.board{
+
+    width:min(94vw,680px);
+
+    aspect-ratio:1;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(8,1fr);
+
+    border:10px solid #111;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.8),
+        0 0 25px rgba(255,255,255,.12);
+}
+
+
+/* =====================================================
+   KOTAK
+===================================================== */
+
+.square{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    overflow:hidden;
+}
+
+
+/* PUTIH */
+
+.light{
+
+    background:#f2f2f2;
+}
+
+
+/* HITAM */
+
+.dark{
+
+    background:#222222;
+}
+
+
+.square:hover{
+
+    filter:brightness(1.12);
+
+}
+
+
+/* =====================================================
+   BIDAK
+===================================================== */
+
+.piece{
+
+    width:88%;
+
+    height:88%;
+
+    object-fit:contain;
+
+    position:relative;
+
+    z-index:5;
+
+    pointer-events:none;
+
+    transform-origin:center bottom;
+
+    filter:
+        drop-shadow(
+            0 5px 3px rgba(0,0,0,.75)
+        );
+
+    transition:
+        transform .18s ease,
+        filter .18s ease;
+}
+
+
+/* BIDAK PUTIH */
+
+.white-piece{
+
+    filter:
+        drop-shadow(
+            0 4px 2px rgba(0,0,0,.8)
+        )
+        drop-shadow(
+            0 0 3px rgba(255,255,255,.7)
+        );
+
+}
+
+
+/* BIDAK HITAM */
+
+.black-piece{
+
+    filter:
+        drop-shadow(
+            0 5px 3px rgba(0,0,0,.95)
+        )
+        brightness(.82)
+        contrast(1.15);
+
+}
+
+
+/* =====================================================
+   ANIMASI BIDAK
+===================================================== */
+
+.moving{
+
+    animation:
+        pieceMove .38s
+        cubic-bezier(.2,.8,.3,1);
+
+}
+
+@keyframes pieceMove{
+
+    0%{
+
+        transform:
+            translateY(-22px)
+            scale(1.08);
+
+    }
+
+    45%{
+
+        transform:
+            translateY(-7px)
+            scale(1.03);
+
+    }
+
+    100%{
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* =====================================================
+   BIDAK TERPILIH
+===================================================== */
+
+.selected{
+
+    box-shadow:
+
+        inset
+        0 0 0 5px
+        #ffffff,
+
+        inset
+        0 0 25px
+        rgba(255,255,255,.5);
+
+}
+
+
+/* =====================================================
+   LANGKAH TERSEDIA
+===================================================== */
+
+.possible::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:22%;
+
+    height:22%;
+
+    border-radius:50%;
+
+    background:
+        rgba(0,0,0,.55);
+
+    box-shadow:
+        0 0 8px
+        rgba(255,255,255,.5);
+
+}
+
+
+/* =====================================================
+   BISA MAKAN
+===================================================== */
+
+.capture::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:7px;
+
+    border:
+        5px solid
+        rgba(255,255,255,.75);
+
+    border-radius:50%;
+
+}
+
+
+/* =====================================================
+   SKAK
+===================================================== */
+
+.check{
+
+    animation:
+        checkFlash .7s
+        infinite alternate;
+
+}
+
+@keyframes checkFlash{
+
+    from{
+
+        box-shadow:
+
+            inset
+            0 0 0 4px
+            rgba(255,255,255,.35);
+
+    }
+
+    to{
+
+        box-shadow:
+
+            inset
+            0 0 0 8px
+            rgba(255,255,255,.95);
+
+    }
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.info{
+
+    margin-top:18px;
+
+    padding:16px;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(80,80,80,.8),
+            rgba(20,20,20,.95)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.2);
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.5);
+
+}
+
+#status{
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    color:#eeeeee;
+
+}
+
+
+/* =====================================================
+   TOMBOL
+===================================================== */
+
+.buttons{
+
+    margin-top:14px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+}
+
+button{
+
+    padding:12px 19px;
+
+    border:none;
+
+    border-radius:9px;
+
+    background:
+        linear-gradient(
+            #555555,
+            #171717
+        );
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.5);
+
+    border:
+        1px solid
+        #777;
+
+    transition:.15s;
+
+}
+
+button:hover{
+
+    transform:translateY(-2px);
+
+    filter:brightness(1.2);
+
+}
+
+button:active{
+
+    transform:scale(.96);
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer{
+
+    margin-top:17px;
+
+    color:#aaaaaa;
+
+    font-size:12px;
+
+}
+
+
+/* =====================================================
+   HP
+===================================================== */
+
+@media(max-width:500px){
+
+    body{
+
+        padding:10px;
+
+    }
+
+    .board{
+
+        border-width:6px;
+
+    }
+
+    .piece{
+
+        width:94%;
+
+        height:94%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="game">
+
+
+<h1>
+    ♛ ROYAL CHESS
+</h1>
+
+
+<p class="subtitle">
+    Kamu ♔ vs Komputer ♚
+</p>
+
+
+<div
+    id="board"
+    class="board">
+</div>
+
+
+<div class="info">
+
+    <div id="status">
+        ♟ Giliran Kamu
+    </div>
+
+</div>
+
+
+<div class="buttons">
+
+    <button
+        onclick="newGame()">
+        🔄 Game Baru
+    </button>
+
+
+    <button
+        onclick="undoMove()">
+        ↩️ Undo
+    </button>
+
+
+    <button
+        id="musicBtn"
+        onclick="toggleMusic()">
+        🎵 Musik Kerajaan
+    </button>
+
+</div>
+
+
+<p class="footer">
+    Royal Chess • HTML + CSS + JavaScript
+</p>
+
+
+</div>
+
+
 <script>
 
 /* =====================================================
-   CHESS
+   CHESS ENGINE
 ===================================================== */
 
 const game = new Chess();
 
-const boardElement = document.getElementById("board");
-const statusElement = document.getElementById("status");
-const musicBtn = document.getElementById("musicBtn");
+
+const boardElement =
+    document.getElementById("board");
+
+
+const statusElement =
+    document.getElementById("status");
+
+
+const musicBtn =
+    document.getElementById("musicBtn");
+
 
 let selectedSquare = null;
+
 let lastMove = null;
+
 let thinking = false;
+
 let computerTimer = null;
 
 
 /* =====================================================
-   GAMBAR BIDAK
+   BIDAK SVG
 ===================================================== */
 
 const pieceImages = {
 
     w:{
+
         k:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_klt45.svg",
+
         q:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_qlt45.svg",
+
         r:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_rlt45.svg",
+
         b:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_blt45.svg",
+
         n:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_nlt45.svg",
+
         p:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_plt45.svg"
+
     },
 
+
     b:{
+
         k:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_kdt45.svg",
+
         q:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_qdt45.svg",
+
         r:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_rdt45.svg",
+
         b:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_bdt45.svg",
+
         n:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_ndt45.svg",
+
         p:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Chess_pdt45.svg"
+
     }
 
 };
 
 
 /* =====================================================
-   PAPAN
+   GAMBAR PAPAN
 ===================================================== */
 
 function drawBoard(){
 
     boardElement.innerHTML = "";
 
-    const board = game.board();
 
-    for(let row = 0; row < 8; row++){
+    const board =
+        game.board();
 
-        for(let col = 0; col < 8; col++){
 
-            const square = document.createElement("div");
+    for(
+        let row = 0;
+        row < 8;
+        row++
+    ){
+
+        for(
+            let col = 0;
+            col < 8;
+            col++
+        ){
+
+            const square =
+                document.createElement("div");
+
 
             const squareName =
-                String.fromCharCode(97 + col) +
+                String.fromCharCode(
+                    97 + col
+                )
+                +
                 (8 - row);
 
-            square.dataset.square = squareName;
-            square.classList.add("square");
+
+            square.dataset.square =
+                squareName;
 
 
-            if((row + col) % 2 === 0){
-                square.classList.add("light");
+            square.classList.add(
+                "square"
+            );
+
+
+            if(
+                (row + col) % 2 === 0
+            ){
+
+                square.classList.add(
+                    "light"
+                );
+
             }else{
-                square.classList.add("dark");
+
+                square.classList.add(
+                    "dark"
+                );
+
             }
 
 
-            const piece = board[row][col];
+            const piece =
+                board[row][col];
 
 
             /* BIDAK */
 
             if(piece){
 
-                const img = document.createElement("img");
+                const img =
+                    document.createElement(
+                        "img"
+                    );
 
-                img.classList.add("piece");
 
                 img.classList.add(
-                    piece.color === "w"
-                    ? "white-piece"
-                    : "black-piece"
+                    "piece"
                 );
 
-                img.src =
-                    pieceImages[piece.color][piece.type];
 
-                img.alt = piece.type;
+                img.classList.add(
+
+                    piece.color === "w"
+
+                    ? "white-piece"
+
+                    : "black-piece"
+
+                );
+
+
+                img.src =
+                    pieceImages
+                    [piece.color]
+                    [piece.type];
+
+
+                img.alt =
+                    piece.type;
 
 
                 if(
+
                     lastMove &&
-                    lastMove.to === squareName
+
+                    lastMove.to ===
+                    squareName
+
                 ){
-                    img.classList.add("moving");
+
+                    img.classList.add(
+                        "moving"
+                    );
+
                 }
 
 
-                square.appendChild(img);
+                square.appendChild(
+                    img
+                );
 
             }
 
 
-            /* SQUARE TERPILIH */
+            /* SELECTED */
 
-            if(selectedSquare === squareName){
+            if(
 
-                square.classList.add("selected");
+                selectedSquare ===
+                squareName
+
+            ){
+
+                square.classList.add(
+                    "selected"
+                );
 
             }
 
@@ -123,13 +784,17 @@ function drawBoard(){
                 "click",
                 function(){
 
-                    handleSquareClick(squareName);
+                    handleSquareClick(
+                        squareName
+                    );
 
                 }
             );
 
 
-            boardElement.appendChild(square);
+            boardElement.appendChild(
+                square
+            );
 
         }
 
@@ -137,7 +802,9 @@ function drawBoard(){
 
 
     showPossibleMoves();
+
     showCheck();
+
     updateStatus();
 
 }
@@ -149,31 +816,35 @@ function drawBoard(){
 
 function handleSquareClick(square){
 
-    /* Jangan bisa bermain saat komputer berpikir */
-
     if(thinking)
         return;
 
 
-    /* Pemain hanya memainkan putih */
+    /* Pemain = putih */
 
     if(game.turn() !== "w")
         return;
 
 
-    /* Belum memilih bidak */
+    /* Belum memilih */
 
     if(!selectedSquare){
 
-        const piece = game.get(square);
+        const piece =
+            game.get(square);
+
 
         if(!piece)
             return;
 
+
         if(piece.color !== "w")
             return;
 
-        selectedSquare = square;
+
+        selectedSquare =
+            square;
+
 
         drawBoard();
 
@@ -182,57 +853,1077 @@ function handleSquareClick(square){
     }
 
 
-    /* Coba melakukan langkah */
+    /* Coba bergerak */
 
-    const move = game.move({
+    const move =
+        game.move({
 
-        from: selectedSquare,
+            from:selectedSquare,
 
-        to: square,
+            to:square,
 
-        promotion: "q"
+            promotion:"q"
 
-    });
+        });
 
 
     if(move){
 
-        lastMove = move;
+        lastMove =
+            move;
 
-        selectedSquare = null;
+
+        selectedSquare =
+            null;
+
 
         drawBoard();
 
 
-        /* Kalau belum selesai, komputer jalan */
+        /* Komputer bergerak */
 
         if(!game.game_over()){
 
-            thinking = true;
+            thinking =
+                true;
+
 
             statusElement.textContent =
                 "🤖 Komputer sedang berpikir...";
 
 
-            computerTimer = setTimeout(
-                computerMove,
-                500
-            );
+            computerTimer =
+                setTimeout(
+                    computerMove,
+                    500
+                );
 
         }
+
 
         return;
 
     }
 
 
-    /* Kalau salah langkah tetapi klik bidak putih lain */
+    /* Klik bidak lain */
 
-    const piece = game.get(square);
+    const piece =
+        game.get(square);
+
 
     if(
+
         piece &&
+
         piece.color === "w"
+
     ){
 
-        selectedSquare
+        selectedSquare =
+            square;
+
+
+        drawBoard();
+
+    }
+
+}
+
+
+/* =====================================================
+   LANGKAH TERSEDIA
+===================================================== */
+
+function showPossibleMoves(){
+
+    if(!selectedSquare)
+        return;
+
+
+    const moves =
+        game.moves({
+
+            square:selectedSquare,
+
+            verbose:true
+
+        });
+
+
+    moves.forEach(
+        function(move){
+
+            const element =
+                document.querySelector(
+                    '[data-square="' +
+                    move.to +
+                    '"]'
+                );
+
+
+            if(!element)
+                return;
+
+
+            if(game.get(move.to)){
+
+                element.classList.add(
+                    "capture"
+                );
+
+            }else{
+
+                element.classList.add(
+                    "possible"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SKAK
+===================================================== */
+
+function showCheck(){
+
+    if(!game.in_check())
+        return;
+
+
+    const color =
+        game.turn();
+
+
+    const board =
+        game.board();
+
+
+    for(
+        let row = 0;
+        row < 8;
+        row++
+    ){
+
+        for(
+            let col = 0;
+            col < 8;
+            col++
+        ){
+
+            const piece =
+                board[row][col];
+
+
+            if(
+
+                piece &&
+
+                piece.type === "k" &&
+
+                piece.color === color
+
+            ){
+
+                const squareName =
+                    String.fromCharCode(
+                        97 + col
+                    )
+                    +
+                    (8 - row);
+
+
+                const element =
+                    document.querySelector(
+                        '[data-square="' +
+                        squareName +
+                        '"]'
+                    );
+
+
+                if(element){
+
+                    element.classList.add(
+                        "check"
+                    );
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function updateStatus(){
+
+    if(thinking)
+        return;
+
+
+    let text = "";
+
+
+    if(game.in_checkmate()){
+
+        const winner =
+            game.turn() === "w"
+
+            ? "Komputer"
+
+            : "Kamu";
+
+
+        text =
+            "🏆 " +
+            winner +
+            " menang — SKAKMAT!";
+
+    }
+
+
+    else if(game.in_draw()){
+
+        text =
+            "🤝 Permainan seri";
+
+    }
+
+
+    else{
+
+        const turn =
+            game.turn() === "w"
+
+            ? "Kamu"
+
+            : "Komputer";
+
+
+        text =
+            "♟ Giliran " +
+            turn;
+
+
+        if(game.in_check()){
+
+            text +=
+                " — ⚠️ SKAK!";
+
+        }
+
+    }
+
+
+    statusElement.textContent =
+        text;
+
+}
+
+
+/* =====================================================
+   NILAI BIDAK
+===================================================== */
+
+const values = {
+
+    p:100,
+
+    n:320,
+
+    b:330,
+
+    r:500,
+
+    q:900,
+
+    k:20000
+
+};
+
+
+/* =====================================================
+   EVALUASI
+===================================================== */
+
+function evaluate(){
+
+    if(game.in_checkmate()){
+
+        if(game.turn() === "w"){
+
+            return 999999;
+
+        }else{
+
+            return -999999;
+
+        }
+
+    }
+
+
+    if(game.in_draw())
+        return 0;
+
+
+    let score = 0;
+
+
+    const board =
+        game.board();
+
+
+    for(
+        const row of board
+    ){
+
+        for(
+            const piece of row
+        ){
+
+            if(!piece)
+                continue;
+
+
+            const value =
+                values[piece.type];
+
+
+            if(piece.color === "b"){
+
+                score += value;
+
+            }else{
+
+                score -= value;
+
+            }
+
+        }
+
+    }
+
+
+    return score;
+
+}
+
+
+/* =====================================================
+   MINIMAX
+===================================================== */
+
+function minimax(
+    depth,
+    alpha,
+    beta,
+    maximizing
+){
+
+    if(
+
+        depth === 0 ||
+
+        game.game_over()
+
+    ){
+
+        return evaluate();
+
+    }
+
+
+    const moves =
+        game.moves({
+            verbose:true
+        });
+
+
+    if(maximizing){
+
+        let best =
+            -Infinity;
+
+
+        for(
+            const move of moves
+        ){
+
+            game.move(move);
+
+
+            const score =
+                minimax(
+                    depth - 1,
+                    alpha,
+                    beta,
+                    false
+                );
+
+
+            game.undo();
+
+
+            best =
+                Math.max(
+                    best,
+                    score
+                );
+
+
+            alpha =
+                Math.max(
+                    alpha,
+                    best
+                );
+
+
+            if(beta <= alpha)
+                break;
+
+        }
+
+
+        return best;
+
+    }
+
+
+    else{
+
+        let best =
+            Infinity;
+
+
+        for(
+            const move of moves
+        ){
+
+            game.move(move);
+
+
+            const score =
+                minimax(
+                    depth - 1,
+                    alpha,
+                    beta,
+                    true
+                );
+
+
+            game.undo();
+
+
+            best =
+                Math.min(
+                    best,
+                    score
+                );
+
+
+            beta =
+                Math.min(
+                    beta,
+                    best
+                );
+
+
+            if(beta <= alpha)
+                break;
+
+        }
+
+
+        return best;
+
+    }
+
+}
+
+
+/* =====================================================
+   KOMPUTER
+===================================================== */
+
+function getBestMove(){
+
+    const moves =
+        game.moves({
+            verbose:true
+        });
+
+
+    if(!moves.length)
+        return null;
+
+
+    let bestMove =
+        null;
+
+
+    let bestScore =
+        -Infinity;
+
+
+    for(
+        const move of moves
+    ){
+
+        game.move(move);
+
+
+        /*
+           Depth 2 supaya ringan
+           untuk HP.
+        */
+
+        const score =
+            minimax(
+                2,
+                -Infinity,
+                Infinity,
+                false
+            );
+
+
+        game.undo();
+
+
+        /*
+           Variasi kecil
+        */
+
+        const randomBonus =
+            Math.random() * 2;
+
+
+        if(
+
+            score + randomBonus
+            >
+            bestScore
+
+        ){
+
+            bestScore =
+                score +
+                randomBonus;
+
+
+            bestMove =
+                move;
+
+        }
+
+    }
+
+
+    return bestMove;
+
+}
+
+
+/* =====================================================
+   KOMPUTER BERMAIN
+===================================================== */
+
+function computerMove(){
+
+    computerTimer =
+        null;
+
+
+    if(game.game_over()){
+
+        thinking =
+            false;
+
+
+        drawBoard();
+
+        return;
+
+    }
+
+
+    if(game.turn() !== "b"){
+
+        thinking =
+            false;
+
+
+        drawBoard();
+
+        return;
+
+    }
+
+
+    const bestMove =
+        getBestMove();
+
+
+    if(bestMove){
+
+        const played =
+            game.move(bestMove);
+
+
+        lastMove =
+            played;
+
+    }
+
+
+    thinking =
+        false;
+
+
+    selectedSquare =
+        null;
+
+
+    drawBoard();
+
+}
+
+
+/* =====================================================
+   GAME BARU
+===================================================== */
+
+function newGame(){
+
+    if(computerTimer){
+
+        clearTimeout(
+            computerTimer
+        );
+
+        computerTimer =
+            null;
+
+    }
+
+
+    game.reset();
+
+
+    selectedSquare =
+        null;
+
+
+    lastMove =
+        null;
+
+
+    thinking =
+        false;
+
+
+    drawBoard();
+
+}
+
+
+/* =====================================================
+   UNDO
+===================================================== */
+
+function undoMove(){
+
+    if(thinking)
+        return;
+
+
+    const history =
+        game.history();
+
+
+    if(history.length === 0)
+        return;
+
+
+    /*
+       Undo langkah terakhir
+    */
+
+    game.undo();
+
+
+    /*
+       Undo langkah pemain
+       supaya kembali ke giliran kamu.
+    */
+
+    if(game.history().length > 0){
+
+        game.undo();
+
+    }
+
+
+    selectedSquare =
+        null;
+
+
+    lastMove =
+        null;
+
+
+    drawBoard();
+
+}
+
+
+/* =====================================================
+   MUSIK KERAJAAN
+===================================================== */
+
+let audioContext =
+    null;
+
+
+let musicTimer =
+    null;
+
+
+let musicPlaying =
+    false;
+
+
+let musicIndex =
+    0;
+
+
+const melody = [
+
+    392,
+    440,
+    494,
+    523,
+
+    587,
+    523,
+    494,
+    440,
+
+    392,
+    440,
+    494,
+    587,
+
+    659,
+    587,
+    523,
+    494,
+
+    523,
+    587,
+    659,
+    784,
+
+    659,
+    587,
+    523,
+    440
+
+];
+
+
+/* =====================================================
+   NADA
+===================================================== */
+
+function playRoyalNote(
+    frequency,
+    duration
+){
+
+    if(!audioContext)
+        return;
+
+
+    const osc =
+        audioContext
+        .createOscillator();
+
+
+    const gain =
+        audioContext
+        .createGain();
+
+
+    osc.type =
+        "triangle";
+
+
+    osc.frequency.value =
+        frequency;
+
+
+    const now =
+        audioContext
+        .currentTime;
+
+
+    gain.gain.setValueAtTime(
+        0,
+        now
+    );
+
+
+    gain.gain.linearRampToValueAtTime(
+        0.07,
+        now + 0.03
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        now + duration
+    );
+
+
+    osc.connect(gain);
+
+
+    gain.connect(
+        audioContext.destination
+    );
+
+
+    osc.start(now);
+
+
+    osc.stop(
+        now + duration
+    );
+
+}
+
+
+/* =====================================================
+   BASS
+===================================================== */
+
+function playBass(
+    frequency
+){
+
+    if(!audioContext)
+        return;
+
+
+    const osc =
+        audioContext
+        .createOscillator();
+
+
+    const gain =
+        audioContext
+        .createGain();
+
+
+    osc.type =
+        "sine";
+
+
+    osc.frequency.value =
+        frequency;
+
+
+    const now =
+        audioContext
+        .currentTime;
+
+
+    gain.gain.setValueAtTime(
+        0,
+        now
+    );
+
+
+    gain.gain.linearRampToValueAtTime(
+        0.025,
+        now + 0.03
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        now + 0.5
+    );
+
+
+    osc.connect(gain);
+
+
+    gain.connect(
+        audioContext.destination
+    );
+
+
+    osc.start(now);
+
+
+    osc.stop(
+        now + 0.5
+    );
+
+}
+
+
+/* =====================================================
+   MULAI MUSIK
+===================================================== */
+
+function startMusic(){
+
+    if(!audioContext){
+
+        const AudioContext =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+
+        if(!AudioContext){
+
+            alert(
+                "Browser tidak mendukung musik."
+            );
+
+
+            musicPlaying =
+                false;
+
+
+            return;
+
+        }
+
+
+        audioContext =
+            new AudioContext();
+
+    }
+
+
+    if(
+        audioContext.state ===
+        "suspended"
+    ){
+
+        audioContext.resume();
+
+    }
+
+
+    function loop(){
+
+        if(!musicPlaying)
+            return;
+
+
+        const note =
+            melody[musicIndex];
+
+
+        playRoyalNote(
+            note,
+            0.45
+        );
+
+
+        if(
+            musicIndex % 4 === 0
+        ){
+
+            playBass(
+                note / 2
+            );
+
+        }
+
+
+        musicIndex =
+            (musicIndex + 1)
+            % melody.length;
+
+
+        musicTimer =
+            setTimeout(
+                loop,
+                480
+            );
+
+    }
+
+
+    loop();
+
+}
+
+
+/* =====================================================
+   MUSIK ON / OFF
+===================================================== */
+
+function toggleMusic(){
+
+    musicPlaying =
+        !musicPlaying;
+
+
+    if(musicPlaying){
+
+        startMusic();
+
+
+        musicBtn.textContent =
+            "🔇 Matikan Musik";
+
+    }
+
+    else{
+
+        clearTimeout(
+            musicTimer
+        );
+
+
+        musicTimer =
+            null;
+
+
+        musicBtn.textContent =
+            "🎵 Musik Kerajaan";
+
+    }
+
+}
+
+
+/* =====================================================
+   MULAI GAME
+===================================================== */
+
+drawBoard();
+
+</script>
+
+</body>
+   </html>
