@@ -308,4 +308,765 @@ function handleSquareClick(square) {
 
                 computerTimer =
                     setTimeout(
-                        computer
+                        computerMove,
+                        500
+                    );
+            }
+        }
+    );
+}
+
+
+/* =====================================================
+   ANIMASI BIDAK FISIK
+===================================================== */
+
+function animatePhysicalMove(
+    from,
+    to,
+    callback
+) {
+
+    const fromSquare =
+        document.querySelector(
+            `[data-square="${from}"]`
+        );
+
+    const toSquare =
+        document.querySelector(
+            `[data-square="${to}"]`
+        );
+
+    if (
+        !fromSquare ||
+        !toSquare
+    ) {
+        callback();
+        return;
+    }
+
+
+    const piece =
+        fromSquare.querySelector(".piece");
+
+    if (!piece) {
+        callback();
+        return;
+    }
+
+
+    animating = true;
+
+
+    const start =
+        fromSquare.getBoundingClientRect();
+
+    const end =
+        toSquare.getBoundingClientRect();
+
+
+    const clone =
+        piece.cloneNode(true);
+
+    clone.classList.remove(
+        "piece"
+    );
+
+    clone.classList.add(
+        "flying-piece"
+    );
+
+
+    const size =
+        Math.min(
+            start.width,
+            start.height
+        ) * 0.9;
+
+
+    clone.style.width =
+        size + "px";
+
+    clone.style.height =
+        size + "px";
+
+
+    clone.style.left =
+        (
+            start.left +
+            (start.width - size) / 2
+        ) + "px";
+
+    clone.style.top =
+        (
+            start.top +
+            (start.height - size) / 2
+        ) + "px";
+
+
+    /* Bayangan */
+
+    const shadow =
+        document.createElement("div");
+
+    shadow.className =
+        "flying-piece-shadow";
+
+    shadow.style.width =
+        (size * 0.48) + "px";
+
+    shadow.style.height =
+        (size * 0.14) + "px";
+
+    shadow.style.left =
+        (
+            start.left +
+            start.width / 2 -
+            size * 0.24
+        ) + "px";
+
+    shadow.style.top =
+        (
+            start.top +
+            start.height * 0.78
+        ) + "px";
+
+
+    document.body.appendChild(shadow);
+    document.body.appendChild(clone);
+
+
+    fromSquare.classList.add(
+        "animating-source"
+    );
+
+
+    /* Beri browser waktu membuat posisi awal */
+
+    requestAnimationFrame(() => {
+
+        requestAnimationFrame(() => {
+
+            clone.style.left =
+                (
+                    end.left +
+                    (end.width - size) / 2
+                ) + "px";
+
+            clone.style.top =
+                (
+                    end.top +
+                    (end.height - size) / 2
+                ) + "px";
+
+            clone.style.transform =
+                "translateY(-18px) scale(1.04)";
+
+
+            shadow.style.left =
+                (
+                    end.left +
+                    end.width / 2 -
+                    size * 0.24
+                ) + "px";
+
+            shadow.style.top =
+                (
+                    end.top +
+                    end.height * 0.78
+                ) + "px";
+
+            shadow.style.width =
+                (size * 0.38) + "px";
+
+            shadow.style.opacity =
+                "0.35";
+        });
+    });
+
+
+    setTimeout(() => {
+
+        clone.style.transform =
+            "translateY(0) scale(1)";
+
+    }, 400);
+
+
+    setTimeout(() => {
+
+        clone.remove();
+        shadow.remove();
+
+        fromSquare.classList.remove(
+            "animating-source"
+        );
+
+        toSquare.classList.add(
+            "landing",
+            "land-effect"
+        );
+
+
+        setTimeout(() => {
+
+            toSquare.classList.remove(
+                "landing",
+                "land-effect"
+            );
+
+        }, 400);
+
+
+        animating = false;
+
+        callback();
+
+    }, 560);
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function updateStatus() {
+
+    if (game.is_checkmate()) {
+
+        if (game.turn() === "w") {
+            statusElement.textContent =
+                "♚ Skakmat — Komputer Menang";
+        } else {
+            statusElement.textContent =
+                "♔ Skakmat — Kamu Menang";
+        }
+
+        return;
+    }
+
+
+    if (game.is_stalemate()) {
+
+        statusElement.textContent =
+            "🤝 Remis — Stalemate";
+
+        return;
+    }
+
+
+    if (game.is_draw()) {
+
+        statusElement.textContent =
+            "🤝 Permainan Remis";
+
+        return;
+    }
+
+
+    if (game.in_check()) {
+
+        if (game.turn() === "w") {
+
+            statusElement.textContent =
+                "⚠️ Skak! Giliran Kamu";
+
+        } else {
+
+            statusElement.textContent =
+                "⚠️ Skak! Komputer";
+        }
+
+        return;
+    }
+
+
+    if (game.turn() === "w") {
+
+        statusElement.textContent =
+            "♟ Giliran Kamu";
+
+    } else {
+
+        statusElement.textContent =
+            "♟ Komputer berpikir...";
+    }
+}
+
+
+/* =====================================================
+   AI
+===================================================== */
+
+const pieceValue = {
+
+    p: 100,
+    n: 320,
+    b: 330,
+    r: 500,
+    q: 900,
+    k: 20000
+
+};
+
+
+function evaluateBoard() {
+
+    let score = 0;
+
+    const board =
+        game.board();
+
+    for (let row = 0; row < 8; row++) {
+
+        for (let col = 0; col < 8; col++) {
+
+            const piece =
+                board[row][col];
+
+            if (!piece) continue;
+
+            const value =
+                pieceValue[piece.type];
+
+            if (piece.color === "b") {
+                score += value;
+            } else {
+                score -= value;
+            }
+        }
+    }
+
+    return score;
+}
+
+
+function minimax(
+    depth,
+    alpha,
+    beta,
+    maximizing
+) {
+
+    if (
+        depth === 0 ||
+        game.game_over()
+    ) {
+        return evaluateBoard();
+    }
+
+
+    const moves =
+        game.moves();
+
+
+    if (maximizing) {
+
+        let best =
+            -Infinity;
+
+        for (const move of moves) {
+
+            game.move(move);
+
+            const score =
+                minimax(
+                    depth - 1,
+                    alpha,
+                    beta,
+                    false
+                );
+
+            game.undo();
+
+            best =
+                Math.max(
+                    best,
+                    score
+                );
+
+            alpha =
+                Math.max(
+                    alpha,
+                    score
+                );
+
+            if (beta <= alpha) {
+                break;
+            }
+        }
+
+        return best;
+
+    } else {
+
+        let best =
+            Infinity;
+
+        for (const move of moves) {
+
+            game.move(move);
+
+            const score =
+                minimax(
+                    depth - 1,
+                    alpha,
+                    beta,
+                    true
+                );
+
+            game.undo();
+
+            best =
+                Math.min(
+                    best,
+                    score
+                );
+
+            beta =
+                Math.min(
+                    beta,
+                    score
+                );
+
+            if (beta <= alpha) {
+                break;
+            }
+        }
+
+        return best;
+    }
+}
+
+
+/* =====================================================
+   GERAK KOMPUTER
+===================================================== */
+
+function computerMove() {
+
+    if (
+        game.game_over() ||
+        game.turn() !== "b"
+    ) {
+
+        thinking = false;
+
+        updateStatus();
+
+        return;
+    }
+
+
+    const moves =
+        game.moves({
+            verbose: true
+        });
+
+
+    if (!moves.length) {
+
+        thinking = false;
+
+        updateStatus();
+
+        return;
+    }
+
+
+    let bestMove =
+        null;
+
+    let bestScore =
+        -Infinity;
+
+
+    for (const move of moves) {
+
+        game.move(move);
+
+        const score =
+            minimax(
+                1,
+                -Infinity,
+                Infinity,
+                false
+            );
+
+        game.undo();
+
+
+        if (score > bestScore) {
+
+            bestScore = score;
+            bestMove = move;
+        }
+    }
+
+
+    if (!bestMove) {
+
+        thinking = false;
+
+        return;
+    }
+
+
+    const from =
+        bestMove.from;
+
+    const to =
+        bestMove.to;
+
+
+    animatePhysicalMove(
+        from,
+        to,
+        () => {
+
+            lastMove =
+                game.move({
+                    from: from,
+                    to: to,
+                    promotion: "q"
+                });
+
+            renderBoard();
+
+            thinking = false;
+
+            updateStatus();
+        }
+    );
+}
+
+
+/* =====================================================
+   GAME BARU
+===================================================== */
+
+function newGame() {
+
+    if (computerTimer) {
+
+        clearTimeout(
+            computerTimer
+        );
+
+        computerTimer = null;
+    }
+
+
+    game.reset();
+
+    selectedSquare = null;
+
+    lastMove = null;
+
+    thinking = false;
+
+    animating = false;
+
+    renderBoard();
+
+    updateStatus();
+}
+
+
+/* =====================================================
+   UNDO
+===================================================== */
+
+function undoMove() {
+
+    if (
+        thinking ||
+        animating
+    ) {
+        return;
+    }
+
+
+    if (game.history().length === 0) {
+        return;
+    }
+
+
+    /* Undo langkah komputer */
+
+    game.undo();
+
+
+    /* Undo langkah pemain */
+
+    if (game.history().length > 0) {
+        game.undo();
+    }
+
+
+    selectedSquare = null;
+
+    lastMove = null;
+
+    renderBoard();
+
+    updateStatus();
+}
+
+
+/* =====================================================
+   MUSIK KERAJAAN
+===================================================== */
+
+let audioContext = null;
+let musicPlaying = false;
+let musicTimer = null;
+
+const melody = [
+    261.63,
+    329.63,
+    392.00,
+    523.25,
+    392.00,
+    329.63,
+    293.66,
+    392.00
+];
+
+
+function playNote(
+    frequency,
+    duration
+) {
+
+    if (!audioContext) {
+        return;
+    }
+
+
+    const oscillator =
+        audioContext.createOscillator();
+
+    const gain =
+        audioContext.createGain();
+
+
+    oscillator.type =
+        "triangle";
+
+    oscillator.frequency.value =
+        frequency;
+
+
+    gain.gain.setValueAtTime(
+        0,
+        audioContext.currentTime
+    );
+
+    gain.gain.linearRampToValueAtTime(
+        0.12,
+        audioContext.currentTime + 0.03
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + duration
+    );
+
+
+    oscillator.connect(gain);
+
+    gain.connect(
+        audioContext.destination
+    );
+
+
+    oscillator.start();
+
+    oscillator.stop(
+        audioContext.currentTime +
+        duration
+    );
+}
+
+
+function toggleMusic() {
+
+    if (!audioContext) {
+
+        audioContext =
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+    }
+
+
+    if (
+        audioContext.state ===
+        "suspended"
+    ) {
+
+        audioContext.resume();
+    }
+
+
+    if (musicPlaying) {
+
+        musicPlaying = false;
+
+        clearInterval(
+            musicTimer
+        );
+
+        musicBtn.textContent =
+            "🎵 Musik Kerajaan";
+
+        return;
+    }
+
+
+    musicPlaying = true;
+
+    musicBtn.textContent =
+        "🔇 Matikan Musik";
+
+
+    let index = 0;
+
+
+    playNote(
+        melody[index],
+        0.55
+    );
+
+
+    musicTimer =
+        setInterval(() => {
+
+            if (!musicPlaying) {
+                return;
+            }
+
+            index =
+                (index + 1) %
+                melody.length;
+
+            playNote(
+                melody[index],
+                0.55
+            );
+
+        }, 600);
+}
+
+
+/* =====================================================
+   MULAI GAME
+===================================================== */
+
+renderBoard();
+
+updateStatus();
+
+                         </script>
